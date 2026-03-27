@@ -138,8 +138,9 @@
     </div>
 
     <script>
-        // Carica la password dinamicamente dal database usando Jinja2!
-        const PASSWORD_CORRETTA = "{{ artista.password_editor }}";
+        // Variabile per memorizzare temporaneamente la password digitata dall'utente.
+        // NON contiene più la password presa dal database!
+        let passwordInserita = "";
 
         // Array dei link caricati in fase di apertura
         let linkCorrenti = [
@@ -148,23 +149,44 @@
             {% endfor %}
         ];
 
-        // CONTROLLO PASSWORD PER APRIRE L'EDITOR
-        function accediEditor() {
+        // CONTROLLO PASSWORD LATO SERVER (BLINDATO)
+        async function accediEditor() {
             let inputPwd = document.getElementById("artistPassword").value.trim();
             
-            if (inputPwd === PASSWORD_CORRETTA) {
-                // Password corretta: chiude la modale pwd, apre l'editor e lo popola
-                document.getElementById("passwordModal").style.display = "none";
-                document.getElementById("mainEditorModal").style.display = "flex";
-                
-                let container = document.getElementById("linksContainer");
-                container.innerHTML = ""; 
-                linkCorrenti.forEach(l => aggiungiRigaLink(l.piattaforma, l.url));
-                document.getElementById("artistPassword").value = ""; // Pulisce il campo
-            } else {
-                // Password errata: blocco e alert
-                alert("Password errata. Riprova!");
-                document.getElementById("artistPassword").value = "";
+            if (!inputPwd) {
+                alert("Inserisci una password!");
+                return;
+            }
+
+            // Impacchettiamo la password per spedirla al server
+            let formData = new FormData();
+            formData.append("password", inputPwd);
+
+            try {
+                // Facciamo una chiamata di rete invisibile al nostro nuovo endpoint Python
+                let response = await fetch("/{{ artista.nome }}/verifica-password", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (response.ok) {
+                    // Il server ha risposto 200 OK: la password è giusta!
+                    passwordInserita = inputPwd; // La salviamo nella RAM del browser per usarla quando salveremo le modifiche
+                    
+                    document.getElementById("passwordModal").style.display = "none";
+                    document.getElementById("mainEditorModal").style.display = "flex";
+                    
+                    let container = document.getElementById("linksContainer");
+                    container.innerHTML = ""; 
+                    linkCorrenti.forEach(l => aggiungiRigaLink(l.piattaforma, l.url));
+                    document.getElementById("artistPassword").value = ""; // Pulisce il campo
+                } else {
+                    // Il server ha respinto l'accesso (Errore 403)
+                    alert("Password errata. Riprova!");
+                    document.getElementById("artistPassword").value = "";
+                }
+            } catch (error) {
+                alert("Errore di comunicazione col server.");
             }
         }
 
@@ -213,9 +235,10 @@
             }
         }
 
-        // SALVATAGGIO VERO E PROPRIO SUL DATABASE (CON FILE)
+        // SALVATAGGIO VERO E PROPRIO SUL DATABASE
         async function salvaModificheDatabase() {
-            let pwd = PASSWORD_CORRETTA; // Manda la password corretta per passare il controllo lato Server
+            // Usiamo la password che l'utente ha digitato in fase di accesso
+            let pwd = passwordInserita; 
             let righe = document.querySelectorAll('.link-row');
             let nuoviLinks = [];
 
