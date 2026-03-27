@@ -1,25 +1,27 @@
 import os
 import json
-import shutil
 from fastapi import FastAPI, Request, Depends, HTTPException, Form, UploadFile, File
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
+import cloudinary
+import cloudinary.uploader
+
 from database import SessionLocal, Artista, Link
 
-# 1. Creiamo l'app
 app = FastAPI()
 
-# 2. Ci assicuriamo che la cartella "static" esista FISICAMENTE sul disco
+# Montiamo la cartella static per sicurezza (ci servirà solo per il logo_creatore.png)
 os.makedirs("static", exist_ok=True)
-
-# 3. Montiamo SUBITO la cartella "static" dicendo a FastAPI come chiamarla
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# 4. Impostiamo la cartella dei templates
 templates = Jinja2Templates(directory="templates")
 
-# --- FINE CONFIGURAZIONE INIZIALE ---
+# Inizializzazione Cloudinary con variabili d'ambiente
+cloudinary.config( 
+  cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME'), 
+  api_key = os.getenv('CLOUDINARY_API_KEY'), 
+  api_secret = os.getenv('CLOUDINARY_API_SECRET') 
+)
 
 def get_db():
     db = SessionLocal()
@@ -45,13 +47,6 @@ async def mostra_pagina(request: Request, nome_artista: str, db: Session = Depen
     
     if not artista:
         raise HTTPException(status_code=404, detail="Artista non trovato nel Database")
-    
-    # Controlliamo se l'artista ha caricato immagini
-    percorso_profilo = f"static/{artista.nome}_profilo.png"
-    percorso_sfondo = f"static/{artista.nome}_sfondo.png"
-    
-    url_profilo = f"/static/{artista.nome}_profilo.png" if os.path.exists(percorso_profilo) else None
-    url_sfondo = f"/static/{artista.nome}_sfondo.png" if os.path.exists(percorso_sfondo) else None
 
     return templates.TemplateResponse(
         request=request, 
@@ -60,62 +55,42 @@ async def mostra_pagina(request: Request, nome_artista: str, db: Session = Depen
             "artista": artista,
             "links": artista.links,
             "icona": ottieni_classe_icona,
-            "url_profilo": url_profilo,
-            "url_sfondo": url_sfondo
+            "url_profilo": artista.url_profilo, # Ora lo prende dritto dal database!
+            "url_sfondo": artista.url_sfondo    # Ora lo prende dritto dal database!
         }
     )
 
-# --- NUOVO ENDPOINT: CONTROLLO BLINDATO DELLA PASSWORD ---
 @app.post("/{nome_artista}/verifica-password")
-async def verifica_password(
-    nome_artista: str, 
-    password: str = Form(...), 
-    db: Session = Depends(get_db)
-):
+async def verifica_password(nome_artista: str, password: str = Form(...), db: Session = Depends(get_db)):
     artista = db.query(Artista).filter(Artista.nome.ilike(nome_artista)).first()
-    if not artista:
-        raise HTTPException(status_code=404, detail="Artista non trovato")
-        
-    if artista.password_editor != password:
-        raise HTTPException(status_code=403, detail="Password errata.")
-        
+    if not artista or artista.password_editor != password:
+        raise HTTPException(status_code=403, detail="Accesso Negato")
     return {"status": "ok"}
-# ---------------------------------------------------------
 
 @app.post("/{nome_artista}/salva")
 async def salva_modifiche(
-    nome_artista: str, 
-    password: str = Form(...),
-    links: str = Form(...),
-    foto_profilo: UploadFile = File(None),
-    sfondo: UploadFile = File(None),
+    nome_artista: str, password: str = Form(...), links: str = Form(...),
+    foto_profilo: UploadFile = File(None), sfondo: UploadFile = File(None),
     db: Session = Depends(get_db)
 ):
     artista = db.query(Artista).filter(Artista.nome.ilike(nome_artista)).first()
-    if not artista:
-        raise HTTPException(status_code=404, detail="Artista non trovato")
+    if not artista or artista.password_editor != password:
+        raise HTTPException(status_code=403, detail="Accesso Negato")
         
-    # Doppio controllo di sicurezza in fase di salvataggio
-    if artista.password_editor != password:
-        raise HTTPException(status_code=403, detail="Password errata.")
-        
-    try:
-        dati_links = json.loads(links)
-    except:
-        raise HTTPException(status_code=400, detail="Formato link non valido")
+    dati_links = json.loads(links)
         
     db.query(Link).filter(Link.artista_id == artista.id).delete()
     for l in dati_links:
-        nuovo_link = Link(piattaforma=l['piattaforma'], url=l['url'], artista_id=artista.id)
-        db.add(nuovo_link)
+        db.add(Link(piattaforma=l['piattaforma'], url=l['url'], artista_id=artista.id))
         
+    # --- LA MAGIA DEL CLOUD ---
     if foto_profilo and foto_profilo.filename:
-        with open(f"static/{artista.nome}_profilo.png", "wb") as buffer:
-            shutil.copyfileobj(foto_profilo.file, buffer)
+        risultato = cloudinary.uploader.upload(foto_profilo.file, folder="hub_artisti", public_id=f"{artista.nome}_profilo", overwrite=True)
+        artista.url_profilo = risultato.get("secure_url") # Salva il link di Cloudinary nel DB
             
     if sfondo and sfondo.filename:
-        with open(f"static/{artista.nome}_sfondo.png", "wb") as buffer:
-            shutil.copyfileobj(sfondo.file, buffer)
+        risultato = cloudinary.uploader.upload(sfondo.file, folder="hub_artisti", public_id=f"{artista.nome}_sfondo", overwrite=True)
+        artista.url_sfondo = risultato.get("secure_url")
             
     db.commit()
     return {"status": "successo"}
