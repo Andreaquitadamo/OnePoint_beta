@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ artista.nome }} - Link Ufficiali</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* STILE BASE E SFONDO */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 40px 15px; margin: 0; box-sizing: border-box; background-color: #121212; position: relative;
+            {% if url_sfondo %} --bg-image: url('{{ url_sfondo }}'); {% endif %}
+        }
+        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; }
+        body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); z-index: -1; }
+        
+        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 90px; } 
+        .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #333; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #fff; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s ease; }
+        h1 { font-size: 24px; margin-bottom: 30px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); transition: all 0.3s ease; }
+        
+        /* BOTTONI LINK */
+        .link-btn { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; padding: 15px; margin-bottom: 15px; background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.2); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .link-btn i { position: absolute; left: 20px; font-size: 1.3em; }
+        .link-btn:hover { background-color: rgba(255, 255, 255, 0.25); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.4); }
+        
+        /* FILIGRANA (WATERMARK) */
+        .watermark { position: fixed; bottom: 15px; right: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.65); text-decoration: none; font-family: sans-serif; letter-spacing: 1px; z-index: 1000; pointer-events: none; display: flex; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: all 0.3s ease; }
+        .watermark img { height: 35px; margin-right: 10px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) opacity(0.8); transition: all 0.3s ease; }
+
+        /* MENU TENDINA */
+        .menu-container { position: absolute; top: 20px; right: 20px; z-index: 1001; }
+        .menu-btn { width: 45px; height: 45px; border-radius: 50%; background-color: transparent; border: 1px solid transparent; color: #ffffff; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .menu-btn:hover { background-color: rgba(255, 255, 255, 0.25); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.4); }
+        .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; padding: 8px; min-width: 150px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+        .dropdown-menu.show { display: block; animation: fadeIn 0.2s ease; }
+        .dropdown-item { color: #fff; display: flex; align-items: center; padding: 12px 15px; border-radius: 10px; transition: background 0.2s; cursor: pointer; border: none; background: none; width: 100%; text-align: left; font-size: 16px; font-family: inherit; font-weight: bold; }
+        .dropdown-item i { margin-right: 12px; font-size: 1.1em; }
+        .dropdown-item:hover { background-color: rgba(255, 255, 255, 0.2); }
+
+        /* MODALI GLASSMORPHISM */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
+        .modal-content { background-color: rgba(30, 30, 30, 0.6); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; max-height: 85vh; overflow-y: auto; }
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #fff; cursor: pointer; transition: transform 0.2s; }
+        .close-modal:hover { transform: scale(1.2); }
+        
+        /* INPUT EDITOR */
+        .pwd-input, .editor-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(0, 0, 0, 0.3); color: #fff; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; outline: none; transition: border 0.3s; }
+        .pwd-input { text-align: center; font-family: monospace; font-size: 16px; }
+        .editor-input:focus, .pwd-input:focus { border-color: #fff; background-color: rgba(0, 0, 0, 0.5); }
+        
+        .modal-btn-submit { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; background-color: #fff; color: #121212; font-size: 16px; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
+        .modal-btn-submit:hover { background-color: #e0e0e0; transform: translateY(-2px); }
+        .modal-btn-secondary { background-color: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); }
+        .modal-btn-secondary:hover { background-color: rgba(255, 255, 255, 0.2); }
+
+        .editor-section { text-align: left; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        .editor-section h3 { font-size: 16px; margin-bottom: 15px; color: rgba(255,255,255,0.8); }
+        
+        .file-label { display: block; margin-bottom: 10px; font-size: 14px; cursor: pointer; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px dashed rgba(255,255,255,0.4); text-align: center; transition: all 0.2s; }
+        .file-label:hover { background: rgba(0,0,0,0.5); border-color: #fff; }
+        input[type="file"] { display: none; }
+
+        .link-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
+        .link-row .editor-input { margin-bottom: 0; }
+        .link-row .plat-input { width: 35%; }
+        .link-row .url-input { width: 55%; }
+        .remove-btn { width: 10%; background: none; border: none; color: #ff4d4d; font-size: 18px; cursor: pointer; transition: transform 0.2s; }
+        .remove-btn:hover { transform: scale(1.2); color: #ff1a1a; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @media (min-width: 768px) { body { padding: 60px 20px; } .container { max-width: 500px; } .profile-pic { width: 130px; height: 130px; font-size: 50px; border-width: 4px; } h1 { font-size: 28px; margin-bottom: 40px; } .link-btn { padding: 18px; font-size: 20px; border-radius: 40px; margin-bottom: 18px; } .watermark { bottom: 20px; right: 25px; font-size: 14px; } .watermark img { height: 45px; } }
+    </style>
+</head>
+<body>
+
+    <div class="menu-container">
+        <button class="menu-btn" onclick="document.getElementById('editorMenu').classList.toggle('show')"><i class="fas fa-ellipsis-v"></i></button>
+        <div id="editorMenu" class="dropdown-menu">
+            <button class="dropdown-item" onclick="document.getElementById('passwordModal').style.display='flex'; document.getElementById('editorMenu').classList.remove('show');"><i class="fas fa-pen"></i> Editor</button>
+        </div>
+    </div>
+
+    <div id="passwordModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+            <h2>Accesso Editor</h2>
+            <input type="password" id="artistPassword" class="pwd-input" placeholder="Password">
+            <button class="modal-btn-submit" onclick="accediEditor()">Accedi</button>
+        </div>
+    </div>
+
+    <div id="mainEditorModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+            <h2>Editor Hub</h2>
+            
+            <div class="editor-section">
+                <h3>Immagini</h3>
+                <label class="file-label">
+                    <i class="fas fa-user-circle"></i> Cambia Foto Profilo
+                    <input type="file" id="uploadProfile" accept="image/*" onchange="previewImmagine(event, 'mainProfilePic')">
+                </label>
+                <label class="file-label">
+                    <i class="fas fa-image"></i> Cambia Sfondo
+                    <input type="file" id="uploadBg" accept="image/*" onchange="previewSfondo(event)">
+                </label>
+            </div>
+
+            <div class="editor-section">
+                <h3>I Tuoi Link</h3>
+                <div id="linksContainer"></div>
+                <button class="modal-btn-submit modal-btn-secondary" onclick="aggiungiRigaLink('', '')">+ Aggiungi Link</button>
+            </div>
+            
+            <button class="modal-btn-submit" onclick="salvaModificheDatabase()">Salva sul Server</button>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if url_profilo %}
+            <img id="mainProfilePic" src="{{ url_profilo }}" alt="{{ artista.nome }}" class="profile-pic">
+        {% else %}
+            <div id="mainProfilePic" class="profile-pic">{{ artista.nome[0].upper() }}</div>
+        {% endif %}
+        
+        <h1>{{ artista.nome }}</h1>
+        <div id="activeLinksWrapper">
+            {% for link in links %}
+                <a href="{{ link.url }}" target="_blank" class="link-btn"><i class="{{ icona(link.piattaforma) }}"></i>{{ link.piattaforma }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="watermark">
+                <span>By Andrea Quitadamo & Federico Padovano</span>
+    </div>
+
+    <script>
+        // Carica la password dinamicamente dal database usando Jinja2!
+        const PASSWORD_CORRETTA = "{{ artista.password_editor }}";
+
+        // Array dei link caricati in fase di apertura
+        let linkCorrenti = [
+            {% for link in links %}
+                {piattaforma: "{{ link.piattaforma }}", url: "{{ link.url }}"},
+            {% endfor %}
+        ];
+
+        // CONTROLLO PASSWORD PER APRIRE L'EDITOR
+        function accediEditor() {
+            let inputPwd = document.getElementById("artistPassword").value.trim();
+            
+            if (inputPwd === PASSWORD_CORRETTA) {
+                // Password corretta: chiude la modale pwd, apre l'editor e lo popola
+                document.getElementById("passwordModal").style.display = "none";
+                document.getElementById("mainEditorModal").style.display = "flex";
+                
+                let container = document.getElementById("linksContainer");
+                container.innerHTML = ""; 
+                linkCorrenti.forEach(l => aggiungiRigaLink(l.piattaforma, l.url));
+                document.getElementById("artistPassword").value = ""; // Pulisce il campo
+            } else {
+                // Password errata: blocco e alert
+                alert("Password errata. Riprova!");
+                document.getElementById("artistPassword").value = "";
+            }
+        }
+
+        // AGGIUNTA RIGHE LINK NELL'EDITOR
+        function aggiungiRigaLink(piattaforma, url) {
+            let container = document.getElementById("linksContainer");
+            let row = document.createElement("div");
+            row.className = "link-row";
+            row.innerHTML = `
+                <input type="text" class="editor-input plat-input" value="${piattaforma}" placeholder="Nome">
+                <input type="url" class="editor-input url-input" value="${url}" placeholder="URL">
+                <button class="remove-btn" onclick="this.parentElement.remove()">X</button>
+            `;
+            container.appendChild(row);
+        }
+
+        // ANTEPRIME IMMAGINI IN TEMPO REALE
+        function previewImmagine(event, idImmagine) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    let imgElement = document.getElementById(idImmagine);
+                    if(imgElement.tagName.toLowerCase() === 'div') {
+                        let newImg = document.createElement('img');
+                        newImg.id = idImmagine;
+                        newImg.className = 'profile-pic';
+                        newImg.src = e.target.result;
+                        imgElement.parentNode.replaceChild(newImg, imgElement);
+                    } else {
+                        imgElement.src = e.target.result;
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function previewSfondo(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.body.style.setProperty('--bg-image', `url(${e.target.result})`);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // SALVATAGGIO VERO E PROPRIO SUL DATABASE (CON FILE)
+        async function salvaModificheDatabase() {
+            let pwd = PASSWORD_CORRETTA; // Manda la password corretta per passare il controllo lato Server
+            let righe = document.querySelectorAll('.link-row');
+            let nuoviLinks = [];
+
+            righe.forEach(r => {
+                let p = r.querySelector('.plat-input').value.trim();
+                let u = r.querySelector('.url-input').value.trim();
+                if (p && u) nuoviLinks.push({piattaforma: p, url: u});
+            });
+
+            let formData = new FormData();
+            formData.append("password", pwd);
+            formData.append("links", JSON.stringify(nuoviLinks));
+
+            let fileProfilo = document.getElementById("uploadProfile").files[0];
+            if (fileProfilo) formData.append("foto_profilo", fileProfilo);
+
+            let fileSfondo = document.getElementById("uploadBg").files[0];
+            if (fileSfondo) formData.append("sfondo", fileSfondo);
+
+            let response = await fetch("/{{ artista.nome }}/salva", {
+                method: "POST",
+                body: formData
+            });
+
+            let esito = await response.json();
+            
+            if(response.ok) {
+                alert("Boom! Modifiche salvate con successo.");
+                window.location.reload(); 
+            } else {
+                alert("Errore durante il salvataggio: " + esito.detail);
+            }
+        }
+
+        // CHIUSURA MENU CLICCANDO FUORI
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-btn') && !event.target.matches('.fa-ellipsis-v')) {
+                var dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    dropdowns[i].classList.remove('show');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
