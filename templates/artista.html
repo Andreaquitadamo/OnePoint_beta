@@ -31,16 +31,14 @@
             width: 100vw; /* Si allarga da parte a parte */
             margin-left: calc(50% - 50vw);
             margin-right: calc(50% - 50vw);
-            transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease;
         }
 
-        /* EFFETTO VETRO (Solo quando scorri) */
+        /* SFONDO SOLIDO (Solo quando scorri) */
         .profile-header.scrolled {
-            background-color: rgba(18, 18, 18, 0.85); /* Quasi nero trasparente */
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Filo di luce elegantissimo */
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); /* Crea profondità sui bottoni */
+            background-color: #121212; /* Sfondo solido identico alla pagina base */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Leggera linea di separazione */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8); /* Ombra per profondità */
         }
 
         .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #333; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #fff; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); margin: 0; }
@@ -67,7 +65,7 @@
         h1.scrolled {
             font-size: 16px;
             margin-top: 8px;
-            text-shadow: none; /* Tolta l'ombra per renderlo più nitido sul nero */
+            text-shadow: none; /* Tolta l'ombra per renderlo nitido */
         }
         
         /* BOTTONI LINK */
@@ -215,18 +213,18 @@
             {% endfor %}
         ];
 
-        // LOGICA PER L'EFFETTO NAVBAR ALLO SCROLL
+        // LOGICA PER ATTIVARE LO SFONDO SOLIDO ALLO SCROLL
         window.addEventListener('scroll', () => {
             let header = document.getElementById('stickyHeader');
             let pic = document.getElementById('mainProfilePic');
             let name = document.getElementById('artistNameDisplay');
             
             if (window.scrollY > 30) {
-                header.classList.add('scrolled'); // Attiva lo sfondo scuro sfocato
+                header.classList.add('scrolled'); // Attiva lo sfondo solido
                 pic.classList.add('scrolled');
                 name.classList.add('scrolled');
             } else {
-                header.classList.remove('scrolled');
+                header.classList.remove('scrolled'); // Torna trasparente
                 pic.classList.remove('scrolled');
                 name.classList.remove('scrolled');
             }
