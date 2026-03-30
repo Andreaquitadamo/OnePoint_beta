@@ -97,6 +97,12 @@
             <h2>Editor Hub</h2>
             
             <div class="editor-section">
+                <h3>Profilo</h3>
+                <label style="font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 5px;">Nome d'Arte</label>
+                <input type="text" id="edit-nome" class="editor-input" value="{{ artista.nome }}" placeholder="Il tuo nome d'arte">
+            </div>
+
+            <div class="editor-section">
                 <h3>Immagini</h3>
                 <label class="file-label">
                     <i class="fas fa-user-circle"></i> Cambia Foto Profilo
@@ -114,7 +120,7 @@
                 <button class="modal-btn-submit modal-btn-secondary" onclick="aggiungiRigaLink('', '')">+ Aggiungi Link</button>
             </div>
             
-            <button class="modal-btn-submit" onclick="salvaModificheDatabase()">Salva sul Server</button>
+            <button id="btnSalva" class="modal-btn-submit" onclick="salvaModificheDatabase()">Salva sul Server</button>
         </div>
     </div>
 
@@ -138,18 +144,14 @@
     </div>
 
     <script>
-        // Variabile per memorizzare temporaneamente la password digitata dall'utente.
-        // NON contiene più la password presa dal database!
         let passwordInserita = "";
 
-        // Array dei link caricati in fase di apertura
         let linkCorrenti = [
             {% for link in links %}
                 {piattaforma: "{{ link.piattaforma }}", url: "{{ link.url }}"},
             {% endfor %}
         ];
 
-        // CONTROLLO PASSWORD LATO SERVER (BLINDATO)
         async function accediEditor() {
             let inputPwd = document.getElementById("artistPassword").value.trim();
             
@@ -158,20 +160,17 @@
                 return;
             }
 
-            // Impacchettiamo la password per spedirla al server
             let formData = new FormData();
             formData.append("password", inputPwd);
 
             try {
-                // Facciamo una chiamata di rete invisibile al nostro nuovo endpoint Python
                 let response = await fetch("/{{ artista.nome }}/verifica-password", {
                     method: "POST",
                     body: formData
                 });
 
                 if (response.ok) {
-                    // Il server ha risposto 200 OK: la password è giusta!
-                    passwordInserita = inputPwd; // La salviamo nella RAM del browser per usarla quando salveremo le modifiche
+                    passwordInserita = inputPwd; 
                     
                     document.getElementById("passwordModal").style.display = "none";
                     document.getElementById("mainEditorModal").style.display = "flex";
@@ -179,9 +178,8 @@
                     let container = document.getElementById("linksContainer");
                     container.innerHTML = ""; 
                     linkCorrenti.forEach(l => aggiungiRigaLink(l.piattaforma, l.url));
-                    document.getElementById("artistPassword").value = ""; // Pulisce il campo
+                    document.getElementById("artistPassword").value = ""; 
                 } else {
-                    // Il server ha respinto l'accesso (Errore 403)
                     alert("Password errata. Riprova!");
                     document.getElementById("artistPassword").value = "";
                 }
@@ -190,7 +188,6 @@
             }
         }
 
-        // AGGIUNTA RIGHE LINK NELL'EDITOR
         function aggiungiRigaLink(piattaforma, url) {
             let container = document.getElementById("linksContainer");
             let row = document.createElement("div");
@@ -203,7 +200,6 @@
             container.appendChild(row);
         }
 
-        // ANTEPRIME IMMAGINI IN TEMPO REALE
         function previewImmagine(event, idImmagine) {
             const file = event.target.files[0];
             if (file) {
@@ -235,9 +231,7 @@
             }
         }
 
-        // SALVATAGGIO VERO E PROPRIO SUL DATABASE
         async function salvaModificheDatabase() {
-            // Usiamo la password che l'utente ha digitato in fase di accesso
             let pwd = passwordInserita; 
             let righe = document.querySelectorAll('.link-row');
             let nuoviLinks = [];
@@ -251,6 +245,9 @@
             let formData = new FormData();
             formData.append("password", pwd);
             formData.append("links", JSON.stringify(nuoviLinks));
+            
+            // AGGIUNTA PER IL CAMBIO NOME
+            formData.append("nuovo_nome", document.getElementById("edit-nome").value.trim());
 
             let fileProfilo = document.getElementById("uploadProfile").files[0];
             if (fileProfilo) formData.append("foto_profilo", fileProfilo);
@@ -258,18 +255,32 @@
             let fileSfondo = document.getElementById("uploadBg").files[0];
             if (fileSfondo) formData.append("sfondo", fileSfondo);
 
-            let response = await fetch("/{{ artista.nome }}/salva", {
-                method: "POST",
-                body: formData
-            });
+            // Cambiamo testo al bottone per far capire che sta caricando
+            let btn = document.getElementById("btnSalva");
+            btn.innerText = "Salvataggio in corso...";
+            btn.disabled = true;
 
-            let esito = await response.json();
-            
-            if(response.ok) {
-                alert("Boom! Modifiche salvate con successo.");
-                window.location.reload(); 
-            } else {
-                alert("Errore durante il salvataggio: " + esito.detail);
+            try {
+                let response = await fetch("/{{ artista.nome }}/salva", {
+                    method: "POST",
+                    body: formData
+                });
+
+                let esito = await response.json();
+                
+                if(response.ok) {
+                    alert("Boom! Modifiche salvate con successo.");
+                    // REINDIRIZZAMENTO SUL NUOVO LINK (Invece del semplice reload)
+                    window.location.href = esito.nuovo_url; 
+                } else {
+                    alert("Errore durante il salvataggio: " + esito.detail);
+                    btn.innerText = "Salva sul Server";
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                alert("Errore di connessione al server.");
+                btn.innerText = "Salva sul Server";
+                btn.disabled = false;
             }
         }
 
