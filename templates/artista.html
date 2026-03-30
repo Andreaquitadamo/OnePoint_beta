@@ -16,31 +16,49 @@
         
         .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 90px; } 
         
-        /* HEADER PROFILO CON EFFETTO STICKY SCROLL */
+        /* HEADER PROFILO: IMMAGINE + NOME (PILLOLA STICKY) */
         .profile-header {
             position: sticky;
             top: 15px;
             z-index: 900;
-            height: 110px; /* Mantiene lo spazio fermo mentre l'immagine si rimpicciolisce */
             display: flex;
+            flex-direction: column; /* Partono impilati: foto sopra, nome sotto */
+            align-items: center;
             justify-content: center;
-            align-items: flex-start;
-            margin-bottom: 10px;
+            margin-bottom: 25px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
+        
+        /* Quando si scorre giù, diventa una pillola orizzontale! */
+        .profile-header.scrolled {
+            flex-direction: row; /* Si mettono uno di fianco all'altro */
+            background-color: rgba(20, 20, 20, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 8px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            margin-bottom: 30px; 
+        }
+
         .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #333; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #fff; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); margin: 0; }
         
-        /* CLASSE CHE SI ATTIVA QUANDO SCORRI IN GIÙ */
         .profile-pic.scrolled {
-            width: 55px;
-            height: 55px;
-            font-size: 24px;
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
             border-width: 2px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.8);
-            background-color: rgba(51, 51, 51, 0.9);
-            backdrop-filter: blur(5px);
+            box-shadow: none;
         }
         
-        h1 { font-size: 24px; margin-bottom: 30px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); transition: all 0.3s ease; }
+        h1 { font-size: 26px; margin: 15px 0 0 0; text-shadow: 0 2px 4px rgba(0,0,0,0.5); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+        
+        h1.scrolled {
+            font-size: 18px;
+            margin: 0 0 0 15px; /* Crea spazio a sinistra per staccarsi dalla miniatura */
+            text-shadow: none; /* Rimuove l'ombra per una lettura più pulita nella pillola */
+        }
         
         /* BOTTONI LINK */
         .link-btn { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; padding: 15px; margin-bottom: 15px; background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.2); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
@@ -49,9 +67,8 @@
         
         /* FILIGRANA (WATERMARK) */
         .watermark { position: fixed; bottom: 15px; right: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.65); text-decoration: none; font-family: sans-serif; letter-spacing: 1px; z-index: 1000; pointer-events: none; display: flex; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: all 0.3s ease; }
-        .watermark img { height: 35px; margin-right: 10px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) opacity(0.8); transition: all 0.3s ease; }
 
-        /* MENU TENDINA - ORA È FIXED INVECE DI ABSOLUTE */
+        /* MENU TENDINA FIXED */
         .menu-container { position: fixed; top: 20px; right: 20px; z-index: 1001; }
         .menu-btn { width: 45px; height: 45px; border-radius: 50%; background-color: transparent; border: 1px solid transparent; color: #ffffff; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .menu-btn:hover { background-color: rgba(255, 255, 255, 0.25); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.4); }
@@ -98,7 +115,7 @@
         .remove-btn:hover { transform: scale(1.2); color: #ff1a1a; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        @media (min-width: 768px) { body { padding: 60px 20px; } .container { max-width: 500px; } .profile-header { height: 140px; } .profile-pic { width: 130px; height: 130px; font-size: 50px; border-width: 4px; } h1 { font-size: 28px; margin-bottom: 40px; } .link-btn { padding: 18px; font-size: 20px; border-radius: 40px; margin-bottom: 18px; } .watermark { bottom: 20px; right: 25px; font-size: 14px; } .watermark img { height: 45px; } }
+        @media (min-width: 768px) { body { padding: 60px 20px; } .container { max-width: 500px; } .profile-header { top: 20px; } .profile-pic { width: 130px; height: 130px; font-size: 50px; border-width: 4px; } h1 { font-size: 30px; margin-top: 20px; } h1.scrolled { font-size: 20px; } .link-btn { padding: 18px; font-size: 20px; border-radius: 40px; margin-bottom: 18px; } .watermark { bottom: 20px; right: 25px; font-size: 14px; } }
     </style>
 </head>
 <body>
@@ -157,15 +174,15 @@
     </div>
 
     <div class="container">
-        <div class="profile-header">
+        <div class="profile-header" id="stickyHeader">
             {% if url_profilo %}
                 <img id="mainProfilePic" src="{{ url_profilo }}" alt="{{ artista.nome }}" class="profile-pic">
             {% else %}
                 <div id="mainProfilePic" class="profile-pic">{{ artista.nome[0].upper() }}</div>
             {% endif %}
+            <h1 id="artistNameDisplay">{{ artista.nome }}</h1>
         </div>
         
-        <h1>{{ artista.nome }}</h1>
         <div id="activeLinksWrapper">
             {% for link in links %}
                 <a href="{{ link.url }}" target="_blank" class="link-btn"><i class="{{ icona(link.piattaforma) }}"></i>{{ link.piattaforma }}</a>
@@ -180,7 +197,6 @@
     <script>
         let passwordInserita = "";
         
-        // Nuove variabili per tracciare se l'utente ha chiesto di eliminare le foto
         let flagRimuoviProfilo = false;
         let flagRimuoviSfondo = false;
 
@@ -190,28 +206,33 @@
             {% endfor %}
         ];
 
-        // LOGICA PER RIMPICCIOLIRE LA FOTO ALLO SCROLL
+        // LOGICA PER LA PILLOLA ALLO SCROLL
         window.addEventListener('scroll', () => {
+            let header = document.getElementById('stickyHeader');
             let pic = document.getElementById('mainProfilePic');
-            // Se scorriamo più di 30 pixel in giù, rimpicciolisce
+            let name = document.getElementById('artistNameDisplay');
+            
+            // Se scorriamo più di 30 pixel in giù, rimpicciolisce tutto e fonde in una pillola
             if (window.scrollY > 30) {
+                header.classList.add('scrolled');
                 pic.classList.add('scrolled');
+                name.classList.add('scrolled');
             } else {
+                header.classList.remove('scrolled');
                 pic.classList.remove('scrolled');
+                name.classList.remove('scrolled');
             }
         });
 
         // FUNZIONI DI RIMOZIONE IMMAGINI
         function impostaRimozioneProfilo() {
             flagRimuoviProfilo = true;
-            document.getElementById("uploadProfile").value = ""; // Svuota il file eventualmente caricato
+            document.getElementById("uploadProfile").value = ""; 
             
             let imgElement = document.getElementById("mainProfilePic");
-            // Se c'è una foto, la sostituiamo con l'iniziale del nome per l'anteprima
             if(imgElement.tagName.toLowerCase() === 'img') {
                 let newDiv = document.createElement('div');
                 newDiv.id = 'mainProfilePic';
-                // Mantiene le classi (incluso 'scrolled' se attivo)
                 newDiv.className = imgElement.className; 
                 newDiv.innerHTML = "{{ artista.nome[0].upper() }}";
                 imgElement.parentNode.replaceChild(newDiv, imgElement);
@@ -220,8 +241,8 @@
 
         function impostaRimozioneSfondo() {
             flagRimuoviSfondo = true;
-            document.getElementById("uploadBg").value = ""; // Svuota il file
-            document.body.style.setProperty('--bg-image', 'none'); // Toglie l'anteprima
+            document.getElementById("uploadBg").value = ""; 
+            document.body.style.setProperty('--bg-image', 'none'); 
         }
 
         async function accediEditor() {
@@ -273,7 +294,7 @@
         }
 
         function previewImmagine(event, idImmagine) {
-            flagRimuoviProfilo = false; // Se carica una foto nuova, annulla l'ordine di rimozione
+            flagRimuoviProfilo = false; 
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -294,7 +315,7 @@
         }
 
         function previewSfondo(event) {
-            flagRimuoviSfondo = false; // Annulla la rimozione se carica un file
+            flagRimuoviSfondo = false; 
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -321,7 +342,6 @@
             formData.append("links", JSON.stringify(nuoviLinks));
             formData.append("nuovo_nome", document.getElementById("edit-nome").value.trim());
             
-            // Invio i comandi di rimozione al server
             formData.append("rimuovi_profilo", flagRimuoviProfilo ? "true" : "false");
             formData.append("rimuovi_sfondo", flagRimuoviSfondo ? "true" : "false");
 
@@ -358,7 +378,6 @@
             }
         }
 
-        // CHIUSURA MENU CLICCANDO FUORI
         window.onclick = function(event) {
             if (!event.target.matches('.menu-btn') && !event.target.matches('.fa-ellipsis-v')) {
                 var dropdowns = document.getElementsByClassName("dropdown-menu");
