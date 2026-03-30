@@ -6,33 +6,40 @@
     <title>{{ artista.nome }} - Link Ufficiali</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* STILE BASE E SFONDO */
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 40px 15px; margin: 0; box-sizing: border-box; background-color: #121212; position: relative;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 0; margin: 0; box-sizing: border-box; background-color: #121212; position: relative; overflow-x: hidden;
             {% if url_sfondo %} --bg-image: url('{{ url_sfondo }}'); {% endif %}
         }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; }
         body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); z-index: -1; }
         
-        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 90px; } 
+        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 90px; padding: 0 15px; box-sizing: border-box; } 
         
-        /* HEADER PROFILO: STICKY COMPLETAMENTE TRASPARENTE E ANTI-GLITCH */
         .profile-header {
             position: sticky;
-            top: 15px;
+            top: 0;
+            padding-top: 40px; 
             z-index: 900;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start; 
             margin-bottom: 10px;
-            height: 180px; /* GABBIA ANTI-GLITCH: l'altezza non cambia mai */
-            background-color: transparent; /* TOTALMENTE TRASPARENTE */
+            height: 190px; 
+            width: 100vw; 
+            margin-left: calc(50% - 50vw);
+            margin-right: calc(50% - 50vw);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease;
+        }
+
+        .profile-header.scrolled {
+            background-color: #121212; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8); 
         }
 
         .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #333; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #fff; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); margin: 0; }
         
-        /* Rimpicciolimento Immagine */
         .profile-pic.scrolled {
             width: 60px;
             height: 60px;
@@ -47,24 +54,21 @@
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
             white-space: normal; 
             line-height: 1.2;
-            padding: 0 10px;
+            padding: 0 15px;
         }
         
-        /* Rimpicciolimento Nome */
         h1.scrolled {
             font-size: 16px;
             margin-top: 8px;
+            text-shadow: none; 
         }
         
-        /* BOTTONI LINK */
         .link-btn { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; padding: 15px; margin-bottom: 15px; background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.2); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
         .link-btn i { position: absolute; left: 20px; font-size: 1.3em; }
         .link-btn:hover { background-color: rgba(255, 255, 255, 0.25); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.4); }
         
-        /* FILIGRANA (WATERMARK) */
         .watermark { position: fixed; bottom: 15px; right: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.65); text-decoration: none; font-family: sans-serif; letter-spacing: 1px; z-index: 1000; pointer-events: none; display: flex; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: all 0.3s ease; }
 
-        /* MENU TENDINA FIXED */
         .menu-container { position: fixed; top: 20px; right: 20px; z-index: 1001; }
         .menu-btn { width: 45px; height: 45px; border-radius: 50%; background-color: transparent; border: 1px solid transparent; color: #ffffff; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .menu-btn:hover { background-color: rgba(255, 255, 255, 0.25); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.4); }
@@ -74,7 +78,6 @@
         .dropdown-item i { margin-right: 12px; font-size: 1.1em; }
         .dropdown-item:hover { background-color: rgba(255, 255, 255, 0.2); }
 
-        /* MODALI GLASSMORPHISM */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
         .modal-content { background-color: rgba(30, 30, 30, 0.6); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; max-height: 85vh; overflow-y: auto; }
         .modal-content::-webkit-scrollbar { width: 6px; }
@@ -82,7 +85,6 @@
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #fff; cursor: pointer; transition: transform 0.2s; }
         .close-modal:hover { transform: scale(1.2); }
         
-        /* INPUT EDITOR */
         .pwd-input, .editor-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(0, 0, 0, 0.3); color: #fff; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; outline: none; transition: border 0.3s; }
         .pwd-input { text-align: center; font-family: monospace; font-size: 16px; }
         .editor-input:focus, .pwd-input:focus { border-color: #fff; background-color: rgba(0, 0, 0, 0.5); }
@@ -99,7 +101,6 @@
         .file-label:hover { background: rgba(0,0,0,0.5); border-color: #fff; }
         input[type="file"] { display: none; }
         
-        /* PULSANTI RIMOZIONE IMMAGINI */
         .btn-remove-img { background-color: rgba(255, 77, 77, 0.15); color: #ff4d4d; border: 1px solid rgba(255, 77, 77, 0.4); padding: 8px; border-radius: 8px; cursor: pointer; font-size: 12px; width: 100%; transition: all 0.2s; margin-bottom: 15px; font-weight: bold; }
         .btn-remove-img:hover { background-color: #ff4d4d; color: white; border-color: #ff4d4d; }
 
@@ -111,7 +112,7 @@
         .remove-btn:hover { transform: scale(1.2); color: #ff1a1a; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        @media (min-width: 768px) { .profile-header { height: 210px; } .profile-pic { width: 130px; height: 130px; font-size: 50px; border-width: 4px; } h1 { font-size: 30px; margin-top: 20px; } h1.scrolled { font-size: 20px; } .link-btn { padding: 18px; font-size: 20px; border-radius: 40px; margin-bottom: 18px; } .watermark { bottom: 20px; right: 25px; font-size: 14px; } }
+        @media (min-width: 768px) { .profile-header { top: 0; height: 210px; } .profile-pic { width: 130px; height: 130px; font-size: 50px; border-width: 4px; } h1 { font-size: 30px; margin-top: 20px; } h1.scrolled { font-size: 20px; } .link-btn { padding: 18px; font-size: 20px; border-radius: 40px; margin-bottom: 18px; } .watermark { bottom: 20px; right: 25px; font-size: 14px; } }
     </style>
 </head>
 <body>
@@ -201,15 +202,17 @@
             {% endfor %}
         ];
 
-        // LOGICA PER RIMPICCIOLIMENTO ALLO SCROLL (Senza alcun cambio di sfondo)
         window.addEventListener('scroll', () => {
+            let header = document.getElementById('stickyHeader');
             let pic = document.getElementById('mainProfilePic');
             let name = document.getElementById('artistNameDisplay');
             
             if (window.scrollY > 30) {
+                header.classList.add('scrolled'); 
                 pic.classList.add('scrolled');
                 name.classList.add('scrolled');
             } else {
+                header.classList.remove('scrolled'); 
                 pic.classList.remove('scrolled');
                 name.classList.remove('scrolled');
             }
@@ -247,7 +250,8 @@
             formData.append("password", inputPwd);
 
             try {
-                let response = await fetch("/{{ artista.nome }}/verifica-password", {
+                // MODIFICA: Ora la fetch punta all'ID dell'artista
+                let response = await fetch("/{{ artista.id }}/verifica-password", {
                     method: "POST",
                     body: formData
                 });
@@ -346,7 +350,8 @@
             btn.disabled = true;
 
             try {
-                let response = await fetch("/{{ artista.nome }}/salva", {
+                // MODIFICA: Ora la fetch punta all'ID dell'artista
+                let response = await fetch("/{{ artista.id }}/salva", {
                     method: "POST",
                     body: formData
                 });
