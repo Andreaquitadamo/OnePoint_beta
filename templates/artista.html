@@ -8,37 +8,26 @@
     <style>
         /* STILE BASE E SFONDO */
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 0; margin: 0; box-sizing: border-box; background-color: #121212; position: relative; overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 40px 15px; margin: 0; box-sizing: border-box; background-color: #121212; position: relative;
             {% if url_sfondo %} --bg-image: url('{{ url_sfondo }}'); {% endif %}
         }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; }
         body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); z-index: -1; }
         
-        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 90px; padding: 0 15px; box-sizing: border-box; } 
+        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 90px; } 
         
-        /* NAVBAR A TUTTO SCHERMO: Si attiva solo scorrendo */
+        /* HEADER PROFILO: STICKY COMPLETAMENTE TRASPARENTE E ANTI-GLITCH */
         .profile-header {
             position: sticky;
-            top: 0;
-            padding-top: 40px; /* Spazio dal bordo superiore del telefono */
+            top: 15px;
             z-index: 900;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start; 
             margin-bottom: 10px;
-            height: 190px; 
-            width: 100vw; /* Si allarga da parte a parte */
-            margin-left: calc(50% - 50vw);
-            margin-right: calc(50% - 50vw);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease;
-        }
-
-        /* SFONDO SOLIDO (Solo quando scorri) */
-        .profile-header.scrolled {
-            background-color: #121212; /* Sfondo solido identico alla pagina base */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Leggera linea di separazione */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8); /* Ombra per profondità */
+            height: 180px; /* GABBIA ANTI-GLITCH: l'altezza non cambia mai */
+            background-color: transparent; /* TOTALMENTE TRASPARENTE */
         }
 
         .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #333; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #fff; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); margin: 0; }
@@ -58,14 +47,13 @@
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
             white-space: normal; 
             line-height: 1.2;
-            padding: 0 15px;
+            padding: 0 10px;
         }
         
         /* Rimpicciolimento Nome */
         h1.scrolled {
             font-size: 16px;
             margin-top: 8px;
-            text-shadow: none; /* Tolta l'ombra per renderlo nitido */
         }
         
         /* BOTTONI LINK */
@@ -123,7 +111,7 @@
         .remove-btn:hover { transform: scale(1.2); color: #ff1a1a; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        @media (min-width: 768px) { .profile-header { top: 0; height: 210px; } .profile-pic { width: 130px; height: 130px; font-size: 50px; border-width: 4px; } h1 { font-size: 30px; margin-top: 20px; } h1.scrolled { font-size: 20px; } .link-btn { padding: 18px; font-size: 20px; border-radius: 40px; margin-bottom: 18px; } .watermark { bottom: 20px; right: 25px; font-size: 14px; } }
+        @media (min-width: 768px) { .profile-header { height: 210px; } .profile-pic { width: 130px; height: 130px; font-size: 50px; border-width: 4px; } h1 { font-size: 30px; margin-top: 20px; } h1.scrolled { font-size: 20px; } .link-btn { padding: 18px; font-size: 20px; border-radius: 40px; margin-bottom: 18px; } .watermark { bottom: 20px; right: 25px; font-size: 14px; } }
     </style>
 </head>
 <body>
@@ -213,18 +201,15 @@
             {% endfor %}
         ];
 
-        // LOGICA PER ATTIVARE LO SFONDO SOLIDO ALLO SCROLL
+        // LOGICA PER RIMPICCIOLIMENTO ALLO SCROLL (Senza alcun cambio di sfondo)
         window.addEventListener('scroll', () => {
-            let header = document.getElementById('stickyHeader');
             let pic = document.getElementById('mainProfilePic');
             let name = document.getElementById('artistNameDisplay');
             
             if (window.scrollY > 30) {
-                header.classList.add('scrolled'); // Attiva lo sfondo solido
                 pic.classList.add('scrolled');
                 name.classList.add('scrolled');
             } else {
-                header.classList.remove('scrolled'); // Torna trasparente
                 pic.classList.remove('scrolled');
                 name.classList.remove('scrolled');
             }
