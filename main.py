@@ -11,7 +11,7 @@ from database import SessionLocal, Artista, Link
 
 app = FastAPI()
 
-# Montiamo la cartella static per sicurezza (ci servirà solo per il logo_creatore.png)
+# Montiamo la cartella static
 os.makedirs("static", exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
@@ -55,8 +55,8 @@ async def mostra_pagina(request: Request, nome_artista: str, db: Session = Depen
             "artista": artista,
             "links": artista.links,
             "icona": ottieni_classe_icona,
-            "url_profilo": artista.url_profilo, # Ora lo prende dritto dal database!
-            "url_sfondo": artista.url_sfondo    # Ora lo prende dritto dal database!
+            "url_profilo": artista.url_profilo,
+            "url_sfondo": artista.url_sfondo
         }
     )
 
@@ -69,13 +69,24 @@ async def verifica_password(nome_artista: str, password: str = Form(...), db: Se
 
 @app.post("/{nome_artista}/salva")
 async def salva_modifiche(
-    nome_artista: str, password: str = Form(...), links: str = Form(...),
-    foto_profilo: UploadFile = File(None), sfondo: UploadFile = File(None),
+    nome_artista: str, 
+    password: str = Form(...), 
+    nuovo_nome: str = Form(None), # <-- Parametro per il cambio nome
+    links: str = Form(...),
+    foto_profilo: UploadFile = File(None), 
+    sfondo: UploadFile = File(None),
     db: Session = Depends(get_db)
 ):
     artista = db.query(Artista).filter(Artista.nome.ilike(nome_artista)).first()
     if not artista or artista.password_editor != password:
         raise HTTPException(status_code=403, detail="Accesso Negato")
+        
+    # LOGICA CAMBIO NOME D'ARTE
+    if nuovo_nome and nuovo_nome.strip() and nuovo_nome.lower() != nome_artista.lower():
+        esistente = db.query(Artista).filter(Artista.nome.ilike(nuovo_nome.strip())).first()
+        if esistente:
+            raise HTTPException(status_code=400, detail="Questo nome d'arte è già preso!")
+        artista.nome = nuovo_nome.strip()
         
     dati_links = json.loads(links)
         
@@ -83,14 +94,16 @@ async def salva_modifiche(
     for l in dati_links:
         db.add(Link(piattaforma=l['piattaforma'], url=l['url'], artista_id=artista.id))
         
-    # --- LA MAGIA DEL CLOUD ---
+    # LA MAGIA DI CLOUDINARY: Immagini ancorate all'ID univoco e non al nome
     if foto_profilo and foto_profilo.filename:
-        risultato = cloudinary.uploader.upload(foto_profilo.file, folder="hub_artisti", public_id=f"{artista.nome}_profilo", overwrite=True)
-        artista.url_profilo = risultato.get("secure_url") # Salva il link di Cloudinary nel DB
+        risultato = cloudinary.uploader.upload(foto_profilo.file, folder="hub_artisti", public_id=f"artista_{artista.id}_profilo", overwrite=True)
+        artista.url_profilo = risultato.get("secure_url")
             
     if sfondo and sfondo.filename:
-        risultato = cloudinary.uploader.upload(sfondo.file, folder="hub_artisti", public_id=f"{artista.nome}_sfondo", overwrite=True)
+        risultato = cloudinary.uploader.upload(sfondo.file, folder="hub_artisti", public_id=f"artista_{artista.id}_sfondo", overwrite=True)
         artista.url_sfondo = risultato.get("secure_url")
             
     db.commit()
-    return {"status": "successo"}
+    
+    # Restituiamo il nuovo URL per far ricaricare la pagina correttamente
+    return {"status": "successo", "nuovo_url": f"/{artista.nome}"}
