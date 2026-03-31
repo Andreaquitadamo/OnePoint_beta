@@ -26,13 +26,12 @@
             align-items: center;
             justify-content: flex-start; 
             margin-bottom: 10px;
-            height: 180px; /* GABBIA ANTI-GLITCH: l'altezza non cambia mai */
-            background-color: transparent; /* TOTALMENTE TRASPARENTE */
+            height: 180px; 
+            background-color: transparent; 
         }
 
         .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #333; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #fff; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); margin: 0; }
         
-        /* Rimpicciolimento Immagine */
         .profile-pic.scrolled {
             width: 60px;
             height: 60px;
@@ -50,7 +49,6 @@
             padding: 0 10px;
         }
         
-        /* Rimpicciolimento Nome */
         h1.scrolled {
             font-size: 16px;
             margin-top: 8px;
@@ -68,11 +66,17 @@
         .menu-container { position: fixed; top: 20px; right: 20px; z-index: 1001; }
         .menu-btn { width: 45px; height: 45px; border-radius: 50%; background-color: transparent; border: 1px solid transparent; color: #ffffff; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .menu-btn:hover { background-color: rgba(255, 255, 255, 0.25); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.4); }
-        .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; padding: 8px; min-width: 150px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+        .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; padding: 8px; min-width: 170px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
         .dropdown-menu.show { display: block; animation: fadeIn 0.2s ease; }
         .dropdown-item { color: #fff; display: flex; align-items: center; padding: 12px 15px; border-radius: 10px; transition: background 0.2s; cursor: pointer; border: none; background: none; width: 100%; text-align: left; font-size: 16px; font-family: inherit; font-weight: bold; }
         .dropdown-item i { margin-right: 12px; font-size: 1.1em; }
         .dropdown-item:hover { background-color: rgba(255, 255, 255, 0.2); }
+        
+        /* Sotto-menù Lingue */
+        .lang-submenu { display: none; flex-direction: column; background-color: rgba(0,0,0,0.3); border-radius: 10px; margin-top: 5px; overflow: hidden; }
+        .lang-submenu.show { display: flex; animation: fadeIn 0.2s ease; }
+        .lang-item { padding: 10px 15px; cursor: pointer; color: white; border: none; background: none; text-align: left; font-size: 14px; transition: 0.2s; }
+        .lang-item:hover { background-color: rgba(255,255,255,0.2); }
 
         /* MODALI GLASSMORPHISM */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
@@ -119,53 +123,64 @@
     <div class="menu-container">
         <button class="menu-btn" onclick="document.getElementById('editorMenu').classList.toggle('show')"><i class="fas fa-ellipsis-v"></i></button>
         <div id="editorMenu" class="dropdown-menu">
-            <button class="dropdown-item" onclick="document.getElementById('passwordModal').style.display='flex'; document.getElementById('editorMenu').classList.remove('show');"><i class="fas fa-pen"></i> Editor</button>
+            <button class="dropdown-item" onclick="document.getElementById('passwordModal').style.display='flex'; document.getElementById('editorMenu').classList.remove('show');">
+                <i class="fas fa-pen"></i> <span data-i18n="btn_editor">Editor</span>
+            </button>
+            
+            <button class="dropdown-item" onclick="document.getElementById('langSubmenu').classList.toggle('show')">
+                <span id="currentFlag" style="margin-right: 12px;">🇮🇹</span> <span data-i18n="btn_lang">Lingua</span> <i class="fas fa-chevron-down" style="margin-left: auto; margin-right: 0;"></i>
+            </button>
+            
+            <div id="langSubmenu" class="lang-submenu">
+                <button class="lang-item" onclick="cambiaLingua('it')">🇮🇹 Italiano</button>
+                <button class="lang-item" onclick="cambiaLingua('en')">🇬🇧 English</button>
+            </div>
         </div>
     </div>
 
     <div id="passwordModal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
-            <h2>Accesso Editor</h2>
+            <h2 data-i18n="pwd_title">Accesso Editor</h2>
             <input type="password" id="artistPassword" class="pwd-input" placeholder="Password">
-            <button class="modal-btn-submit" onclick="accediEditor()">Accedi</button>
+            <button class="modal-btn-submit" onclick="accediEditor()" data-i18n="pwd_btn">Accedi</button>
         </div>
     </div>
 
     <div id="mainEditorModal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
-            <h2>Editor Hub</h2>
+            <h2 data-i18n="editor_title">Editor Hub</h2>
             
             <div class="editor-section">
-                <h3>Profilo</h3>
-                <label style="font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 5px;">Nome d'Arte</label>
+                <h3 data-i18n="editor_profile">Profilo</h3>
+                <label style="font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 5px;" data-i18n="editor_name_label">Nome d'Arte</label>
                 <input type="text" id="edit-nome" class="editor-input" value="{{ artista.nome }}" placeholder="Il tuo nome d'arte">
             </div>
 
             <div class="editor-section">
-                <h3>Immagini</h3>
+                <h3 data-i18n="editor_images">Immagini</h3>
                 
                 <label class="file-label">
-                    <i class="fas fa-user-circle"></i> Cambia Foto Profilo
+                    <i class="fas fa-user-circle"></i> <span data-i18n="editor_change_pic">Cambia Foto Profilo</span>
                     <input type="file" id="uploadProfile" accept="image/*" onchange="previewImmagine(event, 'mainProfilePic')">
                 </label>
-                <button type="button" class="btn-remove-img" onclick="impostaRimozioneProfilo()"><i class="fas fa-trash"></i> Rimuovi Foto Profilo</button>
+                <button type="button" class="btn-remove-img" onclick="impostaRimozioneProfilo()"><i class="fas fa-trash"></i> <span data-i18n="editor_remove_pic">Rimuovi Foto Profilo</span></button>
 
                 <label class="file-label">
-                    <i class="fas fa-image"></i> Cambia Sfondo
+                    <i class="fas fa-image"></i> <span data-i18n="editor_change_bg">Cambia Sfondo</span>
                     <input type="file" id="uploadBg" accept="image/*" onchange="previewSfondo(event)">
                 </label>
-                <button type="button" class="btn-remove-img" onclick="impostaRimozioneSfondo()"><i class="fas fa-trash"></i> Rimuovi Sfondo</button>
+                <button type="button" class="btn-remove-img" onclick="impostaRimozioneSfondo()"><i class="fas fa-trash"></i> <span data-i18n="editor_remove_bg">Rimuovi Sfondo</span></button>
             </div>
 
             <div class="editor-section">
-                <h3>I Tuoi Link</h3>
+                <h3 data-i18n="editor_links">I Tuoi Link</h3>
                 <div id="linksContainer"></div>
-                <button class="modal-btn-submit modal-btn-secondary" onclick="aggiungiRigaLink('', '')">+ Aggiungi Link</button>
+                <button class="modal-btn-submit modal-btn-secondary" onclick="aggiungiRigaLink('', '')" id="btnAddLink">+ Aggiungi Link</button>
             </div>
             
-            <button id="btnSalva" class="modal-btn-submit" onclick="salvaModificheDatabase()">Salva sul Server</button>
+            <button id="btnSalva" class="modal-btn-submit" onclick="salvaModificheDatabase()" data-i18n="editor_save">Salva sul Server</button>
         </div>
     </div>
 
@@ -191,6 +206,97 @@
     </div>
 
     <script>
+        // --- DIZIONARIO LINGUE (i18n) ---
+        const dizionario = {
+            it: {
+                btn_editor: "Editor",
+                btn_lang: "Lingua",
+                pwd_title: "Accesso Editor",
+                pwd_btn: "Accedi",
+                editor_title: "Editor Hub",
+                editor_profile: "Profilo",
+                editor_name_label: "Nome d'Arte",
+                editor_name_placeholder: "Il tuo nome d'arte",
+                editor_images: "Immagini",
+                editor_change_pic: "Cambia Foto Profilo",
+                editor_remove_pic: "Rimuovi Foto Profilo",
+                editor_change_bg: "Cambia Sfondo",
+                editor_remove_bg: "Rimuovi Sfondo",
+                editor_links: "I Tuoi Link",
+                editor_add_link: "+ Aggiungi Link",
+                editor_save: "Salva sul Server",
+                alert_no_pwd: "Inserisci una password!",
+                alert_wrong_pwd: "Password errata. Riprova!",
+                alert_server_err: "Errore di comunicazione col server.",
+                alert_success: "Boom! Modifiche salvate con successo.",
+                alert_save_err: "Errore durante il salvataggio: ",
+                saving_btn: "Salvataggio in corso...",
+                placeholder_plat: "Nome",
+                placeholder_url: "URL"
+            },
+            en: {
+                btn_editor: "Editor",
+                btn_lang: "Language",
+                pwd_title: "Editor Login",
+                pwd_btn: "Login",
+                editor_title: "Editor Hub",
+                editor_profile: "Profile",
+                editor_name_label: "Stage Name",
+                editor_name_placeholder: "Your stage name",
+                editor_images: "Images",
+                editor_change_pic: "Change Profile Picture",
+                editor_remove_pic: "Remove Profile Picture",
+                editor_change_bg: "Change Background",
+                editor_remove_bg: "Remove Background",
+                editor_links: "Your Links",
+                editor_add_link: "+ Add Link",
+                editor_save: "Save to Server",
+                alert_no_pwd: "Please enter a password!",
+                alert_wrong_pwd: "Wrong password. Try again!",
+                alert_server_err: "Server communication error.",
+                alert_success: "Boom! Changes saved successfully.",
+                alert_save_err: "Error during save: ",
+                saving_btn: "Saving...",
+                placeholder_plat: "Name",
+                placeholder_url: "URL"
+            }
+        };
+
+        let langCorrente = 'it'; // Lingua di default
+
+        function cambiaLingua(lang) {
+            langCorrente = lang;
+            
+            // Cambia la bandiera nel menù principale
+            document.getElementById('currentFlag').innerText = lang === 'it' ? '🇮🇹' : '🇬🇧';
+            
+            // Chiude i menù a tendina
+            document.getElementById('langSubmenu').classList.remove('show');
+            document.getElementById('editorMenu').classList.remove('show');
+
+            // Traduce tutti i testi con attributo data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(elemento => {
+                let chiave = elemento.getAttribute('data-i18n');
+                if (dizionario[lang][chiave]) {
+                    elemento.innerText = dizionario[lang][chiave];
+                }
+            });
+
+            // Traduce i testi invisibili (placeholder) e bottoni speciali
+            document.getElementById('edit-nome').placeholder = dizionario[lang].editor_name_placeholder;
+            document.getElementById('btnAddLink').innerText = dizionario[lang].editor_add_link;
+            
+            // Aggiorna i placeholder dei link già aperti
+            document.querySelectorAll('.plat-input').forEach(el => el.placeholder = dizionario[lang].placeholder_plat);
+            document.querySelectorAll('.url-input').forEach(el => el.placeholder = dizionario[lang].placeholder_url);
+            
+            let btnSalva = document.getElementById("btnSalva");
+            if (!btnSalva.disabled) {
+                btnSalva.innerText = dizionario[lang].editor_save;
+            }
+        }
+        // ---------------------------------
+
         let passwordInserita = "";
         let flagRimuoviProfilo = false;
         let flagRimuoviSfondo = false;
@@ -201,7 +307,6 @@
             {% endfor %}
         ];
 
-        // LOGICA PER RIMPICCIOLIMENTO ALLO SCROLL
         window.addEventListener('scroll', () => {
             let pic = document.getElementById('mainProfilePic');
             let name = document.getElementById('artistNameDisplay');
@@ -239,7 +344,7 @@
             let inputPwd = document.getElementById("artistPassword").value.trim();
             
             if (!inputPwd) {
-                alert("Inserisci una password!");
+                alert(dizionario[langCorrente].alert_no_pwd);
                 return;
             }
 
@@ -247,7 +352,6 @@
             formData.append("password", inputPwd);
 
             try {
-                // Modifica fetch per usare ID
                 let response = await fetch("/{{ artista.id }}/verifica-password", {
                     method: "POST",
                     body: formData
@@ -264,11 +368,11 @@
                     linkCorrenti.forEach(l => aggiungiRigaLink(l.piattaforma, l.url));
                     document.getElementById("artistPassword").value = ""; 
                 } else {
-                    alert("Password errata. Riprova!");
+                    alert(dizionario[langCorrente].alert_wrong_pwd);
                     document.getElementById("artistPassword").value = "";
                 }
             } catch (error) {
-                alert("Errore di comunicazione col server.");
+                alert(dizionario[langCorrente].alert_server_err);
             }
         }
 
@@ -277,8 +381,8 @@
             let row = document.createElement("div");
             row.className = "link-row";
             row.innerHTML = `
-                <input type="text" class="editor-input plat-input" value="${piattaforma}" placeholder="Nome">
-                <input type="url" class="editor-input url-input" value="${url}" placeholder="URL">
+                <input type="text" class="editor-input plat-input" value="${piattaforma}" placeholder="${dizionario[langCorrente].placeholder_plat}">
+                <input type="url" class="editor-input url-input" value="${url}" placeholder="${dizionario[langCorrente].placeholder_url}">
                 <button class="remove-btn" onclick="this.parentElement.remove()">X</button>
             `;
             container.appendChild(row);
@@ -343,11 +447,10 @@
             if (fileSfondo) formData.append("sfondo", fileSfondo);
 
             let btn = document.getElementById("btnSalva");
-            btn.innerText = "Salvataggio in corso...";
+            btn.innerText = dizionario[langCorrente].saving_btn;
             btn.disabled = true;
 
             try {
-                // Modifica fetch per usare ID
                 let response = await fetch("/{{ artista.id }}/salva", {
                     method: "POST",
                     body: formData
@@ -356,26 +459,25 @@
                 let esito = await response.json();
                 
                 if(response.ok) {
-                    alert("Boom! Modifiche salvate con successo.");
+                    alert(dizionario[langCorrente].alert_success);
                     window.location.href = esito.nuovo_url; 
                 } else {
-                    alert("Errore durante il salvataggio: " + esito.detail);
-                    btn.innerText = "Salva sul Server";
+                    alert(dizionario[langCorrente].alert_save_err + esito.detail);
+                    btn.innerText = dizionario[langCorrente].editor_save;
                     btn.disabled = false;
                 }
             } catch (error) {
-                alert("Errore di connessione al server.");
-                btn.innerText = "Salva sul Server";
+                alert(dizionario[langCorrente].alert_server_err);
+                btn.innerText = dizionario[langCorrente].editor_save;
                 btn.disabled = false;
             }
         }
 
+        // Chiusura menù al click esterno
         window.onclick = function(event) {
-            if (!event.target.matches('.menu-btn') && !event.target.matches('.fa-ellipsis-v')) {
-                var dropdowns = document.getElementsByClassName("dropdown-menu");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    dropdowns[i].classList.remove('show');
-                }
+            if (!event.target.closest('.menu-container')) {
+                document.getElementById('editorMenu').classList.remove('show');
+                document.getElementById('langSubmenu').classList.remove('show');
             }
         }
     </script>
