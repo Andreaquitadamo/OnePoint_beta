@@ -79,6 +79,7 @@ async def salva_modifiche(
     sfondo: UploadFile = File(None),
     rimuovi_profilo: str = Form("false"),
     rimuovi_sfondo: str = Form("false"),
+    livello_vetro: str = Form("3"),  # <--- AGGIUNTO QUI
     db: Session = Depends(get_db)
 ):
     artista = db.query(Artista).filter(Artista.id == artista_id).first()
@@ -95,6 +96,9 @@ async def salva_modifiche(
         artista.url_profilo = None
     if rimuovi_sfondo == "true":
         artista.url_sfondo = None
+
+    # --- AGGIORNA IL LIVELLO VETRO NEL DB ---
+    artista.livello_vetro = livello_vetro
 
     dati_links = json.loads(links)
     db.query(Link).filter(Link.artista_id == artista.id).delete()
