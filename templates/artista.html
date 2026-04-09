@@ -14,22 +14,30 @@
             {% if url_sfondo %} --bg-image: url('{{ url_sfondo }}'); {% endif %}
             
             /* Variabili di default per l'effetto vetro (Livello 3) */
-            --link-bg: rgba(255, 255, 255, 0.1);
-            --link-blur: blur(12px);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-bg-hover: rgba(255, 255, 255, 0.25);
+            --glass-blur: blur(12px);
+            --glass-border: rgba(255, 255, 255, 0.2);
         }
 
         /* LIVELLI EFFETTO VETRO */
         body[data-glass="1"] {
-            --link-bg: rgba(255, 255, 255, 0.02);
-            --link-blur: blur(2px);
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(2px);
+            --glass-border: rgba(255, 255, 255, 0.05);
         }
         body[data-glass="2"] {
-            --link-bg: rgba(255, 255, 255, 0.06);
-            --link-blur: blur(6px);
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-bg-hover: rgba(255, 255, 255, 0.15);
+            --glass-blur: blur(6px);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
         body[data-glass="3"] {
-            --link-bg: rgba(255, 255, 255, 0.1);
-            --link-blur: blur(12px);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-bg-hover: rgba(255, 255, 255, 0.25);
+            --glass-blur: blur(12px);
+            --glass-border: rgba(255, 255, 255, 0.2);
         }
 
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; }
@@ -59,22 +67,22 @@
         h1.scrolled { font-size: 16px; margin-top: 8px; }
         
         /* BOTTONI LINK CON VARIABILI CSS PER IL VETRO */
-        .link-btn { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; padding: 15px; margin-bottom: 15px; background-color: var(--link-bg); backdrop-filter: var(--link-blur); -webkit-backdrop-filter: var(--link-blur); border: 1px solid rgba(255, 255, 255, 0.2); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .link-btn { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; padding: 15px; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
         .link-btn i { position: absolute; left: 20px; font-size: 1.3em; }
-        .link-btn:hover { background-color: rgba(255, 255, 255, 0.25); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.4); }
+        .link-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.4); }
         
         /* FILIGRANA (WATERMARK) */
         .watermark { position: fixed; bottom: 15px; right: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.65); text-decoration: none; font-family: sans-serif; letter-spacing: 1px; z-index: 1000; pointer-events: none; display: flex; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: all 0.3s ease; }
 
-        /* MENU TENDINA FIXED */
+        /* MENU TENDINA FIXED CON VARIABILI VETRO */
         .menu-container { position: fixed; top: 20px; right: 20px; z-index: 1001; }
         .menu-btn { width: 45px; height: 45px; border-radius: 50%; background-color: transparent; border: 1px solid transparent; color: #ffffff; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .menu-btn:hover { background-color: rgba(255, 255, 255, 0.25); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.4); }
-        .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; padding: 8px; min-width: 170px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+        .menu-btn:hover { background-color: var(--glass-bg-hover); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); border: 1px solid var(--glass-border); }
+        .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 15px; padding: 8px; min-width: 170px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
         .dropdown-menu.show { display: block; animation: fadeIn 0.2s ease; }
         .dropdown-item { color: #fff; display: flex; align-items: center; padding: 12px 15px; border-radius: 10px; transition: background 0.2s; cursor: pointer; border: none; background: none; width: 100%; text-align: left; font-size: 16px; font-family: inherit; font-weight: bold; }
         .dropdown-item i { margin-right: 12px; font-size: 1.1em; }
-        .dropdown-item:hover { background-color: rgba(255, 255, 255, 0.2); }
+        .dropdown-item:hover { background-color: var(--glass-bg-hover); }
         
         /* Sotto-menù Lingue */
         .lang-submenu { display: none; flex-direction: column; background-color: rgba(0,0,0,0.3); border-radius: 10px; margin-top: 5px; overflow: hidden; }
@@ -82,9 +90,9 @@
         .lang-item { padding: 10px 15px; cursor: pointer; color: white; border: none; background: none; text-align: left; font-size: 14px; transition: 0.2s; }
         .lang-item:hover { background-color: rgba(255,255,255,0.2); }
 
-        /* MODALI GLASSMORPHISM */
+        /* MODALI GLASSMORPHISM CON VARIABILI VETRO */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
-        .modal-content { background-color: rgba(30, 30, 30, 0.6); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; max-height: 85vh; overflow-y: auto; }
+        .modal-content { background-color: rgba(30, 30, 30, 0.6); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; max-height: 85vh; overflow-y: auto; }
         .modal-content::-webkit-scrollbar { width: 6px; }
         .modal-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #fff; cursor: pointer; transition: transform 0.2s; z-index: 10;}
@@ -129,7 +137,6 @@
         @media (min-width: 768px) { .profile-header { height: 210px; } .profile-pic { width: 130px; height: 130px; font-size: 50px; border-width: 4px; } h1 { font-size: 30px; margin-top: 20px; } h1.scrolled { font-size: 20px; } .link-btn { padding: 18px; font-size: 20px; border-radius: 40px; margin-bottom: 18px; } .watermark { bottom: 20px; right: 25px; font-size: 14px; } }
     </style>
 </head>
-<!-- Inizializziamo il data-glass con il valore salvato nel database (di default 3) -->
 <body data-glass="{% if artista.livello_vetro %}{{ artista.livello_vetro }}{% else %}3{% endif %}">
 
     <div class="menu-container">
@@ -170,14 +177,13 @@
                 <input type="text" id="edit-nome" class="editor-input" value="{{ artista.nome }}" placeholder="Il tuo nome d'arte">
             </div>
 
-            <!-- NUOVA SEZIONE STILE -->
             <div class="editor-section">
                 <h3 data-i18n="editor_style">Stile</h3>
-                <label style="font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 5px;" data-i18n="editor_glass_label">Opacità Vetro (Link)</label>
+                <label style="font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 5px;" data-i18n="editor_glass_label">Opacità Vetro</label>
                 <select id="edit-glass" class="editor-input" onchange="cambiaVetroPreview(this.value)">
-                    <option value="1" {% if artista.livello_vetro == '1' %}selected{% endif %} data-i18n="glass_1">Livello 1 (Leggero)</option>
-                    <option value="2" {% if artista.livello_vetro == '2' %}selected{% endif %} data-i18n="glass_2">Livello 2 (Medio)</option>
-                    <option value="3" {% if not artista.livello_vetro or artista.livello_vetro == '3' %}selected{% endif %} data-i18n="glass_3">Livello 3 (Opaco)</option>
+                    <option value="1" {% if artista.livello_vetro|string == '1' %}selected{% endif %} data-i18n="glass_1">Livello 1 (Leggero)</option>
+                    <option value="2" {% if artista.livello_vetro|string == '2' %}selected{% endif %} data-i18n="glass_2">Livello 2 (Medio)</option>
+                    <option value="3" {% if not artista.livello_vetro or artista.livello_vetro|string == '3' %}selected{% endif %} data-i18n="glass_3">Livello 3 (Opaco)</option>
                 </select>
             </div>
 
@@ -256,7 +262,7 @@
                 editor_name_label: "Nome d'Arte",
                 editor_name_placeholder: "Il tuo nome d'arte",
                 editor_style: "Stile",
-                editor_glass_label: "Opacità Vetro (Link)",
+                editor_glass_label: "Opacità Vetro",
                 glass_1: "Livello 1 (Leggero)",
                 glass_2: "Livello 2 (Medio)",
                 glass_3: "Livello 3 (Opaco)",
@@ -289,7 +295,7 @@
                 editor_name_label: "Stage Name",
                 editor_name_placeholder: "Your stage name",
                 editor_style: "Style",
-                editor_glass_label: "Glass Opacity (Links)",
+                editor_glass_label: "Glass Opacity",
                 glass_1: "Level 1 (Light)",
                 glass_2: "Level 2 (Medium)",
                 glass_3: "Level 3 (Opaque)",
@@ -530,7 +536,7 @@
             formData.append("links", JSON.stringify(nuoviLinks));
             formData.append("nuovo_nome", document.getElementById("edit-nome").value.trim());
             
-            // Aggiungiamo il livello vetro scelto al formData per il backend
+            // Invio il livello vetro
             formData.append("livello_vetro", document.getElementById("edit-glass").value);
             
             formData.append("rimuovi_profilo", flagRimuoviProfilo ? "true" : "false");
