@@ -24,6 +24,9 @@ class Artista(Base):
     url_profilo = Column(String, nullable=True) 
     url_sfondo = Column(String, nullable=True)  
     
+    # NUOVA COLONNA PER IL VETRO (Aggiungi questa riga)
+    livello_vetro = Column(String, default="2")
+    
     links = relationship("Link", back_populates="artista")
 
 class Link(Base):
