@@ -13,7 +13,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 40px 15px; margin: 0; box-sizing: border-box; background-color: #121212; position: relative;
             {% if url_sfondo %} --bg-image: url('{{ url_sfondo }}'); {% endif %}
             
-            /* Variabili di default per l'effetto vetro (Livello 3) */
+            /* Variabili di default per l'effetto vetro */
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-bg-hover: rgba(255, 255, 255, 0.25);
             --glass-blur: blur(12px);
@@ -308,7 +308,7 @@
 
             document.querySelectorAll('').forEach(elemento => {
                 let chiave = elemento.getAttribute('data-i18n');
-                if (dizionario) {
+                if (dizionario && dizionario) {
                     let spanTarget = elemento.querySelector('span');
                     if(spanTarget) {
                         spanTarget.innerText = dizionario;
@@ -338,7 +338,7 @@
         let blobFotoProfilo = null;
         let blobSfondo = null;
 
-        // Questo è il pezzo di codice vitale che si era rotto nei miei messaggi precedenti
+        // POPOLAMENTO CORRETTO DELL'ARRAY JINJA
         let linkCorrenti =;
 
         // SCROLL
