@@ -21,114 +21,113 @@
         }
 
         /* LIVELLI EFFETTO VETRO */
-        body[data-glass="1"] {
-            --glass-bg: rgba(255, 255, 255, 0.02);
-            --glass-bg-hover: rgba(255, 255, 255, 0.08);
-            --glass-blur: blur(2px);
-            --glass-border: rgba(255, 255, 255, 0.05);
-        }
-        body[data-glass="2"] {
-            --glass-bg: rgba(255, 255, 255, 0.06);
-            --glass-bg-hover: rgba(255, 255, 255, 0.15);
-            --glass-blur: blur(6px);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-        body[data-glass="3"] {
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-bg-hover: rgba(255, 255, 255, 0.25);
-            --glass-blur: blur(12px);
-            --glass-border: rgba(255, 255, 255, 0.2);
-        }
+        body { --glass-bg: rgba(255, 255, 255, 0.02); --glass-bg-hover: rgba(255, 255, 255, 0.08); --glass-blur: blur(2px); --glass-border: rgba(255, 255, 255, 0.05); }
+        body { --glass-bg: rgba(255, 255, 255, 0.06); --glass-bg-hover: rgba(255, 255, 255, 0.15); --glass-blur: blur(6px); --glass-border: rgba(255, 255, 255, 0.1); }
+        body { --glass-bg: rgba(255, 255, 255, 0.1); --glass-bg-hover: rgba(255, 255, 255, 0.25); --glass-blur: blur(12px); --glass-border: rgba(255, 255, 255, 0.2); }
 
-        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; }
+        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; transition: background-image 0.3s ease; }
         body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); z-index: -1; }
         
-        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 90px; } 
+        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 120px; } 
         
         /* HEADER PROFILO */
-        .profile-header {
-            position: sticky;
-            top: 15px;
-            z-index: 900;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start; 
-            margin-bottom: 10px;
-            height: 180px; 
-            background-color: transparent; 
-        }
+        .profile-header { position: sticky; top: 15px; z-index: 900; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; margin-bottom: 10px; height: 180px; background-color: transparent; }
 
+        .profile-pic-wrapper { position: relative; display: inline-block; }
         .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #333; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #fff; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); margin: 0; }
-        
         .profile-pic.scrolled { width: 60px; height: 60px; font-size: 24px; border-width: 2px; }
         
         h1 { font-size: 22px; margin: 12px 0 0 0; text-shadow: 0 2px 5px rgba(0,0,0,0.8); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); white-space: normal; line-height: 1.2; padding: 0 10px; }
         h1.scrolled { font-size: 16px; margin-top: 8px; }
+        
+        /* INPUT EDITOR INLINE */
+        .inline-input { background: rgba(0,0,0,0.5); border: 1px dashed rgba(255,255,255,0.5); color: white; text-align: center; border-radius: 10px; padding: 5px 10px; outline: none; transition: all 0.3s; }
+        .inline-input:focus { border-color: white; background: rgba(0,0,0,0.8); }
+        .name-input { font-size: 22px; font-weight: bold; margin: 12px 0 0 0; width: 80%; }
         
         /* BOTTONI LINK CON VARIABILI CSS PER IL VETRO */
         .link-btn { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; padding: 15px; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
         .link-btn i { position: absolute; left: 20px; font-size: 1.3em; }
         .link-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.4); }
         
-        /* FILIGRANA (WATERMARK) AGGIORNATA */
-        .watermark { position: fixed; bottom: 15px; right: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.65); font-family: sans-serif; letter-spacing: 1px; z-index: 1000; display: flex; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: all 0.3s ease; }
-        .watermark a { color: rgba(255, 255, 255, 0.8); text-decoration: none; font-weight: bold; transition: color 0.2s; }
+        /* FILIGRANA (WATERMARK) */
+        .watermark { position: fixed; bottom: 15px; right: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.65); font-family: sans-serif; letter-spacing: 1px; z-index: 1000; display: flex; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: all 0.3s ease; pointer-events: none; }
+        .watermark a { pointer-events: auto; color: rgba(255, 255, 255, 0.8); text-decoration: none; font-weight: bold; transition: color 0.2s; }
         .watermark a:hover { color: #ffffff; text-decoration: underline; }
 
-        /* MENU TENDINA FIXED CON VARIABILI VETRO */
+        /* MENU TENDINA FIXED */
         .menu-container { position: fixed; top: 20px; right: 20px; z-index: 1001; }
         .menu-btn { width: 45px; height: 45px; border-radius: 50%; background-color: transparent; border: 1px solid transparent; color: #ffffff; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .menu-btn:hover { background-color: var(--glass-bg-hover); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); border: 1px solid var(--glass-border); }
-        .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 15px; padding: 8px; min-width: 170px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+        .menu-btn:hover { background-color: var(--glass-bg-hover); backdrop-filter: var(--glass-blur); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); border: 1px solid var(--glass-border); }
+        .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 15px; padding: 8px; min-width: 170px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
         .dropdown-menu.show { display: block; animation: fadeIn 0.2s ease; }
-        .dropdown-item { color: #fff; display: flex; align-items: center; padding: 12px 15px; border-radius: 10px; transition: background 0.2s; cursor: pointer; border: none; background: none; width: 100%; text-align: left; font-size: 16px; font-family: inherit; font-weight: bold; }
+        .dropdown-item { color: #fff; display: flex; align-items: center; padding: 12px 15px; border-radius: 10px; transition: background 0.2s; cursor: pointer; border: none; background: none; width: 100%; text-align: left; font-size: 16px; font-weight: bold; }
         .dropdown-item i { margin-right: 12px; font-size: 1.1em; }
         .dropdown-item:hover { background-color: var(--glass-bg-hover); }
         
-        /* Sotto-menù Lingue */
         .lang-submenu { display: none; flex-direction: column; background-color: rgba(0,0,0,0.3); border-radius: 10px; margin-top: 5px; overflow: hidden; }
         .lang-submenu.show { display: flex; animation: fadeIn 0.2s ease; }
         .lang-item { padding: 10px 15px; cursor: pointer; color: white; border: none; background: none; text-align: left; font-size: 14px; transition: 0.2s; }
         .lang-item:hover { background-color: rgba(255,255,255,0.2); }
 
-        /* MODALI GLASSMORPHISM CON VARIABILI VETRO */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
-        .modal-content { background-color: rgba(30, 30, 30, 0.6); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; max-height: 85vh; overflow-y: auto; }
-        .modal-content::-webkit-scrollbar { width: 6px; }
-        .modal-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
+        /* MODALI BASE */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
+        .modal-content { background-color: rgba(30, 30, 30, 0.6); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #fff; cursor: pointer; transition: transform 0.2s; z-index: 10;}
         .close-modal:hover { transform: scale(1.2); }
         
-        /* INPUT EDITOR */
-        select.editor-input { appearance: none; -webkit-appearance: none; cursor: pointer; }
-        select.editor-input option { background-color: #1e1e1e; color: #fff; }
-        .pwd-input, .editor-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(0, 0, 0, 0.3); color: #fff; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; outline: none; transition: border 0.3s; }
-        .pwd-input { text-align: center; font-family: monospace; font-size: 16px; }
-        .editor-input:focus, .pwd-input:focus { border-color: #fff; background-color: rgba(0, 0, 0, 0.5); }
-        
+        .pwd-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(0, 0, 0, 0.3); color: #fff; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; outline: none; text-align: center; font-family: monospace; }
+        .pwd-input:focus { border-color: #fff; background-color: rgba(0, 0, 0, 0.5); }
         .modal-btn-submit { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; background-color: #fff; color: #121212; font-size: 16px; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
         .modal-btn-submit:hover { background-color: #e0e0e0; transform: translateY(-2px); }
-        .modal-btn-secondary { background-color: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); }
-        .modal-btn-secondary:hover { background-color: rgba(255, 255, 255, 0.2); }
 
-        .editor-section { text-align: left; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
-        .editor-section h3 { font-size: 16px; margin-bottom: 15px; color: rgba(255,255,255,0.8); }
+        /* ========================================= */
+        /* STILI SPECIFICI PER L'EDITOR INLINE (WYSIWYG) */
+        /* ========================================= */
         
-        .file-label { display: block; margin-bottom: 5px; font-size: 14px; cursor: pointer; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px dashed rgba(255,255,255,0.4); text-align: center; transition: all 0.2s; }
-        .file-label:hover { background: rgba(0,0,0,0.5); border-color: #fff; }
-        input[type="file"] { display: none; }
+        .edit-only { display: none !important; }
+        .view-only { display: flex !important; } /* Oppure block/inline in base all'elemento */
         
-        /* PULSANTI RIMOZIONE IMMAGINI */
-        .btn-remove-img { background-color: rgba(255, 77, 77, 0.15); color: #ff4d4d; border: 1px solid rgba(255, 77, 77, 0.4); padding: 8px; border-radius: 8px; cursor: pointer; font-size: 12px; width: 100%; transition: all 0.2s; margin-bottom: 15px; font-weight: bold; }
-        .btn-remove-img:hover { background-color: #ff4d4d; color: white; border-color: #ff4d4d; }
+        /* Attivazione modalità Editor */
+        body.edit-mode .edit-only { display: flex !important; }
+        body.edit-mode .view-only { display: none !important; }
+        body.edit-mode #activeLinksWrapper { display: none; }
+        
+        /* Controlli flottanti Sfondo e Vetro */
+        .floating-top-left { position: fixed; top: 20px; left: 20px; z-index: 1000; flex-direction: column; gap: 10px; }
+        .floating-top-left.edit-only { display: none; } /* Rispetta l'edit-mode */
+        body.edit-mode .floating-top-left { display: flex; }
+        
+        .action-icon-btn { background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.3); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s; backdrop-filter: blur(4px); font-size: 16px; }
+        .action-icon-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+        .action-icon-btn.danger { color: #ff4d4d; border-color: rgba(255,77,77,0.4); }
+        .action-icon-btn.danger:hover { background: rgba(255,77,77,0.2); color: #ff1a1a; }
+        
+        .glass-select { appearance: none; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 12px; border-radius: 10px; outline: none; cursor: pointer; backdrop-filter: blur(4px); font-size: 14px; margin-top: 5px; }
+        .glass-select option { background: #1e1e1e; }
 
-        .link-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
-        .link-row .editor-input { margin-bottom: 0; }
-        .link-row .plat-input { width: 35%; }
-        .link-row .url-input { width: 55%; }
-        .remove-btn { width: 10%; background: none; border: none; color: #ff4d4d; font-size: 18px; cursor: pointer; transition: transform 0.2s; }
-        .remove-btn:hover { transform: scale(1.2); color: #ff1a1a; }
+        /* Controlli Foto Profilo */
+        .profile-edit-overlay { position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(4px); z-index: 10; }
+        .profile-edit-overlay .action-icon-btn { width: 30px; height: 30px; font-size: 12px; border: none; background: transparent; }
+        .profile-edit-overlay .action-icon-btn:hover { background: rgba(255,255,255,0.1); }
+        .profile-edit-overlay .action-icon-btn.danger:hover { background: rgba(255,77,77,0.2); }
+
+        /* Stile Input Links nell'Editor */
+        .link-row { display: flex; gap: 8px; margin-bottom: 15px; align-items: center; width: 100%; background: var(--glass-bg); padding: 10px; border-radius: 20px; border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur); }
+        .link-row input { flex: 1; background: rgba(0,0,0,0.3); border: 1px dashed rgba(255,255,255,0.3); color: white; padding: 10px; border-radius: 10px; outline: none; transition: 0.3s; width: 40%; }
+        .link-row input:focus { border-color: white; background: rgba(0,0,0,0.6); }
+        .link-row .remove-btn { background: rgba(255,77,77,0.1); border: 1px solid rgba(255,77,77,0.3); color: #ff4d4d; border-radius: 10px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; }
+        .link-row .remove-btn:hover { background: #ff4d4d; color: white; }
+        
+        .btn-add-link { background-color: rgba(255, 255, 255, 0.1); color: #fff; border: 1px dashed rgba(255, 255, 255, 0.5); padding: 15px; border-radius: 30px; font-weight: bold; width: 100%; cursor: pointer; transition: all 0.2s; justify-content: center; align-items: center; }
+        .btn-add-link:hover { background-color: rgba(255, 255, 255, 0.2); border-style: solid; }
+        
+        #linksContainer { flex-direction: column; width: 100%; }
+
+        /* Pulsante Salva Flottante In Basso */
+        .floating-save-wrapper { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; z-index: 1000; }
+        .btn-save-floating { width: 100%; padding: 15px; border-radius: 30px; border: none; font-weight: bold; background-color: #4CAF50; color: white; font-size: 18px; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.4); text-transform: uppercase; letter-spacing: 1px; }
+        .btn-save-floating:hover { background-color: #45a049; transform: translateY(-3px); box-shadow: 0 12px 25px rgba(0,0,0,0.5); }
 
         /* OVERRIDE CROPPER UI PER TEMA SCURO */
         .cropper-view-box, .cropper-face { border-radius: 0; }
@@ -136,22 +135,37 @@
         .cropper-modal { background-color: rgba(0,0,0,0.8); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        @media (min-width: 768px) { .profile-header { height: 210px; } .profile-pic { width: 130px; height: 130px; font-size: 50px; border-width: 4px; } h1 { font-size: 30px; margin-top: 20px; } h1.scrolled { font-size: 20px; } .link-btn { padding: 18px; font-size: 20px; border-radius: 40px; margin-bottom: 18px; } .watermark { bottom: 20px; right: 25px; font-size: 14px; } }
+        @media (min-width: 768px) { .profile-header { height: 210px; } .profile-pic { width: 130px; height: 130px; font-size: 50px; border-width: 4px; } h1 { font-size: 30px; margin-top: 20px; } h1.scrolled { font-size: 20px; } .link-btn { padding: 18px; font-size: 20px; border-radius: 40px; margin-bottom: 18px; } }
     </style>
 </head>
 <body data-glass="{% if artista.livello_vetro %}{{ artista.livello_vetro }}{% else %}3{% endif %}">
 
-    <div class="menu-container">
+    <!-- CONTROLLI EDITOR SFONDO E VETRO (IN ALTO A SINISTRA) -->
+    <div class="floating-top-left edit-only">
+        <label class="action-icon-btn" title="Cambia Sfondo">
+            <i class="fas fa-image"></i>
+            <input type="file" id="uploadBg" accept="image/*" onchange="apriCropper(event, 'bg')" hidden>
+        </label>
+        <button class="action-icon-btn danger" onclick="impostaRimozioneSfondo()" title="Rimuovi Sfondo">
+            <i class="fas fa-trash"></i>
+        </button>
+        <select id="edit-glass" class="glass-select" onchange="cambiaVetroPreview(this.value)">
+            <option value="1" {% if artista.livello_vetro|string == '1' %}selected{% endif %} data-i18n="glass_1">Vetro Liv. 1</option>
+            <option value="2" {% if artista.livello_vetro|string == '2' %}selected{% endif %} data-i18n="glass_2">Vetro Liv. 2</option>
+            <option value="3" {% if not artista.livello_vetro or artista.livello_vetro|string == '3' %}selected{% endif %} data-i18n="glass_3">Vetro Liv. 3</option>
+        </select>
+    </div>
+
+    <!-- MENU TENDINA CLASSICO IN ALTO A DESTRA -->
+    <div class="menu-container view-only">
         <button class="menu-btn" onclick="document.getElementById('editorMenu').classList.toggle('show')"><i class="fas fa-ellipsis-v"></i></button>
         <div id="editorMenu" class="dropdown-menu">
             <button class="dropdown-item" onclick="document.getElementById('passwordModal').style.display='flex'; document.getElementById('editorMenu').classList.remove('show');">
-                <i class="fas fa-pen"></i> <span data-i18n="btn_editor">Editor</span>
+                <i class="fas fa-pen"></i> <span data-i18n="btn_editor">Modifica Pagina</span>
             </button>
-            
             <button class="dropdown-item" onclick="document.getElementById('langSubmenu').classList.toggle('show')">
                 <span id="currentFlag" style="margin-right: 12px;">🇮🇹</span> <span data-i18n="btn_lang">Lingua</span> <i class="fas fa-chevron-down" style="margin-left: auto; margin-right: 0;"></i>
             </button>
-            
             <div id="langSubmenu" class="lang-submenu">
                 <button class="lang-item" onclick="cambiaLingua('it')">🇮🇹 Italiano</button>
                 <button class="lang-item" onclick="cambiaLingua('en')">🇬🇧 English</button>
@@ -159,59 +173,13 @@
         </div>
     </div>
 
+    <!-- MODALE PASSWORD -->
     <div id="passwordModal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
             <h2 data-i18n="pwd_title">Accesso Editor</h2>
             <input type="password" id="artistPassword" class="pwd-input" placeholder="Password">
             <button class="modal-btn-submit" onclick="accediEditor()" data-i18n="pwd_btn">Accedi</button>
-        </div>
-    </div>
-
-    <div id="mainEditorModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
-            <h2 data-i18n="editor_title">Editor Hub</h2>
-            
-            <div class="editor-section">
-                <h3 data-i18n="editor_profile">Profilo</h3>
-                <label style="font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 5px;" data-i18n="editor_name_label">Nome d'Arte</label>
-                <input type="text" id="edit-nome" class="editor-input" value="{{ artista.nome }}" placeholder="Il tuo nome d'arte">
-            </div>
-
-            <div class="editor-section">
-                <h3 data-i18n="editor_style">Stile</h3>
-                <label style="font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 5px;" data-i18n="editor_glass_label">Opacità Vetro</label>
-                <select id="edit-glass" class="editor-input" onchange="cambiaVetroPreview(this.value)">
-                    <option value="1" {% if artista.livello_vetro|string == '1' %}selected{% endif %} data-i18n="glass_1">Livello 1 (Leggero)</option>
-                    <option value="2" {% if artista.livello_vetro|string == '2' %}selected{% endif %} data-i18n="glass_2">Livello 2 (Medio)</option>
-                    <option value="3" {% if not artista.livello_vetro or artista.livello_vetro|string == '3' %}selected{% endif %} data-i18n="glass_3">Livello 3 (Opaco)</option>
-                </select>
-            </div>
-
-            <div class="editor-section">
-                <h3 data-i18n="editor_images">Immagini</h3>
-                
-                <label class="file-label">
-                    <i class="fas fa-user-circle"></i> <span data-i18n="editor_change_pic">Cambia Foto Profilo</span>
-                    <input type="file" id="uploadProfile" accept="image/*" onchange="apriCropper(event, 'profile')">
-                </label>
-                <button type="button" class="btn-remove-img" onclick="impostaRimozioneProfilo()"><i class="fas fa-trash"></i> <span data-i18n="editor_remove_pic">Rimuovi Foto Profilo</span></button>
-
-                <label class="file-label">
-                    <i class="fas fa-image"></i> <span data-i18n="editor_change_bg">Cambia Sfondo</span>
-                    <input type="file" id="uploadBg" accept="image/*" onchange="apriCropper(event, 'bg')">
-                </label>
-                <button type="button" class="btn-remove-img" onclick="impostaRimozioneSfondo()"><i class="fas fa-trash"></i> <span data-i18n="editor_remove_bg">Rimuovi Sfondo</span></button>
-            </div>
-
-            <div class="editor-section">
-                <h3 data-i18n="editor_links">I Tuoi Link</h3>
-                <div id="linksContainer"></div>
-                <button class="modal-btn-submit modal-btn-secondary" onclick="aggiungiRigaLink('', '')" id="btnAddLink">+ Aggiungi Link</button>
-            </div>
-            
-            <button id="btnSalva" class="modal-btn-submit" onclick="salvaModificheDatabase()" data-i18n="editor_save">Salva sul Server</button>
         </div>
     </div>
 
@@ -227,25 +195,54 @@
         </div>
     </div>
 
+    <!-- CONTENITORE PRINCIPALE (WYSIWYG) -->
     <div class="container">
         <div class="profile-header" id="stickyHeader">
-            {% if url_profilo %}
-                <img id="mainProfilePic" src="{{ url_profilo }}" alt="{{ artista.nome }}" class="profile-pic">
-            {% else %}
-                <div id="mainProfilePic" class="profile-pic">{{ artista.nome[0].upper() }}</div>
-            {% endif %}
-            <h1 id="artistNameDisplay">{{ artista.nome }}</h1>
+            <div class="profile-pic-wrapper">
+                {% if url_profilo %}
+                    <img id="mainProfilePic" src="{{ url_profilo }}" alt="{{ artista.nome }}" class="profile-pic">
+                {% else %}
+                    <div id="mainProfilePic" class="profile-pic">{{ artista.nome.upper() }}</div>
+                {% endif %}
+                
+                <!-- Strumenti Editor per Foto Profilo -->
+                <div class="profile-edit-overlay edit-only">
+                    <label class="action-icon-btn">
+                        <i class="fas fa-pen"></i>
+                        <input type="file" id="uploadProfile" accept="image/*" onchange="apriCropper(event, 'profile')" hidden>
+                    </label>
+                    <button class="action-icon-btn danger" onclick="impostaRimozioneProfilo()">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Nome Artista (Sola lettura o Input) -->
+            <h1 id="artistNameDisplay" class="view-only">{{ artista.nome }}</h1>
+            <input type="text" id="edit-nome" class="edit-only inline-input name-input" value="{{ artista.nome }}" placeholder="Il tuo nome d'arte">
         </div>
         
+        <!-- LINKS: Modalità Visualizzazione -->
         <div id="activeLinksWrapper">
             {% for link in links %}
                 <a href="{{ link.url }}" target="_blank" class="link-btn"><i class="{{ icona(link.piattaforma) }}"></i>{{ link.piattaforma }}</a>
             {% endfor %}
         </div>
+        
+        <!-- LINKS: Modalità Editor (Inizialmente vuoto, riempito in JS) -->
+        <div id="linksContainer" class="edit-only"></div>
+        <button class="edit-only btn-add-link" onclick="aggiungiRigaLink('', '')" id="btnAddLink">+ Aggiungi Link</button>
     </div>
 
-    <!-- FILIGRANA AGGIORNATA CON I LINK -->
-    <div class="watermark">
+    <!-- PULSANTE SALVA (Modalità Editor) -->
+    <div class="floating-save-wrapper edit-only">
+        <button id="btnSalva" class="btn-save-floating" onclick="salvaModificheDatabase()" data-i18n="editor_save">
+            <i class="fas fa-save" style="margin-right: 8px;"></i> Salva Modifiche
+        </button>
+    </div>
+
+    <!-- FILIGRANA -->
+    <div class="watermark view-only">
         <span>By <a href="https://www.instagram.com/andreaquitadamo__/" target="_blank">Andrea Quitadamo</a> & <a href="https://www.instagram.com/padox_04/" target="_blank">Federico Padovano</a></span>
     </div>
 
@@ -256,68 +253,44 @@
         // --- DIZIONARIO LINGUE (i18n) ---
         const dizionario = {
             it: {
-                btn_editor: "Editor",
+                btn_editor: "Modifica Pagina",
                 btn_lang: "Lingua",
                 pwd_title: "Accesso Editor",
                 pwd_btn: "Accedi",
-                editor_title: "Editor Hub",
-                editor_profile: "Profilo",
-                editor_name_label: "Nome d'Arte",
-                editor_name_placeholder: "Il tuo nome d'arte",
-                editor_style: "Stile",
-                editor_glass_label: "Opacità Vetro",
-                glass_1: "Livello 1 (Leggero)",
-                glass_2: "Livello 2 (Medio)",
-                glass_3: "Livello 3 (Opaco)",
-                editor_images: "Immagini",
-                editor_change_pic: "Cambia Foto Profilo",
-                editor_remove_pic: "Rimuovi Foto Profilo",
-                editor_change_bg: "Cambia Sfondo",
-                editor_remove_bg: "Rimuovi Sfondo",
-                editor_links: "I Tuoi Link",
+                glass_1: "Vetro Liv. 1",
+                glass_2: "Vetro Liv. 2",
+                glass_3: "Vetro Liv. 3",
                 editor_add_link: "+ Aggiungi Link",
-                editor_save: "Salva sul Server",
+                editor_save: "Salva Modifiche",
                 alert_no_pwd: "Inserisci una password!",
                 alert_wrong_pwd: "Password errata. Riprova!",
                 alert_server_err: "Errore di comunicazione col server.",
                 alert_success: "Boom! Modifiche salvate con successo.",
                 alert_save_err: "Errore durante il salvataggio: ",
-                saving_btn: "Salvataggio in corso...",
-                placeholder_plat: "Nome",
-                placeholder_url: "URL",
+                saving_btn: "Salvataggio...",
+                placeholder_plat: "Nome Es. Spotify",
+                placeholder_url: "https://...",
                 crop_title: "Posiziona e Ritaglia",
                 crop_btn: "Conferma"
             },
             en: {
-                btn_editor: "Editor",
+                btn_editor: "Edit Page",
                 btn_lang: "Language",
                 pwd_title: "Editor Login",
                 pwd_btn: "Login",
-                editor_title: "Editor Hub",
-                editor_profile: "Profile",
-                editor_name_label: "Stage Name",
-                editor_name_placeholder: "Your stage name",
-                editor_style: "Style",
-                editor_glass_label: "Glass Opacity",
-                glass_1: "Level 1 (Light)",
-                glass_2: "Level 2 (Medium)",
-                glass_3: "Level 3 (Opaque)",
-                editor_images: "Images",
-                editor_change_pic: "Change Profile Picture",
-                editor_remove_pic: "Remove Profile Picture",
-                editor_change_bg: "Change Background",
-                editor_remove_bg: "Remove Background",
-                editor_links: "Your Links",
+                glass_1: "Glass Lvl 1",
+                glass_2: "Glass Lvl 2",
+                glass_3: "Glass Lvl 3",
                 editor_add_link: "+ Add Link",
-                editor_save: "Save to Server",
+                editor_save: "Save Changes",
                 alert_no_pwd: "Please enter a password!",
                 alert_wrong_pwd: "Wrong password. Try again!",
                 alert_server_err: "Server communication error.",
                 alert_success: "Boom! Changes saved successfully.",
                 alert_save_err: "Error during save: ",
                 saving_btn: "Saving...",
-                placeholder_plat: "Name",
-                placeholder_url: "URL",
+                placeholder_plat: "Name E.g. Spotify",
+                placeholder_url: "https://...",
                 crop_title: "Position and Crop",
                 crop_btn: "Confirm"
             }
@@ -331,20 +304,25 @@
             document.getElementById('langSubmenu').classList.remove('show');
             document.getElementById('editorMenu').classList.remove('show');
 
-            document.querySelectorAll('[data-i18n]').forEach(elemento => {
+            document.querySelectorAll('').forEach(elemento => {
                 let chiave = elemento.getAttribute('data-i18n');
-                if (dizionario[lang][chiave]) {
-                    elemento.innerText = dizionario[lang][chiave];
+                if (dizionario) {
+                    if(elemento.tagName.toLowerCase() === 'input' || elemento.tagName.toLowerCase() === 'button' && !elemento.children.length){
+                        elemento.innerText = dizionario;
+                    } else {
+                        // Per bottoni con icone all'interno, per evitare di sovrascriverle
+                        let span = elemento.querySelector('span') || elemento;
+                        span.innerText = dizionario;
+                    }
                 }
             });
 
-            document.getElementById('edit-nome').placeholder = dizionario[lang].editor_name_placeholder;
-            document.getElementById('btnAddLink').innerText = dizionario[lang].editor_add_link;
-            document.querySelectorAll('.plat-input').forEach(el => el.placeholder = dizionario[lang].placeholder_plat);
-            document.querySelectorAll('.url-input').forEach(el => el.placeholder = dizionario[lang].placeholder_url);
+            document.getElementById('btnAddLink').innerText = dizionario.editor_add_link;
+            document.querySelectorAll('.plat-input').forEach(el => el.placeholder = dizionario.placeholder_plat);
+            document.querySelectorAll('.url-input').forEach(el => el.placeholder = dizionario.placeholder_url);
             
             let btnSalva = document.getElementById("btnSalva");
-            if (!btnSalva.disabled) btnSalva.innerText = dizionario[lang].editor_save;
+            if (!btnSalva.disabled) btnSalva.innerHTML = `<i class="fas fa-save" style="margin-right: 8px;"></i> ${dizionario.editor_save}`;
         }
 
         // Funzione per anteprima in tempo reale del livello di opacità
@@ -361,27 +339,28 @@
         let blobFotoProfilo = null;
         let blobSfondo = null;
 
-        let linkCorrenti = [
-            {% for link in links %}
-                {piattaforma: "{{ link.piattaforma }}", url: "{{ link.url }}"},
-            {% endfor %}
-        ];
+        // Array popolato da Jinja
+        let linkCorrenti =;
 
         window.addEventListener('scroll', () => {
             let pic = document.getElementById('mainProfilePic');
-            let name = document.getElementById('artistNameDisplay');
+            let nameView = document.getElementById('artistNameDisplay');
+            let nameEdit = document.getElementById('edit-nome');
+            
             if (window.scrollY > 30) {
                 pic.classList.add('scrolled');
-                name.classList.add('scrolled');
+                nameView.classList.add('scrolled');
+                nameEdit.style.fontSize = "16px";
             } else {
                 pic.classList.remove('scrolled');
-                name.classList.remove('scrolled');
+                nameView.classList.remove('scrolled');
+                nameEdit.style.fontSize = "22px";
             }
         });
 
         // --- FUNZIONI CROPPER ---
         function apriCropper(event, tipo) {
-            const file = event.target.files[0];
+            const file = event.target.files;
             if (!file) return;
 
             const reader = new FileReader();
@@ -471,7 +450,7 @@
                 let newDiv = document.createElement('div');
                 newDiv.id = 'mainProfilePic';
                 newDiv.className = imgElement.className; 
-                newDiv.innerHTML = "{{ artista.nome[0].upper() }}";
+                newDiv.innerHTML = "{{ artista.nome.upper() }}";
                 imgElement.parentNode.replaceChild(newDiv, imgElement);
             }
         }
@@ -485,7 +464,7 @@
 
         async function accediEditor() {
             let inputPwd = document.getElementById("artistPassword").value.trim();
-            if (!inputPwd) { alert(dizionario[langCorrente].alert_no_pwd); return; }
+            if (!inputPwd) { alert(dizionario.alert_no_pwd); return; }
 
             let formData = new FormData();
             formData.append("password", inputPwd);
@@ -498,18 +477,22 @@
                 if (response.ok) {
                     passwordInserita = inputPwd; 
                     document.getElementById("passwordModal").style.display = "none";
-                    document.getElementById("mainEditorModal").style.display = "flex";
+                    document.getElementById("artistPassword").value = ""; 
                     
+                    // ATTIVAZIONE WYSIWYG
+                    document.body.classList.add('edit-mode');
+                    
+                    // Popola i link editabili basati su quelli correnti
                     let container = document.getElementById("linksContainer");
                     container.innerHTML = ""; 
                     linkCorrenti.forEach(l => aggiungiRigaLink(l.piattaforma, l.url));
-                    document.getElementById("artistPassword").value = ""; 
+                    
                 } else {
-                    alert(dizionario[langCorrente].alert_wrong_pwd);
+                    alert(dizionario.alert_wrong_pwd);
                     document.getElementById("artistPassword").value = "";
                 }
             } catch (error) {
-                alert(dizionario[langCorrente].alert_server_err);
+                alert(dizionario.alert_server_err);
             }
         }
 
@@ -518,9 +501,9 @@
             let row = document.createElement("div");
             row.className = "link-row";
             row.innerHTML = `
-                <input type="text" class="editor-input plat-input" value="${piattaforma}" placeholder="${dizionario[langCorrente].placeholder_plat}">
-                <input type="url" class="editor-input url-input" value="${url}" placeholder="${dizionario[langCorrente].placeholder_url}">
-                <button class="remove-btn" onclick="this.parentElement.remove()">X</button>
+                <input type="text" class="plat-input" value="${piattaforma}" placeholder="${dizionario.placeholder_plat}">
+                <input type="url" class="url-input" value="${url}" placeholder="${dizionario.placeholder_url}">
+                <button class="remove-btn" onclick="this.parentElement.remove()" title="Rimuovi Link"><i class="fas fa-trash"></i></button>
             `;
             container.appendChild(row);
         }
@@ -553,7 +536,7 @@
             }
 
             let btn = document.getElementById("btnSalva");
-            btn.innerText = dizionario[langCorrente].saving_btn;
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> ${dizionario.saving_btn}`;
             btn.disabled = true;
 
             try {
@@ -564,24 +547,27 @@
                 let esito = await response.json();
                 
                 if(response.ok) {
-                    alert(dizionario[langCorrente].alert_success);
+                    alert(dizionario.alert_success);
                     window.location.href = esito.nuovo_url; 
                 } else {
-                    alert(dizionario[langCorrente].alert_save_err + esito.detail);
-                    btn.innerText = dizionario[langCorrente].editor_save;
+                    alert(dizionario.alert_save_err + esito.detail);
+                    btn.innerHTML = `<i class="fas fa-save" style="margin-right: 8px;"></i> ${dizionario.editor_save}`;
                     btn.disabled = false;
                 }
             } catch (error) {
-                alert(dizionario[langCorrente].alert_server_err);
-                btn.innerText = dizionario[langCorrente].editor_save;
+                alert(dizionario.alert_server_err);
+                btn.innerHTML = `<i class="fas fa-save" style="margin-right: 8px;"></i> ${dizionario.editor_save}`;
                 btn.disabled = false;
             }
         }
 
+        // Chiusura menu cliccando fuori
         window.onclick = function(event) {
             if (!event.target.closest('.menu-container')) {
-                document.getElementById('editorMenu').classList.remove('show');
-                document.getElementById('langSubmenu').classList.remove('show');
+                let editMenu = document.getElementById('editorMenu');
+                let langMenu = document.getElementById('langSubmenu');
+                if (editMenu) editMenu.classList.remove('show');
+                if (langMenu) langMenu.classList.remove('show');
             }
         }
     </script>
