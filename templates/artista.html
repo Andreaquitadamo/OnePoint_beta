@@ -86,7 +86,7 @@
         /* ========================================= */
         
         .edit-only { display: none !important; }
-        .view-only { display: flex !important; } /* Oppure block/inline in base all'elemento */
+        .view-only { display: flex !important; }
         
         /* Attivazione modalità Editor */
         body.edit-mode .edit-only { display: flex !important; }
@@ -95,7 +95,7 @@
         
         /* Controlli flottanti Sfondo e Vetro */
         .floating-top-left { position: fixed; top: 20px; left: 20px; z-index: 1000; flex-direction: column; gap: 10px; }
-        .floating-top-left.edit-only { display: none; } /* Rispetta l'edit-mode */
+        .floating-top-left.edit-only { display: none; }
         body.edit-mode .floating-top-left { display: flex; }
         
         .action-icon-btn { background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.3); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s; backdrop-filter: blur(4px); font-size: 16px; }
@@ -260,6 +260,7 @@
                 glass_1: "Vetro Liv. 1",
                 glass_2: "Vetro Liv. 2",
                 glass_3: "Vetro Liv. 3",
+                editor_name_placeholder: "Il tuo nome d'arte",
                 editor_add_link: "+ Aggiungi Link",
                 editor_save: "Salva Modifiche",
                 alert_no_pwd: "Inserisci una password!",
@@ -281,6 +282,7 @@
                 glass_1: "Glass Lvl 1",
                 glass_2: "Glass Lvl 2",
                 glass_3: "Glass Lvl 3",
+                editor_name_placeholder: "Your stage name",
                 editor_add_link: "+ Add Link",
                 editor_save: "Save Changes",
                 alert_no_pwd: "Please enter a password!",
@@ -306,8 +308,9 @@
 
             document.querySelectorAll('').forEach(elemento => {
                 let chiave = elemento.getAttribute('data-i18n');
-                if (dizionario) {
-                    if(elemento.tagName.toLowerCase() === 'input' || elemento.tagName.toLowerCase() === 'button' && !elemento.children.length){
+                if (dizionario && dizionario) {
+                    // Controlla se è un input o un bottone senza icone dentro
+                    if(elemento.tagName.toLowerCase() === 'input' || (elemento.tagName.toLowerCase() === 'button' && !elemento.children.length)){
                         elemento.innerText = dizionario;
                     } else {
                         // Per bottoni con icone all'interno, per evitare di sovrascriverle
@@ -317,6 +320,7 @@
                 }
             });
 
+            document.getElementById('edit-nome').placeholder = dizionario.editor_name_placeholder || "Il tuo nome d'arte";
             document.getElementById('btnAddLink').innerText = dizionario.editor_add_link;
             document.querySelectorAll('.plat-input').forEach(el => el.placeholder = dizionario.placeholder_plat);
             document.querySelectorAll('.url-input').forEach(el => el.placeholder = dizionario.placeholder_url);
@@ -339,22 +343,23 @@
         let blobFotoProfilo = null;
         let blobSfondo = null;
 
-        // Array popolato da Jinja
+        // Array popolato da Jinja (Ripristinato)
         let linkCorrenti =;
 
+        // SCROLL FIXATO: Verifica sempre l'esistenza dell'elemento prima di applicare le classi
         window.addEventListener('scroll', () => {
             let pic = document.getElementById('mainProfilePic');
             let nameView = document.getElementById('artistNameDisplay');
             let nameEdit = document.getElementById('edit-nome');
             
             if (window.scrollY > 30) {
-                pic.classList.add('scrolled');
-                nameView.classList.add('scrolled');
-                nameEdit.style.fontSize = "16px";
+                if(pic) pic.classList.add('scrolled');
+                if(nameView) nameView.classList.add('scrolled');
+                if(nameEdit) nameEdit.style.fontSize = "16px";
             } else {
-                pic.classList.remove('scrolled');
-                nameView.classList.remove('scrolled');
-                nameEdit.style.fontSize = "22px";
+                if(pic) pic.classList.remove('scrolled');
+                if(nameView) nameView.classList.remove('scrolled');
+                if(nameEdit) nameEdit.style.fontSize = "22px";
             }
         });
 
