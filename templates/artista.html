@@ -236,8 +236,8 @@
 
     <!-- PULSANTE SALVA (Modalità Editor) -->
     <div class="floating-save-wrapper edit-only">
-        <button id="btnSalva" class="btn-save-floating" onclick="salvaModificheDatabase()" data-i18n="editor_save">
-            <i class="fas fa-save" style="margin-right: 8px;"></i> Salva Modifiche
+        <button id="btnSalva" class="btn-save-floating" onclick="salvaModificheDatabase()">
+            <i class="fas fa-save" style="margin-right: 8px;"></i> <span data-i18n="editor_save">Salva Modifiche</span>
         </button>
     </div>
 
@@ -308,14 +308,12 @@
 
             document.querySelectorAll('').forEach(elemento => {
                 let chiave = elemento.getAttribute('data-i18n');
-                if (dizionario && dizionario) {
-                    // Controlla se è un input o un bottone senza icone dentro
-                    if(elemento.tagName.toLowerCase() === 'input' || (elemento.tagName.toLowerCase() === 'button' && !elemento.children.length)){
-                        elemento.innerText = dizionario;
+                if (dizionario) {
+                    let spanTarget = elemento.querySelector('span');
+                    if(spanTarget) {
+                        spanTarget.innerText = dizionario;
                     } else {
-                        // Per bottoni con icone all'interno, per evitare di sovrascriverle
-                        let span = elemento.querySelector('span') || elemento;
-                        span.innerText = dizionario;
+                        elemento.innerText = dizionario;
                     }
                 }
             });
@@ -324,9 +322,6 @@
             document.getElementById('btnAddLink').innerText = dizionario.editor_add_link;
             document.querySelectorAll('.plat-input').forEach(el => el.placeholder = dizionario.placeholder_plat);
             document.querySelectorAll('.url-input').forEach(el => el.placeholder = dizionario.placeholder_url);
-            
-            let btnSalva = document.getElementById("btnSalva");
-            if (!btnSalva.disabled) btnSalva.innerHTML = `<i class="fas fa-save" style="margin-right: 8px;"></i> ${dizionario.editor_save}`;
         }
 
         // Funzione per anteprima in tempo reale del livello di opacità
@@ -343,7 +338,7 @@
         let blobFotoProfilo = null;
         let blobSfondo = null;
 
-        // Il ciclo Jinja per ricaricare i link esistenti nell'editor
+        // Questo è il pezzo di codice vitale che si era rotto nei miei messaggi precedenti
         let linkCorrenti =;
 
         // SCROLL
@@ -541,7 +536,7 @@
             }
 
             let btn = document.getElementById("btnSalva");
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> ${dizionario.saving_btn}`;
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> <span data-i18n="saving_btn">${dizionario.saving_btn}</span>`;
             btn.disabled = true;
 
             try {
@@ -556,12 +551,12 @@
                     window.location.href = esito.nuovo_url; 
                 } else {
                     alert(dizionario.alert_save_err + esito.detail);
-                    btn.innerHTML = `<i class="fas fa-save" style="margin-right: 8px;"></i> ${dizionario.editor_save}`;
+                    btn.innerHTML = `<i class="fas fa-save" style="margin-right: 8px;"></i> <span data-i18n="editor_save">${dizionario.editor_save}</span>`;
                     btn.disabled = false;
                 }
             } catch (error) {
                 alert(dizionario.alert_server_err);
-                btn.innerHTML = `<i class="fas fa-save" style="margin-right: 8px;"></i> ${dizionario.editor_save}`;
+                btn.innerHTML = `<i class="fas fa-save" style="margin-right: 8px;"></i> <span data-i18n="editor_save">${dizionario.editor_save}</span>`;
                 btn.disabled = false;
             }
         }
