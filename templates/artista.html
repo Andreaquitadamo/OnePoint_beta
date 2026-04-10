@@ -320,7 +320,7 @@
                 }
             });
 
-            document.getElementById('edit-nome').placeholder = dizionario.editor_name_placeholder || "Il tuo nome d'arte";
+            document.getElementById('edit-nome').placeholder = dizionario.editor_name_placeholder;
             document.getElementById('btnAddLink').innerText = dizionario.editor_add_link;
             document.querySelectorAll('.plat-input').forEach(el => el.placeholder = dizionario.placeholder_plat);
             document.querySelectorAll('.url-input').forEach(el => el.placeholder = dizionario.placeholder_url);
@@ -343,10 +343,10 @@
         let blobFotoProfilo = null;
         let blobSfondo = null;
 
-        // Array popolato da Jinja (Ripristinato)
+        // Il ciclo Jinja per ricaricare i link esistenti nell'editor
         let linkCorrenti =;
 
-        // SCROLL FIXATO: Verifica sempre l'esistenza dell'elemento prima di applicare le classi
+        // SCROLL
         window.addEventListener('scroll', () => {
             let pic = document.getElementById('mainProfilePic');
             let nameView = document.getElementById('artistNameDisplay');
