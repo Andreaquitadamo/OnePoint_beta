@@ -24,8 +24,11 @@ class Artista(Base):
     url_profilo = Column(String, nullable=True) 
     url_sfondo = Column(String, nullable=True)  
     
-    # NUOVA COLONNA PER IL VETRO (Aggiungi questa riga)
-    livello_vetro = Column(String, default="2")
+    # NUOVA COLONNA PER IL VETRO
+    livello_vetro = Column(String, default="3")
+    
+    # --- NUOVA COLONNA PER IL COLORE DI SFONDO ---
+    colore_sfondo = Column(String, default="#121212", nullable=True)
     
     links = relationship("Link", back_populates="artista")
 
