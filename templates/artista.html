@@ -44,7 +44,7 @@
         .link-btn i { position: absolute; left: 20px; font-size: 1.3em; }
         .link-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.4); }
 
-        /* MODIFICHE TASTO AGGIUNGI LINK (Tornato Glass Solid) */
+        /* MODIFICHE TASTO AGGIUNGI LINK (Glass Solid) */
         .btn-add-link { gap: 10px; border: 1px solid rgba(255,255,255,0.3) !important; background: rgba(0,0,0,0.3) !important; text-align: center; }
         .btn-add-link i { position: static; margin: 0; }
 
@@ -78,30 +78,34 @@
         
         body.is-editing .watermark { display: none; }
 
-        /* INPUT INLINE PER IL NOME */
-        .name-edit-wrapper { position: relative; margin-top: 12px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;}
-        input.inline-edit-name { background: transparent; border: none; color: white; font-size: 22px; text-align: center; font-weight: bold; width: auto; max-width: 80%; padding: 5px; font-family: inherit; text-shadow: 0 2px 5px rgba(0,0,0,0.8); transition: border 0.3s; border-bottom: 2px dashed transparent; }
+        /* INPUT INLINE PER IL NOME E ANIMAZIONE SCROLL */
+        .name-edit-wrapper { position: relative; margin-top: 12px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; transition: margin-top 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .name-edit-wrapper.scrolled { margin-top: 8px; }
+        
+        input.inline-edit-name { background: transparent; border: none; color: white; font-size: 22px; text-align: center; font-weight: bold; width: auto; max-width: 80%; padding: 5px; font-family: inherit; text-shadow: 0 2px 5px rgba(0,0,0,0.8); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-bottom: 2px dashed transparent; }
+        input.inline-edit-name.scrolled { font-size: 16px; }
         input.inline-edit-name:focus { outline: none; border-bottom: 2px dashed rgba(255,255,255,0.5); }
 
         /* CONTROLLI INLINE STILE VETRO E SFONDO */
-        .inline-controls-bar { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center; width: 100%; }
+        .inline-controls-bar { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center; width: 100%; transition: all 0.3s; }
         .mini-action-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 15px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: background 0.2s; }
         .mini-action-btn:hover { background: rgba(255,255,255,0.2); }
         select.mini-action-btn { appearance: none; -webkit-appearance: none; outline: none; }
         select.mini-action-btn option { background-color: #1e1e1e; color: #fff; }
 
-        /* BOTTONCINI SULLA FOTO PROFILO */
+        /* BOTTONCINI SULLA FOTO PROFILO (ORA STILE VETRO SEMITRASPARENTE) */
         .edit-pic-overlay { position: absolute; bottom: 0; right: -10px; display: flex; flex-direction: column; gap: 5px; }
-        .pic-btn { width: 35px; height: 35px; border-radius: 50%; background: #fff; color: #000; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); border: none; font-size: 14px; transition: transform 0.2s; }
-        .pic-btn:hover { transform: scale(1.1); }
-        .pic-btn.trash { background: #ff4d4d; color: #fff; }
+        .pic-btn { width: 35px; height: 35px; border-radius: 50%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); font-size: 14px; transition: all 0.2s; }
+        .pic-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+        .pic-btn.trash { background: rgba(255, 77, 77, 0.2); border-color: rgba(255, 77, 77, 0.4); color: #ff4d4d; }
+        .pic-btn.trash:hover { background: #ff4d4d; color: #fff; }
 
         /* LISTA LINK IN MODALITA' EDIT (Stile Pillola Solid) */
         #editLinksWrapper { flex-direction: column; width: 100%; }
         .link-edit-row { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); padding: 10px 15px; border-radius: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); box-sizing: border-box; }
-        .link-edit-text { color: #fff; font-weight: bold; font-size: 16px; flex-grow: 1; text-align: center; display: flex; align-items: center; justify-content: center; gap: 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-right: 50px; } /* padding per fare spazio alle icone a dx */
-        .link-edit-text i { position: static; font-size: 1.1em; opacity: 0.8; } /* Icna vicina al testo, come nel modale */
-        .link-edit-text span { flex-grow: 1; text-align: center; } /* Testo centrato all'interno del suo blocco */
+        .link-edit-text { color: #fff; font-weight: bold; font-size: 16px; flex-grow: 1; text-align: center; display: flex; align-items: center; justify-content: center; gap: 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-right: 0; }
+        .link-edit-text i { position: static; font-size: 1.1em; opacity: 0.8; }
+        .link-edit-text span { flex-grow: 1; text-align: center; }
         .link-actions { display: flex; gap: 8px; }
         .action-icon-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-size: 14px;}
         .action-icon-btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px);}
@@ -357,11 +361,23 @@
         ];
 
         window.addEventListener('scroll', () => {
-            if(document.body.classList.contains('is-editing')) return; // Disattiva l'animazione scroll in edit mode
+            // Effetto rimpicciolimento scroll sempre attivo (sia view che edit)
             let pic = document.getElementById('mainProfilePic');
             let name = document.getElementById('artistNameDisplay');
-            if (window.scrollY > 30) { pic.classList.add('scrolled'); name.classList.add('scrolled'); } 
-            else { pic.classList.remove('scrolled'); name.classList.remove('scrolled'); }
+            let inputName = document.getElementById('edit-nome');
+            let nameWrapper = document.querySelector('.name-edit-wrapper');
+            
+            if (window.scrollY > 30) { 
+                pic.classList.add('scrolled'); 
+                name.classList.add('scrolled'); 
+                if(inputName) inputName.classList.add('scrolled');
+                if(nameWrapper) nameWrapper.classList.add('scrolled');
+            } else { 
+                pic.classList.remove('scrolled'); 
+                name.classList.remove('scrolled'); 
+                if(inputName) inputName.classList.remove('scrolled');
+                if(nameWrapper) nameWrapper.classList.remove('scrolled');
+            }
         });
 
         /* --- LOGICA INGRESSO/USCITA EDITOR INLINE --- */
@@ -406,9 +422,8 @@
                 row.className = "link-edit-row";
                 let nomeVisibile = l.piattaforma ? l.piattaforma : "Nuovo Link (Vuoto)";
                 
-                // Ricentrati: padding a destra rimosso, layout flex centrato
                 row.innerHTML = `
-                    <div class="link-edit-text" style="padding-right: 0;"> 
+                    <div class="link-edit-text"> 
                         <i class="${getIcona(l.piattaforma)}"></i>
                         <span>${nomeVisibile}</span>
                     </div>
