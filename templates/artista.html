@@ -20,155 +20,110 @@
         }
 
         /* LIVELLI EFFETTO VETRO */
-        body[data-glass="1"] {
-            --glass-bg: rgba(255, 255, 255, 0.02);
-            --glass-bg-hover: rgba(255, 255, 255, 0.08);
-            --glass-blur: blur(2px);
-            --glass-border: rgba(255, 255, 255, 0.05);
-        }
-        body[data-glass="2"] {
-            --glass-bg: rgba(255, 255, 255, 0.06);
-            --glass-bg-hover: rgba(255, 255, 255, 0.15);
-            --glass-blur: blur(6px);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-        body[data-glass="3"] {
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-bg-hover: rgba(255, 255, 255, 0.25);
-            --glass-blur: blur(12px);
-            --glass-border: rgba(255, 255, 255, 0.2);
-        }
+        body[data-glass="1"] { --glass-bg: rgba(255, 255, 255, 0.02); --glass-bg-hover: rgba(255, 255, 255, 0.08); --glass-blur: blur(2px); --glass-border: rgba(255, 255, 255, 0.05); }
+        body[data-glass="2"] { --glass-bg: rgba(255, 255, 255, 0.06); --glass-bg-hover: rgba(255, 255, 255, 0.15); --glass-blur: blur(6px); --glass-border: rgba(255, 255, 255, 0.1); }
+        body[data-glass="3"] { --glass-bg: rgba(255, 255, 255, 0.1); --glass-bg-hover: rgba(255, 255, 255, 0.25); --glass-blur: blur(12px); --glass-border: rgba(255, 255, 255, 0.2); }
 
-        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; }
+        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; transition: background-image 0.3s; }
         body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); z-index: -1; }
         
-        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 90px; } 
+        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 120px; } 
         
         /* HEADER PROFILO */
-        .profile-header {
-            position: sticky;
-            top: 15px;
-            z-index: 900;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start; 
-            margin-bottom: 10px;
-            height: 180px; 
-            background-color: transparent; 
-        }
+        .profile-header { position: sticky; top: 15px; z-index: 900; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; margin-bottom: 10px; min-height: 180px; background-color: transparent; }
 
+        .profile-pic-wrapper { position: relative; display: inline-block; }
         .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #333; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #fff; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); margin: 0; }
-        
         .profile-pic.scrolled { width: 60px; height: 60px; font-size: 24px; border-width: 2px; }
         
         h1 { font-size: 22px; margin: 12px 0 0 0; text-shadow: 0 2px 5px rgba(0,0,0,0.8); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); white-space: normal; line-height: 1.2; padding: 0 10px; }
         h1.scrolled { font-size: 16px; margin-top: 8px; }
         
-        /* BOTTONI LINK CON VARIABILI CSS PER IL VETRO */
-        .link-btn { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; padding: 15px; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-        .link-btn i { position: absolute; left: 20px; font-size: 1.3em; }
+        /* BOTTONI LINK (VIEW MODE) */
+        .link-btn { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; padding: 15px; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.2); cursor: pointer; }
+        .link-btn i.fa-brands, .link-btn i.fa-solid { position: absolute; left: 20px; font-size: 1.3em; }
         .link-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.4); }
         
-        /* FILIGRANA (WATERMARK) AGGIORNATA */
-        .watermark { position: fixed; bottom: 15px; right: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.65); font-family: sans-serif; letter-spacing: 1px; z-index: 1000; display: flex; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: all 0.3s ease; }
-        .watermark a { color: rgba(255, 255, 255, 0.8); text-decoration: none; font-weight: bold; transition: color 0.2s; }
-        .watermark a:hover { color: #ffffff; text-decoration: underline; }
+        /* TASTI AZIONE TOP BAR */
+        .top-controls { position: fixed; top: 20px; left: 20px; right: 20px; z-index: 1001; display: flex; justify-content: space-between; align-items: flex-start; }
+        .action-btn { background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; padding: 10px 18px; border-radius: 20px; font-size: 15px; font-family: inherit; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .action-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.4); box-shadow: 0 6px 15px rgba(0,0,0,0.4); }
 
-        /* NUOVI TASTI AZIONE SULLA SCHERMATA PRINCIPALE */
-        .top-controls {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            z-index: 1001;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .action-btn {
-            background-color: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border);
-            color: #ffffff;
-            padding: 10px 18px;
-            border-radius: 20px;
-            font-size: 15px;
-            font-family: inherit;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .action-btn:hover {
-            background-color: var(--glass-bg-hover);
-            transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-        }
-
-        /* Sotto-menù Lingue */
+        /* SOTTO-MENU LINGUE */
         .lang-submenu { display: none; flex-direction: column; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; margin-top: 5px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .lang-submenu.show { display: flex; animation: fadeIn 0.2s ease; }
         .lang-item { padding: 12px 15px; cursor: pointer; color: white; border: none; background: none; text-align: left; font-size: 14px; font-weight: bold; transition: 0.2s; }
         .lang-item:hover { background-color: rgba(255,255,255,0.2); }
 
-        /* MODALI GLASSMORPHISM CON VARIABILI VETRO */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
-        .modal-content { background-color: rgba(30, 30, 30, 0.6); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; max-height: 85vh; overflow-y: auto; }
-        .modal-content::-webkit-scrollbar { width: 6px; }
-        .modal-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
+        /* FILIGRANA */
+        .watermark { position: fixed; bottom: 15px; right: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.65); font-family: sans-serif; letter-spacing: 1px; z-index: 1000; display: flex; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: all 0.3s ease; }
+        .watermark a { color: rgba(255, 255, 255, 0.8); text-decoration: none; font-weight: bold; transition: color 0.2s; }
+        .watermark a:hover { color: #ffffff; text-decoration: underline; }
+
+        /* =========================================
+           LOGICA INLINE EDITOR (VISIBILITA') 
+           ========================================= */
+        .edit-mode-only { display: none !important; }
+        body.is-editing .edit-mode-only { display: flex !important; }
+        body.is-editing .view-mode-only { display: none !important; }
+        
+        /* NASCONDI LA WATERMARK DURANTE L'EDIT PER FAR SPAZIO ALLA BARRA SALVA */
+        body.is-editing .watermark { display: none; }
+
+        /* INPUT INLINE PER IL NOME */
+        input.inline-edit-name { background: rgba(0,0,0,0.4); border: 1px dashed rgba(255,255,255,0.5); color: white; font-size: 22px; text-align: center; font-weight: bold; width: 100%; margin: 12px 0 0 0; padding: 5px 10px; border-radius: 10px; font-family: inherit; }
+        input.inline-edit-name:focus { outline: none; border-color: white; background: rgba(0,0,0,0.6); }
+
+        /* CONTROLLI INLINE STILE VETRO E SFONDO */
+        .inline-controls-bar { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center; width: 100%; }
+        .mini-action-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 12px; border-radius: 15px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .mini-action-btn:hover { background: rgba(255,255,255,0.2); }
+        select.mini-action-btn { appearance: none; -webkit-appearance: none; outline: none; }
+        select.mini-action-btn option { background-color: #1e1e1e; color: #fff; }
+
+        /* BOTTONCINI SULLA FOTO PROFILO */
+        .edit-pic-overlay { position: absolute; bottom: 0; right: -10px; display: flex; flex-direction: column; gap: 5px; }
+        .pic-btn { width: 35px; height: 35px; border-radius: 50%; background: #fff; color: #000; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); border: none; font-size: 14px; }
+        .pic-btn.trash { background: #ff4d4d; color: #fff; }
+
+        /* LISTA LINK IN MODALITA' EDIT */
+        #editLinksWrapper { flex-direction: column; width: 100%; }
+        .link-edit-row { display: flex; align-items: center; gap: 8px; width: 100%; margin-bottom: 15px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 15px; border: 1px dashed rgba(255,255,255,0.3); }
+        .link-edit-inputs { display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
+        .editor-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2); background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 14px; box-sizing: border-box; outline: none; }
+        .editor-input:focus { border-color: #fff; background-color: rgba(0, 0, 0, 0.6); }
+        .remove-link-btn { background: rgba(255, 77, 77, 0.2); border: 1px solid rgba(255, 77, 77, 0.5); color: #ff4d4d; border-radius: 8px; width: 45px; height: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s; }
+        .remove-link-btn:hover { background: #ff4d4d; color: #fff; }
+
+        /* BARRA DI SALVATAGGIO INFERIORE (VISIBILE SOLO IN EDIT MODE) */
+        .save-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(18, 18, 18, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 15px 20px; box-sizing: border-box; display: flex; gap: 15px; z-index: 2000; border-top: 1px solid rgba(255,255,255,0.1); transform: translateY(100%); transition: transform 0.3s ease; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
+        body.is-editing .save-bar { transform: translateY(0); display: flex !important; }
+        .btn-save-bar { flex: 1; padding: 14px; border-radius: 15px; font-weight: bold; font-size: 16px; border: none; cursor: pointer; transition: 0.2s; }
+        .btn-save-bar.primary { background: #fff; color: #000; }
+        .btn-save-bar.primary:hover { background: #e0e0e0; transform: translateY(-2px); }
+        .btn-save-bar.secondary { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+        .btn-save-bar.secondary:hover { background: rgba(255,255,255,0.2); }
+
+        /* MODALI (Password e Cropper) */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
+        .modal-content { background-color: rgba(30, 30, 30, 0.6); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #fff; cursor: pointer; transition: transform 0.2s; z-index: 10;}
         .close-modal:hover { transform: scale(1.2); }
-        
-        /* INPUT EDITOR */
-        select.editor-input { appearance: none; -webkit-appearance: none; cursor: pointer; }
-        select.editor-input option { background-color: #1e1e1e; color: #fff; }
-        .pwd-input, .editor-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(0, 0, 0, 0.3); color: #fff; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; outline: none; transition: border 0.3s; }
-        .pwd-input { text-align: center; font-family: monospace; font-size: 16px; }
-        .editor-input:focus, .pwd-input:focus { border-color: #fff; background-color: rgba(0, 0, 0, 0.5); }
-        
-        .modal-btn-submit { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; background-color: #fff; color: #121212; font-size: 16px; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
-        .modal-btn-submit:hover { background-color: #e0e0e0; transform: translateY(-2px); }
-        .modal-btn-secondary { background-color: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); }
-        .modal-btn-secondary:hover { background-color: rgba(255, 255, 255, 0.2); }
+        .pwd-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(0, 0, 0, 0.3); color: #fff; text-align: center; font-family: monospace; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
+        .pwd-input:focus { border-color: #fff; }
+        .modal-btn-submit { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; background-color: #fff; color: #121212; font-size: 16px; cursor: pointer; transition: 0.2s; }
+        .modal-btn-submit:hover { background-color: #e0e0e0; }
 
-        .editor-section { text-align: left; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
-        .editor-section h3 { font-size: 16px; margin-bottom: 15px; color: rgba(255,255,255,0.8); }
-        
-        .file-label { display: block; margin-bottom: 5px; font-size: 14px; cursor: pointer; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px dashed rgba(255,255,255,0.4); text-align: center; transition: all 0.2s; }
-        .file-label:hover { background: rgba(0,0,0,0.5); border-color: #fff; }
-        input[type="file"] { display: none; }
-        
-        /* PULSANTI RIMOZIONE IMMAGINI */
-        .btn-remove-img { background-color: rgba(255, 77, 77, 0.15); color: #ff4d4d; border: 1px solid rgba(255, 77, 77, 0.4); padding: 8px; border-radius: 8px; cursor: pointer; font-size: 12px; width: 100%; transition: all 0.2s; margin-bottom: 15px; font-weight: bold; }
-        .btn-remove-img:hover { background-color: #ff4d4d; color: white; border-color: #ff4d4d; }
-
-        .link-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
-        .link-row .editor-input { margin-bottom: 0; }
-        .link-row .plat-input { width: 35%; }
-        .link-row .url-input { width: 55%; }
-        .remove-btn { width: 10%; background: none; border: none; color: #ff4d4d; font-size: 18px; cursor: pointer; transition: transform 0.2s; }
-        .remove-btn:hover { transform: scale(1.2); color: #ff1a1a; }
-
-        /* OVERRIDE CROPPER UI PER TEMA SCURO */
+        /* OVERRIDE CROPPER UI */
         .cropper-view-box, .cropper-face { border-radius: 0; }
         .crop-profile-mode .cropper-view-box, .crop-profile-mode .cropper-face { border-radius: 50%; }
-        .cropper-modal { background-color: rgba(0,0,0,0.8); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        @media (min-width: 768px) { .profile-header { height: 210px; } .profile-pic { width: 130px; height: 130px; font-size: 50px; border-width: 4px; } h1 { font-size: 30px; margin-top: 20px; } h1.scrolled { font-size: 20px; } .link-btn { padding: 18px; font-size: 20px; border-radius: 40px; margin-bottom: 18px; } .watermark { bottom: 20px; right: 25px; font-size: 14px; } }
     </style>
 </head>
 <body data-glass="{% if artista.livello_vetro %}{{ artista.livello_vetro }}{% else %}3{% endif %}">
 
-    <div class="top-controls">
+    <div class="top-controls view-mode-only">
         <div style="position: relative;">
             <button class="action-btn" onclick="document.getElementById('langSubmenu').classList.toggle('show')">
                 <span id="currentFlag" style="margin-right: 5px;">🇮🇹</span> <i class="fas fa-chevron-down" style="font-size: 0.8em;"></i>
@@ -178,9 +133,8 @@
                 <button class="lang-item" onclick="cambiaLingua('en')">🇬🇧 English</button>
             </div>
         </div>
-
         <button class="action-btn" onclick="document.getElementById('passwordModal').style.display='flex'">
-            <i class="fas fa-pen"></i> <span data-i18n="btn_editor">Editor</span>
+            <i class="fas fa-pen"></i> <span data-i18n="btn_editor">Modifica</span>
         </button>
     </div>
 
@@ -193,54 +147,67 @@
         </div>
     </div>
 
-    <div id="mainEditorModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
-            <h2 data-i18n="editor_title">Editor Hub</h2>
-            
-            <div class="editor-section">
-                <h3 data-i18n="editor_profile">Profilo</h3>
-                <label style="font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 5px;" data-i18n="editor_name_label">Nome d'Arte</label>
-                <input type="text" id="edit-nome" class="editor-input" value="{{ artista.nome }}" placeholder="Il tuo nome d'arte">
+    <div class="container">
+        <div class="profile-header" id="stickyHeader">
+            <div class="profile-pic-wrapper">
+                {% if url_profilo %}
+                    <img id="mainProfilePic" src="{{ url_profilo }}" alt="{{ artista.nome }}" class="profile-pic">
+                {% else %}
+                    <div id="mainProfilePic" class="profile-pic">{{ artista.nome[0].upper() }}</div>
+                {% endif %}
+                
+                <div class="edit-mode-only edit-pic-overlay">
+                    <label class="pic-btn" title="Cambia Foto">
+                        <i class="fas fa-camera"></i>
+                        <input type="file" id="uploadProfile" accept="image/*" onchange="apriCropper(event, 'profile')" style="display:none;">
+                    </label>
+                    <button class="pic-btn trash" onclick="impostaRimozioneProfilo()" title="Rimuovi Foto"><i class="fas fa-trash"></i></button>
+                </div>
             </div>
 
-            <div class="editor-section">
-                <h3 data-i18n="editor_style">Stile</h3>
-                <label style="font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 5px;" data-i18n="editor_glass_label">Opacità Vetro</label>
-                <select id="edit-glass" class="editor-input" onchange="cambiaVetroPreview(this.value)">
-                    <option value="1" {% if artista.livello_vetro|string == '1' %}selected{% endif %} data-i18n="glass_1">Livello 1 (Leggero)</option>
-                    <option value="2" {% if artista.livello_vetro|string == '2' %}selected{% endif %} data-i18n="glass_2">Livello 2 (Medio)</option>
-                    <option value="3" {% if not artista.livello_vetro or artista.livello_vetro|string == '3' %}selected{% endif %} data-i18n="glass_3">Livello 3 (Opaco)</option>
+            <h1 id="artistNameDisplay" class="view-mode-only">{{ artista.nome }}</h1>
+            <input type="text" id="edit-nome" class="edit-mode-only inline-edit-name" value="{{ artista.nome }}" placeholder="Il tuo nome d'arte">
+            
+            <div class="edit-mode-only inline-controls-bar">
+                <label class="mini-action-btn">
+                    <i class="fas fa-image"></i> <span data-i18n="editor_change_bg">Sfondo</span>
+                    <input type="file" id="uploadBg" accept="image/*" onchange="apriCropper(event, 'bg')" style="display:none;">
+                </label>
+                <button class="mini-action-btn" style="color: #ff4d4d; border-color: rgba(255,77,77,0.5);" onclick="impostaRimozioneSfondo()">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <select id="edit-glass" class="mini-action-btn" onchange="cambiaVetroPreview(this.value)">
+                    <option value="1" {% if artista.livello_vetro|string == '1' %}selected{% endif %} data-i18n="glass_1">Vetro: Leggero</option>
+                    <option value="2" {% if artista.livello_vetro|string == '2' %}selected{% endif %} data-i18n="glass_2">Vetro: Medio</option>
+                    <option value="3" {% if not artista.livello_vetro or artista.livello_vetro|string == '3' %}selected{% endif %} data-i18n="glass_3">Vetro: Opaco</option>
                 </select>
             </div>
+        </div>
+        
+        <div id="activeLinksWrapper" class="view-mode-only" style="width: 100%;">
+            {% for link in links %}
+                <a href="{{ link.url }}" target="_blank" class="link-btn"><i class="{{ icona(link.piattaforma) }}"></i>{{ link.piattaforma }}</a>
+            {% endfor %}
+        </div>
 
-            <div class="editor-section">
-                <h3 data-i18n="editor_images">Immagini</h3>
-                
-                <label class="file-label">
-                    <i class="fas fa-user-circle"></i> <span data-i18n="editor_change_pic">Cambia Foto Profilo</span>
-                    <input type="file" id="uploadProfile" accept="image/*" onchange="apriCropper(event, 'profile')">
-                </label>
-                <button type="button" class="btn-remove-img" onclick="impostaRimozioneProfilo()"><i class="fas fa-trash"></i> <span data-i18n="editor_remove_pic">Rimuovi Foto Profilo</span></button>
-
-                <label class="file-label">
-                    <i class="fas fa-image"></i> <span data-i18n="editor_change_bg">Cambia Sfondo</span>
-                    <input type="file" id="uploadBg" accept="image/*" onchange="apriCropper(event, 'bg')">
-                </label>
-                <button type="button" class="btn-remove-img" onclick="impostaRimozioneSfondo()"><i class="fas fa-trash"></i> <span data-i18n="editor_remove_bg">Rimuovi Sfondo</span></button>
-            </div>
-
-            <div class="editor-section">
-                <h3 data-i18n="editor_links">I Tuoi Link</h3>
-                <div id="linksContainer"></div>
-                <button class="modal-btn-submit modal-btn-secondary" onclick="aggiungiRigaLink('', '')" id="btnAddLink">+ Aggiungi Link</button>
-            </div>
-            
-            <button id="btnSalva" class="modal-btn-submit" onclick="salvaModificheDatabase()" data-i18n="editor_save">Salva sul Server</button>
+        <div id="editLinksWrapper" class="edit-mode-only">
+            <div id="linksContainer" style="width: 100%;"></div>
+            <button class="link-btn" style="border: 2px dashed rgba(255,255,255,0.4); background: rgba(0,0,0,0.2);" onclick="aggiungiRigaLink('', '')" id="btnAddLink">
+                <i class="fas fa-plus" style="position: static; margin-right: 10px;"></i> Aggiungi Link
+            </button>
         </div>
     </div>
 
-    <div id="cropperModal" class="modal-overlay" style="z-index: 3000;">
+    <div class="save-bar edit-mode-only">
+        <button class="btn-save-bar secondary" onclick="esciEditor()" data-i18n="btn_cancel">Annulla</button>
+        <button id="btnSalva" class="btn-save-bar primary" onclick="salvaModificheDatabase()" data-i18n="editor_save">Salva Modifiche</button>
+    </div>
+
+    <div class="watermark view-mode-only">
+        <span>By <a href="https://www.instagram.com/andreaquitadamo__/" target="_blank">Andrea Quitadamo</a> & <a href="https://www.instagram.com/padox_04/" target="_blank">Federico Padovano</a></span>
+    </div>
+
+    <div id="cropperModal" class="modal-overlay" style="z-index: 4000;">
         <div class="modal-content" style="max-width: 500px; padding: 20px;">
             <span class="close-modal" onclick="chiudiCropper()">&times;</span>
             <h2 data-i18n="crop_title" style="margin-top: 0;">Ritaglia Immagine</h2>
@@ -251,136 +218,76 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="profile-header" id="stickyHeader">
-            {% if url_profilo %}
-                <img id="mainProfilePic" src="{{ url_profilo }}" alt="{{ artista.nome }}" class="profile-pic">
-            {% else %}
-                <div id="mainProfilePic" class="profile-pic">{{ artista.nome[0].upper() }}</div>
-            {% endif %}
-            <h1 id="artistNameDisplay">{{ artista.nome }}</h1>
-        </div>
-        
-        <div id="activeLinksWrapper">
-            {% for link in links %}
-                <a href="{{ link.url }}" target="_blank" class="link-btn"><i class="{{ icona(link.piattaforma) }}"></i>{{ link.piattaforma }}</a>
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class="watermark">
-        <span>By <a href="https://www.instagram.com/andreaquitadamo__/" target="_blank">Andrea Quitadamo</a> & <a href="https://www.instagram.com/padox_04/" target="_blank">Federico Padovano</a></span>
-    </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
     <script>
-        // --- DIZIONARIO LINGUE (i18n) ---
         const dizionario = {
             it: {
-                btn_editor: "Editor",
-                btn_lang: "Lingua",
+                btn_editor: "Modifica",
                 pwd_title: "Accesso Editor",
                 pwd_btn: "Accedi",
-                editor_title: "Editor Hub",
-                editor_profile: "Profilo",
-                editor_name_label: "Nome d'Arte",
-                editor_name_placeholder: "Il tuo nome d'arte",
-                editor_style: "Stile",
-                editor_glass_label: "Opacità Vetro",
-                glass_1: "Livello 1 (Leggero)",
-                glass_2: "Livello 2 (Medio)",
-                glass_3: "Livello 3 (Opaco)",
-                editor_images: "Immagini",
-                editor_change_pic: "Cambia Foto Profilo",
-                editor_remove_pic: "Rimuovi Foto Profilo",
-                editor_change_bg: "Cambia Sfondo",
-                editor_remove_bg: "Rimuovi Sfondo",
-                editor_links: "I Tuoi Link",
-                editor_add_link: "+ Aggiungi Link",
-                editor_save: "Salva sul Server",
+                editor_change_bg: "Sfondo",
+                glass_1: "Vetro: Leggero",
+                glass_2: "Vetro: Medio",
+                glass_3: "Vetro: Opaco",
+                placeholder_plat: "Es. Spotify, Instagram...",
+                placeholder_url: "https://...",
+                editor_save: "Salva Modifiche",
+                btn_cancel: "Annulla",
+                crop_title: "Posiziona e Ritaglia",
+                crop_btn: "Conferma",
                 alert_no_pwd: "Inserisci una password!",
                 alert_wrong_pwd: "Password errata. Riprova!",
                 alert_server_err: "Errore di comunicazione col server.",
                 alert_success: "Boom! Modifiche salvate con successo.",
-                alert_save_err: "Errore durante il salvataggio: ",
-                saving_btn: "Salvataggio in corso...",
-                placeholder_plat: "Nome",
-                placeholder_url: "URL",
-                crop_title: "Posiziona e Ritaglia",
-                crop_btn: "Conferma"
+                saving_btn: "Salvataggio..."
             },
             en: {
-                btn_editor: "Editor",
-                btn_lang: "Language",
+                btn_editor: "Edit",
                 pwd_title: "Editor Login",
                 pwd_btn: "Login",
-                editor_title: "Editor Hub",
-                editor_profile: "Profile",
-                editor_name_label: "Stage Name",
-                editor_name_placeholder: "Your stage name",
-                editor_style: "Style",
-                editor_glass_label: "Glass Opacity",
-                glass_1: "Level 1 (Light)",
-                glass_2: "Level 2 (Medium)",
-                glass_3: "Level 3 (Opaque)",
-                editor_images: "Images",
-                editor_change_pic: "Change Profile Picture",
-                editor_remove_pic: "Remove Profile Picture",
-                editor_change_bg: "Change Background",
-                editor_remove_bg: "Remove Background",
-                editor_links: "Your Links",
-                editor_add_link: "+ Add Link",
-                editor_save: "Save to Server",
+                editor_change_bg: "Background",
+                glass_1: "Glass: Light",
+                glass_2: "Glass: Medium",
+                glass_3: "Glass: Opaque",
+                placeholder_plat: "e.g., Spotify, Instagram...",
+                placeholder_url: "https://...",
+                editor_save: "Save Changes",
+                btn_cancel: "Cancel",
+                crop_title: "Position and Crop",
+                crop_btn: "Confirm",
                 alert_no_pwd: "Please enter a password!",
                 alert_wrong_pwd: "Wrong password. Try again!",
                 alert_server_err: "Server communication error.",
                 alert_success: "Boom! Changes saved successfully.",
-                alert_save_err: "Error during save: ",
-                saving_btn: "Saving...",
-                placeholder_plat: "Name",
-                placeholder_url: "URL",
-                crop_title: "Position and Crop",
-                crop_btn: "Confirm"
+                saving_btn: "Saving..."
             }
         };
 
         let langCorrente = 'it';
-
         function cambiaLingua(lang) {
             langCorrente = lang;
             document.getElementById('currentFlag').innerText = lang === 'it' ? '🇮🇹' : '🇬🇧';
             document.getElementById('langSubmenu').classList.remove('show');
-
-            document.querySelectorAll('[data-i18n]').forEach(elemento => {
-                let chiave = elemento.getAttribute('data-i18n');
-                if (dizionario[lang][chiave]) {
-                    elemento.innerText = dizionario[lang][chiave];
-                }
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                let key = el.getAttribute('data-i18n');
+                if (dizionario[lang][key]) el.innerText = dizionario[lang][key];
             });
-
-            document.getElementById('edit-nome').placeholder = dizionario[lang].editor_name_placeholder;
-            document.getElementById('btnAddLink').innerText = dizionario[lang].editor_add_link;
             document.querySelectorAll('.plat-input').forEach(el => el.placeholder = dizionario[lang].placeholder_plat);
             document.querySelectorAll('.url-input').forEach(el => el.placeholder = dizionario[lang].placeholder_url);
-            
-            let btnSalva = document.getElementById("btnSalva");
-            if (!btnSalva.disabled) btnSalva.innerText = dizionario[lang].editor_save;
         }
 
-        // Funzione per anteprima in tempo reale del livello di opacità
-        function cambiaVetroPreview(livello) {
-            document.body.setAttribute('data-glass', livello);
-        }
+        function cambiaVetroPreview(livello) { document.body.setAttribute('data-glass', livello); }
 
         let passwordInserita = "";
         let flagRimuoviProfilo = false;
         let flagRimuoviSfondo = false;
-        
         let cropperIstanza = null;
         let tipoRitaglio = ""; 
         let blobFotoProfilo = null;
         let blobSfondo = null;
+        
+        let urlSfondoOriginale = document.body.style.getPropertyValue('--bg-image');
 
         let linkCorrenti = [
             {% for link in links %}
@@ -389,121 +296,14 @@
         ];
 
         window.addEventListener('scroll', () => {
+            if(document.body.classList.contains('is-editing')) return; // Disattiva l'animazione scroll in edit mode
             let pic = document.getElementById('mainProfilePic');
             let name = document.getElementById('artistNameDisplay');
-            if (window.scrollY > 30) {
-                pic.classList.add('scrolled');
-                name.classList.add('scrolled');
-            } else {
-                pic.classList.remove('scrolled');
-                name.classList.remove('scrolled');
-            }
+            if (window.scrollY > 30) { pic.classList.add('scrolled'); name.classList.add('scrolled'); } 
+            else { pic.classList.remove('scrolled'); name.classList.remove('scrolled'); }
         });
 
-        // --- FUNZIONI CROPPER ---
-        function apriCropper(event, tipo) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                let imgToCrop = document.getElementById('imageToCrop');
-                imgToCrop.src = e.target.result;
-                document.getElementById('cropperModal').style.display = 'flex';
-                tipoRitaglio = tipo;
-
-                if (cropperIstanza) cropperIstanza.destroy();
-
-                let modalContent = document.querySelector('#cropperModal .modal-content');
-                if (tipo === 'profile') {
-                    modalContent.classList.add('crop-profile-mode');
-                } else {
-                    modalContent.classList.remove('crop-profile-mode');
-                }
-
-                cropperIstanza = new Cropper(imgToCrop, {
-                    aspectRatio: tipo === 'profile' ? 1 : NaN,
-                    viewMode: 1,
-                    dragMode: 'move',
-                    autoCropArea: 1,
-                    restore: false,
-                    guides: true,
-                    center: true,
-                    highlight: false,
-                    cropBoxMovable: tipo === 'bg',
-                    cropBoxResizable: tipo === 'bg',
-                    toggleDragModeOnDblclick: false,
-                });
-            }
-            reader.readAsDataURL(file);
-            event.target.value = ''; 
-        }
-
-        function chiudiCropper() {
-            document.getElementById('cropperModal').style.display = 'none';
-            if (cropperIstanza) {
-                cropperIstanza.destroy();
-                cropperIstanza = null;
-            }
-        }
-
-        function applicaTaglio() {
-            if (!cropperIstanza) return;
-
-            const canvas = cropperIstanza.getCroppedCanvas({
-                width: tipoRitaglio === 'profile' ? 500 : 1080,
-                height: tipoRitaglio === 'profile' ? 500 : undefined
-            });
-
-            canvas.toBlob(function(blob) {
-                const url = URL.createObjectURL(blob);
-
-                if (tipoRitaglio === 'profile') {
-                    flagRimuoviProfilo = false;
-                    blobFotoProfilo = blob; 
-                    
-                    let imgElement = document.getElementById('mainProfilePic');
-                    if(imgElement.tagName.toLowerCase() === 'div') {
-                        let newImg = document.createElement('img');
-                        newImg.id = 'mainProfilePic';
-                        newImg.className = imgElement.className;
-                        newImg.src = url;
-                        imgElement.parentNode.replaceChild(newImg, imgElement);
-                    } else {
-                        imgElement.src = url;
-                    }
-                } else if (tipoRitaglio === 'bg') {
-                    flagRimuoviSfondo = false;
-                    blobSfondo = blob; 
-                    document.body.style.setProperty('--bg-image', `url(${url})`);
-                }
-
-                chiudiCropper();
-            }, 'image/jpeg', 0.85); 
-        }
-
-        function impostaRimozioneProfilo() {
-            flagRimuoviProfilo = true;
-            blobFotoProfilo = null;
-            document.getElementById("uploadProfile").value = ""; 
-            
-            let imgElement = document.getElementById("mainProfilePic");
-            if(imgElement.tagName.toLowerCase() === 'img') {
-                let newDiv = document.createElement('div');
-                newDiv.id = 'mainProfilePic';
-                newDiv.className = imgElement.className; 
-                newDiv.innerHTML = "{{ artista.nome[0].upper() }}";
-                imgElement.parentNode.replaceChild(newDiv, imgElement);
-            }
-        }
-
-        function impostaRimozioneSfondo() {
-            flagRimuoviSfondo = true;
-            blobSfondo = null;
-            document.getElementById("uploadBg").value = ""; 
-            document.body.style.setProperty('--bg-image', 'none'); 
-        }
-
+        /* --- LOGICA INGRESSO/USCITA EDITOR INLINE --- */
         async function accediEditor() {
             let inputPwd = document.getElementById("artistPassword").value.trim();
             if (!inputPwd) { alert(dizionario[langCorrente].alert_no_pwd); return; }
@@ -512,19 +312,20 @@
             formData.append("password", inputPwd);
 
             try {
-                let response = await fetch("/{{ artista.id }}/verifica-password", {
-                    method: "POST", body: formData
-                });
-
+                let response = await fetch("/{{ artista.id }}/verifica-password", { method: "POST", body: formData });
                 if (response.ok) {
                     passwordInserita = inputPwd; 
                     document.getElementById("passwordModal").style.display = "none";
-                    document.getElementById("mainEditorModal").style.display = "flex";
+                    document.getElementById("artistPassword").value = ""; 
                     
+                    // Disegna i link in formato input
                     let container = document.getElementById("linksContainer");
                     container.innerHTML = ""; 
                     linkCorrenti.forEach(l => aggiungiRigaLink(l.piattaforma, l.url));
-                    document.getElementById("artistPassword").value = ""; 
+                    
+                    // Passa in Edit Mode
+                    document.body.classList.add('is-editing');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
                     alert(dizionario[langCorrente].alert_wrong_pwd);
                     document.getElementById("artistPassword").value = "";
@@ -534,20 +335,93 @@
             }
         }
 
+        function esciEditor() {
+            // Se si annulla, ricarichiamo brutalmente la pagina per resettare tutto allo stato originale (più sicuro e pulito)
+            window.location.reload(); 
+        }
+
         function aggiungiRigaLink(piattaforma, url) {
             let container = document.getElementById("linksContainer");
             let row = document.createElement("div");
-            row.className = "link-row";
+            row.className = "link-edit-row";
             row.innerHTML = `
-                <input type="text" class="editor-input plat-input" value="${piattaforma}" placeholder="${dizionario[langCorrente].placeholder_plat}">
-                <input type="url" class="editor-input url-input" value="${url}" placeholder="${dizionario[langCorrente].placeholder_url}">
-                <button class="remove-btn" onclick="this.parentElement.remove()">X</button>
+                <div class="link-edit-inputs">
+                    <input type="text" class="editor-input plat-input" value="${piattaforma}" placeholder="${dizionario[langCorrente].placeholder_plat}">
+                    <input type="url" class="editor-input url-input" value="${url}" placeholder="${dizionario[langCorrente].placeholder_url}">
+                </div>
+                <button class="remove-link-btn" onclick="this.parentElement.remove()" title="Rimuovi Link"><i class="fas fa-trash"></i></button>
             `;
             container.appendChild(row);
         }
 
+        /* --- LOGICA CROPPER (Resta invariata, usa il modale per ritagliare) --- */
+        function apriCropper(event, tipo) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                let imgToCrop = document.getElementById('imageToCrop');
+                imgToCrop.src = e.target.result;
+                document.getElementById('cropperModal').style.display = 'flex';
+                tipoRitaglio = tipo;
+                if (cropperIstanza) cropperIstanza.destroy();
+                let modalContent = document.querySelector('#cropperModal .modal-content');
+                if (tipo === 'profile') modalContent.classList.add('crop-profile-mode');
+                else modalContent.classList.remove('crop-profile-mode');
+
+                cropperIstanza = new Cropper(imgToCrop, { aspectRatio: tipo === 'profile' ? 1 : NaN, viewMode: 1, dragMode: 'move', autoCropArea: 1, restore: false, guides: true, center: true, highlight: false, cropBoxMovable: tipo === 'bg', cropBoxResizable: tipo === 'bg', toggleDragModeOnDblclick: false });
+            }
+            reader.readAsDataURL(file);
+            event.target.value = ''; 
+        }
+
+        function chiudiCropper() {
+            document.getElementById('cropperModal').style.display = 'none';
+            if (cropperIstanza) { cropperIstanza.destroy(); cropperIstanza = null; }
+        }
+
+        function applicaTaglio() {
+            if (!cropperIstanza) return;
+            const canvas = cropperIstanza.getCroppedCanvas({ width: tipoRitaglio === 'profile' ? 500 : 1080, height: tipoRitaglio === 'profile' ? 500 : undefined });
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                if (tipoRitaglio === 'profile') {
+                    flagRimuoviProfilo = false; blobFotoProfilo = blob; 
+                    let imgElement = document.getElementById('mainProfilePic');
+                    if(imgElement.tagName.toLowerCase() === 'div') {
+                        let newImg = document.createElement('img');
+                        newImg.id = 'mainProfilePic'; newImg.className = imgElement.className; newImg.src = url;
+                        imgElement.parentNode.replaceChild(newImg, imgElement);
+                    } else { imgElement.src = url; }
+                } else if (tipoRitaglio === 'bg') {
+                    flagRimuoviSfondo = false; blobSfondo = blob; 
+                    document.body.style.setProperty('--bg-image', `url(${url})`);
+                }
+                chiudiCropper();
+            }, 'image/jpeg', 0.85); 
+        }
+
+        function impostaRimozioneProfilo() {
+            flagRimuoviProfilo = true; blobFotoProfilo = null;
+            document.getElementById("uploadProfile").value = ""; 
+            let imgElement = document.getElementById("mainProfilePic");
+            if(imgElement.tagName.toLowerCase() === 'img') {
+                let newDiv = document.createElement('div');
+                newDiv.id = 'mainProfilePic'; newDiv.className = imgElement.className; 
+                newDiv.innerHTML = "{{ artista.nome[0].upper() }}";
+                imgElement.parentNode.replaceChild(newDiv, imgElement);
+            }
+        }
+
+        function impostaRimozioneSfondo() {
+            flagRimuoviSfondo = true; blobSfondo = null;
+            document.getElementById("uploadBg").value = ""; 
+            document.body.style.setProperty('--bg-image', 'none'); 
+        }
+
+        /* --- SALVATAGGIO FINALE --- */
         async function salvaModificheDatabase() {
-            let righe = document.querySelectorAll('.link-row');
+            let righe = document.querySelectorAll('.link-edit-row');
             let nuoviLinks = [];
             righe.forEach(r => {
                 let p = r.querySelector('.plat-input').value.trim();
@@ -559,51 +433,36 @@
             formData.append("password", passwordInserita);
             formData.append("links", JSON.stringify(nuoviLinks));
             formData.append("nuovo_nome", document.getElementById("edit-nome").value.trim());
-            
-            // Invio il livello vetro
             formData.append("livello_vetro", document.getElementById("edit-glass").value);
-            
             formData.append("rimuovi_profilo", flagRimuoviProfilo ? "true" : "false");
             formData.append("rimuovi_sfondo", flagRimuoviSfondo ? "true" : "false");
-
-            if (blobFotoProfilo) {
-                formData.append("foto_profilo", blobFotoProfilo, "profilo_ritagliato.jpg");
-            }
-            if (blobSfondo) {
-                formData.append("sfondo", blobSfondo, "sfondo_ritagliato.jpg");
-            }
+            
+            if (blobFotoProfilo) formData.append("foto_profilo", blobFotoProfilo, "profilo_ritagliato.jpg");
+            if (blobSfondo) formData.append("sfondo", blobSfondo, "sfondo_ritagliato.jpg");
 
             let btn = document.getElementById("btnSalva");
             btn.innerText = dizionario[langCorrente].saving_btn;
             btn.disabled = true;
 
             try {
-                let response = await fetch("/{{ artista.id }}/salva", {
-                    method: "POST", body: formData
-                });
-
+                let response = await fetch("/{{ artista.id }}/salva", { method: "POST", body: formData });
                 let esito = await response.json();
                 
                 if(response.ok) {
                     alert(dizionario[langCorrente].alert_success);
                     window.location.href = esito.nuovo_url; 
                 } else {
-                    alert(dizionario[langCorrente].alert_save_err + esito.detail);
-                    btn.innerText = dizionario[langCorrente].editor_save;
-                    btn.disabled = false;
+                    alert("Errore: " + esito.detail);
+                    btn.innerText = dizionario[langCorrente].editor_save; btn.disabled = false;
                 }
             } catch (error) {
                 alert(dizionario[langCorrente].alert_server_err);
-                btn.innerText = dizionario[langCorrente].editor_save;
-                btn.disabled = false;
+                btn.innerText = dizionario[langCorrente].editor_save; btn.disabled = false;
             }
         }
 
         window.onclick = function(event) {
-            // Chiudi il sottomenu delle lingue se si clicca fuori dall'area dei controlli
-            if (!event.target.closest('.top-controls')) {
-                document.getElementById('langSubmenu').classList.remove('show');
-            }
+            if (!event.target.closest('.top-controls')) { document.getElementById('langSubmenu').classList.remove('show'); }
         }
     </script>
 </body>
