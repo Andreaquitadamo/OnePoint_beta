@@ -44,9 +44,8 @@
         .link-btn i { position: absolute; left: 20px; font-size: 1.3em; }
         .link-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.4); }
 
-        /* MODIFICHE TASTO AGGIUNGI LINK */
-        .btn-add-link { gap: 10px; border: 1px solid rgba(255,255,255,0.3) !important; background: rgba(0,0,0,0.3) !important; }
-        .btn-add-link i { position: static; margin: 0; } /* Rimuove l'absolute per far stare l'icona vicina al testo */
+        .btn-add-link { gap: 10px; border: 1px dashed rgba(255,255,255,0.4) !important; background: rgba(0,0,0,0.2) !important; }
+        .btn-add-link i { position: static; margin: 0; }
 
         /* MENU A TENDINA (TRE PUNTINI) */
         .menu-container { position: fixed; top: 20px; right: 20px; z-index: 1001; }
@@ -78,9 +77,10 @@
         
         body.is-editing .watermark { display: none; }
 
-        /* INPUT INLINE PER IL NOME */
-        input.inline-edit-name { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 22px; text-align: center; font-weight: bold; width: 100%; margin: 12px 0 0 0; padding: 5px 10px; border-radius: 10px; font-family: inherit; transition: border 0.3s; }
-        input.inline-edit-name:focus { outline: none; border-color: rgba(255,255,255,0.6); background: rgba(0,0,0,0.6); }
+        /* INPUT INLINE PER IL NOME (Completamente trasparente) */
+        .name-edit-wrapper { position: relative; margin-top: 12px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        input.inline-edit-name { background: transparent; border: none; color: white; font-size: 22px; text-align: center; font-weight: bold; width: auto; max-width: 80%; padding: 5px; font-family: inherit; text-shadow: 0 2px 5px rgba(0,0,0,0.8); transition: border 0.3s; border-bottom: 2px dashed transparent; }
+        input.inline-edit-name:focus { outline: none; border-bottom: 2px dashed rgba(255,255,255,0.5); }
 
         /* CONTROLLI INLINE STILE VETRO E SFONDO */
         .inline-controls-bar { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center; width: 100%; }
@@ -95,14 +95,15 @@
         .pic-btn:hover { transform: scale(1.1); }
         .pic-btn.trash { background: #ff4d4d; color: #fff; }
 
-        /* LISTA LINK IN MODALITA' EDIT */
+        /* LISTA LINK IN MODALITA' EDIT (Stile Pillola) */
         #editLinksWrapper { flex-direction: column; width: 100%; }
-        .link-edit-row { display: flex; align-items: center; gap: 8px; width: 100%; margin-bottom: 15px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.15); box-sizing: border-box; }
-        .link-edit-inputs { display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
-        .editor-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2); background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 14px; box-sizing: border-box; outline: none; transition: border 0.3s; }
-        .editor-input:focus { border-color: rgba(255,255,255,0.6); background-color: rgba(0, 0, 0, 0.6); }
-        .remove-link-btn { background: rgba(255, 77, 77, 0.2); border: 1px solid rgba(255, 77, 77, 0.3); color: #ff4d4d; border-radius: 8px; width: 45px; height: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s; }
-        .remove-link-btn:hover { background: #ff4d4d; color: #fff; }
+        .link-edit-row { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); padding: 10px 15px; border-radius: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); box-sizing: border-box; }
+        .link-edit-text { color: #fff; font-weight: bold; font-size: 16px; flex-grow: 1; text-align: left; display: flex; align-items: center; gap: 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .link-actions { display: flex; gap: 8px; }
+        .action-icon-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-size: 14px;}
+        .action-icon-btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px);}
+        .action-icon-btn.trash { background: rgba(255,77,77,0.2); border-color: rgba(255,77,77,0.4); color: #ff4d4d; }
+        .action-icon-btn.trash:hover { background: #ff4d4d; color: #fff; }
 
         /* BARRA DI SALVATAGGIO INFERIORE */
         .save-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(18, 18, 18, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 15px 20px; box-sizing: border-box; display: flex; gap: 15px; z-index: 2000; border-top: 1px solid rgba(255,255,255,0.1); transform: translateY(100%); transition: transform 0.3s ease; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
@@ -113,14 +114,15 @@
         .btn-save-bar.secondary { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
         .btn-save-bar.secondary:hover { background: rgba(255,255,255,0.2); }
 
-        /* MODALI (Password e Cropper) */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
+        /* MODALI (Password, Cropper, Edit Link) */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
         .modal-content { background-color: rgba(30, 30, 30, 0.6); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #fff; cursor: pointer; transition: transform 0.2s; z-index: 10;}
         .close-modal:hover { transform: scale(1.2); }
-        .pwd-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(0, 0, 0, 0.3); color: #fff; text-align: center; font-family: monospace; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
-        .pwd-input:focus { border-color: rgba(255,255,255,0.6); }
-        .modal-btn-submit { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; background-color: #fff; color: #121212; font-size: 16px; cursor: pointer; transition: 0.2s; }
+        .pwd-input, .editor-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(0, 0, 0, 0.3); color: #fff; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; outline: none; transition: border 0.3s; }
+        .pwd-input { text-align: center; font-family: monospace; font-size: 16px; }
+        .pwd-input:focus, .editor-input:focus { border-color: rgba(255,255,255,0.6); }
+        .modal-btn-submit { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; background-color: #fff; color: #121212; font-size: 16px; cursor: pointer; transition: 0.2s; margin-top: 10px; }
         .modal-btn-submit:hover { background-color: #e0e0e0; }
 
         /* OVERRIDE CROPPER UI */
@@ -138,6 +140,10 @@
         </button>
         
         <div id="mainMenu" class="dropdown-menu">
+            <button class="dropdown-item" onclick="document.getElementById('passwordModal').style.display='flex'; document.getElementById('mainMenu').classList.remove('show');">
+                <i class="fas fa-pen"></i> <span data-i18n="btn_editor">Modifica</span>
+            </button>
+            
             <button class="dropdown-item" onclick="document.getElementById('langSubmenu').classList.toggle('show')">
                 <span id="currentFlag" style="margin-right: 12px;">🇮🇹</span> <span data-i18n="btn_lang">Lingua</span> <i class="fas fa-chevron-down" style="margin-left: auto; margin-right: 0;"></i>
             </button>
@@ -145,10 +151,6 @@
                 <button class="lang-item" onclick="cambiaLingua('it')">🇮🇹 Italiano</button>
                 <button class="lang-item" onclick="cambiaLingua('en')">🇬🇧 English</button>
             </div>
-            
-            <button class="dropdown-item" onclick="document.getElementById('passwordModal').style.display='flex'; document.getElementById('mainMenu').classList.remove('show');">
-                <i class="fas fa-pen"></i> <span data-i18n="btn_editor">Modifica</span>
-            </button>
         </div>
     </div>
 
@@ -158,6 +160,23 @@
             <h2 data-i18n="pwd_title">Accesso Editor</h2>
             <input type="password" id="artistPassword" class="pwd-input" placeholder="Password">
             <button class="modal-btn-submit" onclick="accediEditor()" data-i18n="pwd_btn">Accedi</button>
+        </div>
+    </div>
+
+    <div id="editSingleLinkModal" class="modal-overlay" style="z-index: 4000;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="chiudiModaleLink()">&times;</span>
+            <h2 data-i18n="edit_link_title" style="margin-top: 0; margin-bottom: 20px;">Modifica Link</h2>
+            
+            <input type="hidden" id="editingLinkIndex">
+            
+            <label style="font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 5px; text-align: left;" data-i18n="placeholder_plat">Nome Piattaforma</label>
+            <input type="text" id="single-link-plat" class="editor-input" placeholder="Es. Spotify">
+            
+            <label style="font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 5px; text-align: left;" data-i18n="placeholder_url">URL</label>
+            <input type="url" id="single-link-url" class="editor-input" placeholder="https://...">
+            
+            <button class="modal-btn-submit" onclick="salvaModaleLink()" data-i18n="crop_btn">Conferma</button>
         </div>
     </div>
 
@@ -180,7 +199,11 @@
             </div>
 
             <h1 id="artistNameDisplay" class="view-mode-only">{{ artista.nome }}</h1>
-            <input type="text" id="edit-nome" class="edit-mode-only inline-edit-name" value="{{ artista.nome }}" placeholder="Il tuo nome d'arte">
+            
+            <div class="edit-mode-only name-edit-wrapper">
+                <input type="text" id="edit-nome" class="inline-edit-name" value="{{ artista.nome }}" placeholder="Il tuo nome d'arte" title="Clicca per modificare">
+                <i class="fas fa-pen" style="font-size: 12px; color: rgba(255,255,255,0.5);"></i>
+            </div>
             
             <div class="edit-mode-only inline-controls-bar">
                 <label class="mini-action-btn">
@@ -206,7 +229,7 @@
 
         <div id="editLinksWrapper" class="edit-mode-only">
             <div id="linksContainer" style="width: 100%;"></div>
-            <button class="link-btn btn-add-link" onclick="aggiungiRigaLink('', '')" id="btnAddLink">
+            <button class="link-btn btn-add-link" onclick="aggiungiRigaLink()" id="btnAddLink">
                 <i class="fas fa-plus"></i> <span data-i18n="editor_add_link">Aggiungi Link</span>
             </button>
         </div>
@@ -221,7 +244,7 @@
         <span>By <a href="https://www.instagram.com/andreaquitadamo__/" target="_blank">Andrea Quitadamo</a> & <a href="https://www.instagram.com/padox_04/" target="_blank">Federico Padovano</a></span>
     </div>
 
-    <div id="cropperModal" class="modal-overlay" style="z-index: 4000;">
+    <div id="cropperModal" class="modal-overlay" style="z-index: 5000;">
         <div class="modal-content" style="max-width: 500px; padding: 20px;">
             <span class="close-modal" onclick="chiudiCropper()">&times;</span>
             <h2 data-i18n="crop_title" style="margin-top: 0;">Ritaglia Immagine</h2>
@@ -241,6 +264,7 @@
                 btn_lang: "Lingua",
                 pwd_title: "Accesso Editor",
                 pwd_btn: "Accedi",
+                edit_link_title: "Dettagli Link",
                 editor_change_bg: "Sfondo",
                 glass_1: "Vetro: Leggero",
                 glass_2: "Vetro: Medio",
@@ -263,6 +287,7 @@
                 btn_lang: "Language",
                 pwd_title: "Editor Login",
                 pwd_btn: "Login",
+                edit_link_title: "Link Details",
                 editor_change_bg: "Background",
                 glass_1: "Glass: Light",
                 glass_2: "Glass: Medium",
@@ -291,11 +316,27 @@
                 let key = el.getAttribute('data-i18n');
                 if (dizionario[lang][key]) el.innerText = dizionario[lang][key];
             });
-            document.querySelectorAll('.plat-input').forEach(el => el.placeholder = dizionario[lang].placeholder_plat);
-            document.querySelectorAll('.url-input').forEach(el => el.placeholder = dizionario[lang].placeholder_url);
+            document.getElementById('single-link-plat').placeholder = dizionario[lang].placeholder_plat;
+            document.getElementById('single-link-url').placeholder = dizionario[lang].placeholder_url;
         }
 
         function cambiaVetroPreview(livello) { document.body.setAttribute('data-glass', livello); }
+
+        // Mappatura Icone JS (Simula quella di Jinja)
+        function getIcona(nome) {
+            if (!nome) return 'fas fa-link';
+            let n = nome.toLowerCase();
+            if(n.includes('spotify')) return 'fab fa-spotify';
+            if(n.includes('instagram')) return 'fab fa-instagram';
+            if(n.includes('apple')) return 'fab fa-apple';
+            if(n.includes('youtube')) return 'fab fa-youtube';
+            if(n.includes('tiktok')) return 'fab fa-tiktok';
+            if(n.includes('facebook')) return 'fab fa-facebook';
+            if(n.includes('twitter') || n.includes('x')) return 'fab fa-x-twitter';
+            if(n.includes('soundcloud')) return 'fab fa-soundcloud';
+            if(n.includes('twitch')) return 'fab fa-twitch';
+            return 'fas fa-link';
+        }
 
         let passwordInserita = "";
         let flagRimuoviProfilo = false;
@@ -305,8 +346,7 @@
         let blobFotoProfilo = null;
         let blobSfondo = null;
         
-        let urlSfondoOriginale = document.body.style.getPropertyValue('--bg-image');
-
+        // Array che fa da "Sorgente di Verità" per i link in edit mode
         let linkCorrenti = [
             {% for link in links %}
                 {piattaforma: "{{ link.piattaforma }}", url: "{{ link.url }}"},
@@ -336,10 +376,7 @@
                     document.getElementById("passwordModal").style.display = "none";
                     document.getElementById("artistPassword").value = ""; 
                     
-                    // Disegna i link in formato input
-                    let container = document.getElementById("linksContainer");
-                    container.innerHTML = ""; 
-                    linkCorrenti.forEach(l => aggiungiRigaLink(l.piattaforma, l.url));
+                    disegnaLinkEdit(); // Costruisce i link a pillola
                     
                     // Passa in Edit Mode
                     document.body.classList.add('is-editing');
@@ -357,18 +394,61 @@
             window.location.reload(); 
         }
 
-        function aggiungiRigaLink(piattaforma, url) {
+        /* --- LOGICA GESTIONE LINK A PILLOLA E MODALE --- */
+        function disegnaLinkEdit() {
             let container = document.getElementById("linksContainer");
-            let row = document.createElement("div");
-            row.className = "link-edit-row";
-            row.innerHTML = `
-                <div class="link-edit-inputs">
-                    <input type="text" class="editor-input plat-input" value="${piattaforma}" placeholder="${dizionario[langCorrente].placeholder_plat}">
-                    <input type="url" class="editor-input url-input" value="${url}" placeholder="${dizionario[langCorrente].placeholder_url}">
-                </div>
-                <button class="remove-link-btn" onclick="this.parentElement.remove()" title="Rimuovi Link"><i class="fas fa-trash"></i></button>
-            `;
-            container.appendChild(row);
+            container.innerHTML = ""; 
+            linkCorrenti.forEach((l, index) => {
+                let row = document.createElement("div");
+                row.className = "link-edit-row";
+                let nomeVisibile = l.piattaforma ? l.piattaforma : "Nuovo Link (Vuoto)";
+                
+                row.innerHTML = `
+                    <div class="link-edit-text">
+                        <i class="${getIcona(l.piattaforma)}"></i>
+                        <span>${nomeVisibile}</span>
+                    </div>
+                    <div class="link-actions">
+                        <button class="action-icon-btn" onclick="apriModaleLink(${index})" title="Modifica"><i class="fas fa-pen"></i></button>
+                        <button class="action-icon-btn trash" onclick="rimuoviLink(${index})" title="Rimuovi"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function aggiungiRigaLink() {
+            linkCorrenti.push({piattaforma: "", url: ""});
+            disegnaLinkEdit();
+            apriModaleLink(linkCorrenti.length - 1); // Apre subito il modale per il nuovo link
+        }
+
+        function rimuoviLink(index) {
+            linkCorrenti.splice(index, 1);
+            disegnaLinkEdit();
+        }
+
+        function apriModaleLink(index) {
+            document.getElementById("editingLinkIndex").value = index;
+            document.getElementById("single-link-plat").value = linkCorrenti[index].piattaforma;
+            document.getElementById("single-link-url").value = linkCorrenti[index].url;
+            document.getElementById("editSingleLinkModal").style.display = "flex";
+        }
+
+        function chiudiModaleLink() {
+            document.getElementById("editSingleLinkModal").style.display = "none";
+        }
+
+        function salvaModaleLink() {
+            let index = document.getElementById("editingLinkIndex").value;
+            let plat = document.getElementById("single-link-plat").value.trim();
+            let url = document.getElementById("single-link-url").value.trim();
+            
+            linkCorrenti[index].piattaforma = plat;
+            linkCorrenti[index].url = url;
+            
+            chiudiModaleLink();
+            disegnaLinkEdit(); // Aggiorna la vista
         }
 
         /* --- LOGICA CROPPER --- */
@@ -438,13 +518,8 @@
 
         /* --- SALVATAGGIO FINALE --- */
         async function salvaModificheDatabase() {
-            let righe = document.querySelectorAll('.link-edit-row');
-            let nuoviLinks = [];
-            righe.forEach(r => {
-                let p = r.querySelector('.plat-input').value.trim();
-                let u = r.querySelector('.url-input').value.trim();
-                if (p && u) nuoviLinks.push({piattaforma: p, url: u});
-            });
+            // Filtra via i link lasciati in bianco
+            let nuoviLinks = linkCorrenti.filter(l => l.piattaforma.trim() !== "" && l.url.trim() !== "");
 
             let formData = new FormData();
             formData.append("password", passwordInserita);
