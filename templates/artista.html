@@ -28,8 +28,7 @@
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; transition: background-image 0.3s; }
         body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background-color: rgba(0, 0, 0, 0.4); z-index: -1; }
         
-        /* CUSCINETTO ANTI-LOOP AUMENTATO A 150px */
-        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 150px; } 
+        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 60px; } 
         
         /* ---------------------------------------------------
            MASCHERA CAMALEONTICA PER FAR SPARIRE I LINK
@@ -45,7 +44,8 @@
         .header-mask::before {
             content: "";
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
+            top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; 
+            background-color: #121212; /* <-- LA MAGIA E' QUI: Previene il doppio nero! */
             background-image: var(--bg-image);
             background-repeat: no-repeat;
             background-position: center center;
@@ -80,7 +80,7 @@
         .btn-add-link { gap: 10px; border: 1px solid rgba(255,255,255,0.3) !important; background: rgba(0,0,0,0.3) !important; text-align: center; }
         .btn-add-link i { position: static; margin: 0; }
 
-        /* MENU A TENDINA (TRE PUNTINI) E TASTI AZIONE IN ALTO A DESTRA */
+        /* MENU A TENDINA E TASTI AZIONE IN ALTO A DESTRA */
         .menu-container { position: fixed; top: 20px; right: 20px; z-index: 1001; }
         .menu-btn { width: 45px; height: 45px; border-radius: 50%; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
         .menu-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border-color: rgba(255, 255, 255, 0.4); }
