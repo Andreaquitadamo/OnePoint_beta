@@ -59,8 +59,8 @@
             z-index: -1;
         }
 
-        /* HEADER PROFILO */
-        .profile-header { position: sticky; top: 15px; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; margin-bottom: 10px; min-height: 180px; background-color: transparent; }
+        /* HEADER PROFILO (Rimossa min-height per farlo aderire al contenuto) */
+        .profile-header { position: sticky; top: 15px; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; margin-bottom: 25px; background-color: transparent; }
 
         .profile-pic-wrapper { position: relative; display: inline-block; }
         .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #333; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #fff; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); margin: 0; }
@@ -394,18 +394,33 @@
 
         /* --- LOGICA AGGIORNAMENTO MASCHERA --- */
         function updateMaskHeight() {
-            let header = document.getElementById('stickyHeader');
             let mask = document.getElementById('headerMask');
-            if(header && mask) {
-                let rect = header.getBoundingClientRect();
-                // Copre perfettamente fino al bordo inferiore dell'header
-                mask.style.height = (rect.bottom + 5) + 'px'; 
+            if (!mask) return;
+            
+            if (document.body.classList.contains('is-editing')) {
+                // In edit mode la maschera copre fino alla fine della barra dei controlli
+                let controls = document.querySelector('.inline-controls-bar');
+                if (controls) {
+                    let rect = controls.getBoundingClientRect();
+                    mask.style.height = (rect.bottom + 15) + 'px';
+                }
+            } else {
+                // In view mode la maschera taglia esattamente sotto il nome dell'artista
+                let name = document.getElementById('artistNameDisplay');
+                if (name) {
+                    let rect = name.getBoundingClientRect();
+                    mask.style.height = (rect.bottom + 15) + 'px'; 
+                }
             }
         }
         
-        // Inizializza la maschera al caricamento e resize
+        // Inizializza la maschera al caricamento, resize, e alla fine delle animazioni CSS
         window.addEventListener('resize', updateMaskHeight);
-        document.addEventListener('DOMContentLoaded', updateMaskHeight);
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMaskHeight();
+            let pic = document.getElementById('mainProfilePic');
+            if (pic) pic.addEventListener('transitionend', updateMaskHeight);
+        });
 
         window.addEventListener('scroll', () => {
             let pic = document.getElementById('mainProfilePic');
@@ -426,7 +441,7 @@
             }
             
             // Aggiorna dinamicamente la maschera durante lo scroll
-            updateMaskHeight();
+            requestAnimationFrame(updateMaskHeight);
         });
 
         /* --- LOGICA INGRESSO/USCITA EDITOR INLINE --- */
@@ -449,8 +464,7 @@
                     document.body.classList.add('is-editing');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     
-                    // Forza l'aggiornamento della maschera per via dei nuovi controlli che appaiono
-                    setTimeout(updateMaskHeight, 100);
+                    setTimeout(updateMaskHeight, 50); // Forza aggiornamento maschera
                 } else {
                     alert(dizionario[langCorrente].alert_wrong_pwd);
                     document.getElementById("artistPassword").value = "";
@@ -485,7 +499,7 @@
                 `;
                 container.appendChild(row);
             });
-            setTimeout(updateMaskHeight, 50); // Aggiorna layout post disegno
+            setTimeout(updateMaskHeight, 50); 
         }
 
         function aggiungiRigaLink() {
@@ -561,6 +575,8 @@
                         newImg.id = 'mainProfilePic'; newImg.className = imgElement.className; newImg.src = url;
                         imgElement.parentNode.replaceChild(newImg, imgElement);
                     } else { imgElement.src = url; }
+                    
+                    setTimeout(updateMaskHeight, 50); // Se la foto cambia dimensione
                 } else if (tipoRitaglio === 'bg') {
                     flagRimuoviSfondo = false; blobSfondo = blob; 
                     document.body.style.setProperty('--bg-image', `url(${url})`);
@@ -578,6 +594,7 @@
                 newDiv.id = 'mainProfilePic'; newDiv.className = imgElement.className; 
                 newDiv.innerHTML = "{{ artista.nome[0].upper() }}";
                 imgElement.parentNode.replaceChild(newDiv, imgElement);
+                setTimeout(updateMaskHeight, 50);
             }
         }
 
