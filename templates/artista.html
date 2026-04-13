@@ -27,7 +27,7 @@
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; transition: background-image 0.3s; }
         body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); z-index: -1; }
         
-        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 120px; } 
+        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 60px; } 
         
         /* HEADER PROFILO */
         .profile-header { position: sticky; top: 15px; z-index: 900; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; margin-bottom: 10px; min-height: 180px; background-color: transparent; }
@@ -48,21 +48,31 @@
         .btn-add-link { gap: 10px; border: 1px solid rgba(255,255,255,0.3) !important; background: rgba(0,0,0,0.3) !important; text-align: center; }
         .btn-add-link i { position: static; margin: 0; }
 
-        /* MENU A TENDINA (TRE PUNTINI) */
+        /* MENU A TENDINA (TRE PUNTINI) E TASTI AZIONE IN ALTO A DESTRA */
         .menu-container { position: fixed; top: 20px; right: 20px; z-index: 1001; }
         .menu-btn { width: 45px; height: 45px; border-radius: 50%; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
         .menu-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border-color: rgba(255, 255, 255, 0.4); }
+        
         .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background-color: rgba(20, 20, 20, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.15); border-radius: 15px; padding: 8px; min-width: 170px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
         .dropdown-menu.show { display: block; animation: fadeIn 0.2s ease; }
         .dropdown-item { color: #fff; display: flex; align-items: center; padding: 12px 15px; border-radius: 10px; transition: background 0.2s; cursor: pointer; border: none; background: none; width: 100%; text-align: left; font-size: 15px; font-family: inherit; font-weight: bold; }
         .dropdown-item i { margin-right: 12px; font-size: 1.1em; opacity: 0.8; }
         .dropdown-item:hover { background-color: rgba(255,255,255,0.15); }
 
-        /* SOTTO-MENU LINGUE */
         .lang-submenu { display: none; flex-direction: column; background-color: rgba(0,0,0,0.5); border-radius: 10px; margin-top: 5px; overflow: hidden; }
         .lang-submenu.show { display: flex; animation: fadeIn 0.2s ease; }
         .lang-item { padding: 10px 15px; cursor: pointer; color: white; border: none; background: none; text-align: left; font-size: 14px; font-weight: bold; transition: 0.2s; }
         .lang-item:hover { background-color: rgba(255,255,255,0.2); }
+
+        /* TASTI SALVA/ANNULLA IN ALTO A DESTRA (Solo in Modalità Edit) */
+        .top-edit-actions { position: fixed; top: 20px; right: 20px; z-index: 1001; display: flex; gap: 10px; }
+        .action-icon-top { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; font-size: 20px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        
+        .action-icon-top.cancel { background: rgba(255, 77, 77, 0.15); border: 1px solid rgba(255, 77, 77, 0.4); color: #ff4d4d; }
+        .action-icon-top.cancel:hover { background: rgba(255, 77, 77, 0.8); color: white; transform: scale(1.1); }
+        
+        .action-icon-top.save { background: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.4); color: #2ecc71; }
+        .action-icon-top.save:hover { background: rgba(46, 204, 113, 0.8); color: white; transform: scale(1.1); }
 
         /* FILIGRANA */
         .watermark { position: fixed; bottom: 15px; right: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.65); font-family: sans-serif; letter-spacing: 1px; z-index: 1000; display: flex; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: all 0.3s ease; }
@@ -78,12 +88,10 @@
         
         body.is-editing .watermark { display: none; }
 
-        /* INPUT INLINE PER IL NOME E ANIMAZIONE SCROLL */
-        .name-edit-wrapper { position: relative; margin-top: 12px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; transition: margin-top 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .name-edit-wrapper.scrolled { margin-top: 8px; }
+        /* INPUT INLINE PER IL NOME (Fisso in grandezza per non dare fastidio) */
+        .name-edit-wrapper { position: relative; margin-top: 12px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; }
         
-        input.inline-edit-name { background: transparent; border: none; color: white; font-size: 22px; text-align: center; font-weight: bold; width: auto; max-width: 80%; padding: 5px; font-family: inherit; text-shadow: 0 2px 5px rgba(0,0,0,0.8); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-bottom: 2px dashed transparent; }
-        input.inline-edit-name.scrolled { font-size: 16px; }
+        input.inline-edit-name { background: transparent; border: none; color: white; font-size: 22px; text-align: center; font-weight: bold; width: auto; max-width: 80%; padding: 5px; font-family: inherit; text-shadow: 0 2px 5px rgba(0,0,0,0.8); transition: border 0.3s; border-bottom: 2px dashed transparent; }
         input.inline-edit-name:focus { outline: none; border-bottom: 2px dashed rgba(255,255,255,0.5); }
 
         /* CONTROLLI INLINE STILE VETRO E SFONDO */
@@ -105,24 +113,14 @@
         .link-edit-row { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); padding: 10px 15px; border-radius: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); box-sizing: border-box; }
         .link-edit-text { color: #fff; font-weight: bold; font-size: 16px; flex-grow: 1; text-align: center; display: flex; align-items: center; justify-content: center; gap: 12px; overflow: hidden; padding-right: 0; }
         
-        /* CORREZIONE ICONE RIMPICCIOLITE */
-        .link-edit-text i { position: static; font-size: 1.3em; opacity: 0.9; flex-shrink: 0; /* Impedisce al flexbox di schiacciare l'icona */ }
-        .link-edit-text span { flex-grow: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; /* Taglia il testo lungo coi puntini */ }
+        .link-edit-text i { position: static; font-size: 1.3em; opacity: 0.9; flex-shrink: 0; }
+        .link-edit-text span { flex-grow: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        .link-actions { display: flex; gap: 8px; flex-shrink: 0; /* Impedisce che i tasti a destra vengano schiacciati */ }
+        .link-actions { display: flex; gap: 8px; flex-shrink: 0; }
         .action-icon-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-size: 14px;}
         .action-icon-btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px);}
         .action-icon-btn.trash { background: rgba(255,77,77,0.2); border-color: rgba(255,77,77,0.4); color: #ff4d4d; }
         .action-icon-btn.trash:hover { background: #ff4d4d; color: #fff; }
-
-        /* BARRA DI SALVATAGGIO INFERIORE */
-        .save-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(18, 18, 18, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 15px 20px; box-sizing: border-box; display: flex; gap: 15px; z-index: 2000; border-top: 1px solid rgba(255,255,255,0.1); transform: translateY(100%); transition: transform 0.3s ease; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
-        body.is-editing .save-bar { transform: translateY(0); display: flex !important; }
-        .btn-save-bar { flex: 1; padding: 14px; border-radius: 15px; font-weight: bold; font-size: 16px; border: none; cursor: pointer; transition: 0.2s; }
-        .btn-save-bar.primary { background: #fff; color: #000; }
-        .btn-save-bar.primary:hover { background: #e0e0e0; transform: translateY(-2px); }
-        .btn-save-bar.secondary { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
-        .btn-save-bar.secondary:hover { background: rgba(255,255,255,0.2); }
 
         /* MODALI (Password, Cropper, Edit Link) */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
@@ -162,6 +160,15 @@
                 <button class="lang-item" onclick="cambiaLingua('en')">🇬🇧 English</button>
             </div>
         </div>
+    </div>
+
+    <div class="top-edit-actions edit-mode-only">
+        <button class="action-icon-top cancel" onclick="esciEditor()" title="Annulla">
+            <i class="fas fa-times"></i>
+        </button>
+        <button class="action-icon-top save" onclick="salvaModificheDatabase()" title="Salva Modifiche" id="btnSalvaTop">
+            <i class="fas fa-check"></i>
+        </button>
     </div>
 
     <div id="passwordModal" class="modal-overlay">
@@ -245,11 +252,6 @@
         </div>
     </div>
 
-    <div class="save-bar edit-mode-only">
-        <button class="btn-save-bar secondary" onclick="esciEditor()" data-i18n="btn_cancel">Annulla</button>
-        <button id="btnSalva" class="btn-save-bar primary" onclick="salvaModificheDatabase()" data-i18n="editor_save">Salva Modifiche</button>
-    </div>
-
     <div class="watermark view-mode-only">
         <span>By <a href="https://www.instagram.com/andreaquitadamo__/" target="_blank">Andrea Quitadamo</a> & <a href="https://www.instagram.com/padox_04/" target="_blank">Federico Padovano</a></span>
     </div>
@@ -282,15 +284,12 @@
                 placeholder_plat: "Es. Spotify, Instagram...",
                 placeholder_url: "https://...",
                 editor_add_link: "Aggiungi Link",
-                editor_save: "Salva Modifiche",
-                btn_cancel: "Annulla",
                 crop_title: "Posiziona e Ritaglia",
                 crop_btn: "Conferma",
                 alert_no_pwd: "Inserisci una password!",
                 alert_wrong_pwd: "Password errata. Riprova!",
                 alert_server_err: "Errore di comunicazione col server.",
-                alert_success: "Boom! Modifiche salvate con successo.",
-                saving_btn: "Salvataggio..."
+                alert_success: "Boom! Modifiche salvate con successo."
             },
             en: {
                 btn_editor: "Edit",
@@ -305,15 +304,12 @@
                 placeholder_plat: "e.g., Spotify, Instagram...",
                 placeholder_url: "https://...",
                 editor_add_link: "Add Link",
-                editor_save: "Save Changes",
-                btn_cancel: "Cancel",
                 crop_title: "Position and Crop",
                 crop_btn: "Confirm",
                 alert_no_pwd: "Please enter a password!",
                 alert_wrong_pwd: "Wrong password. Try again!",
                 alert_server_err: "Server communication error.",
-                alert_success: "Boom! Changes saved successfully.",
-                saving_btn: "Saving..."
+                alert_success: "Boom! Changes saved successfully."
             }
         };
 
@@ -332,7 +328,6 @@
 
         function cambiaVetroPreview(livello) { document.body.setAttribute('data-glass', livello); }
 
-        // Mappatura Icone JS (Simula quella di Jinja)
         function getIcona(nome) {
             if (!nome) return 'fas fa-link';
             let n = nome.toLowerCase();
@@ -356,7 +351,6 @@
         let blobFotoProfilo = null;
         let blobSfondo = null;
         
-        // Array che fa da "Sorgente di Verità" per i link in edit mode
         let linkCorrenti = [
             {% for link in links %}
                 {piattaforma: "{{ link.piattaforma }}", url: "{{ link.url }}"},
@@ -364,22 +358,16 @@
         ];
 
         window.addEventListener('scroll', () => {
-            // Effetto rimpicciolimento scroll sempre attivo (sia view che edit)
+            // Rimpicciolisce H1 e Foto. Disattivato per l'input per evitare click accidentali mentre scorri.
             let pic = document.getElementById('mainProfilePic');
             let name = document.getElementById('artistNameDisplay');
-            let inputName = document.getElementById('edit-nome');
-            let nameWrapper = document.querySelector('.name-edit-wrapper');
             
             if (window.scrollY > 30) { 
                 pic.classList.add('scrolled'); 
                 name.classList.add('scrolled'); 
-                if(inputName) inputName.classList.add('scrolled');
-                if(nameWrapper) nameWrapper.classList.add('scrolled');
             } else { 
                 pic.classList.remove('scrolled'); 
                 name.classList.remove('scrolled'); 
-                if(inputName) inputName.classList.remove('scrolled');
-                if(nameWrapper) nameWrapper.classList.remove('scrolled');
             }
         });
 
@@ -398,9 +386,8 @@
                     document.getElementById("passwordModal").style.display = "none";
                     document.getElementById("artistPassword").value = ""; 
                     
-                    disegnaLinkEdit(); // Costruisce i link a pillola
+                    disegnaLinkEdit(); 
                     
-                    // Passa in Edit Mode
                     document.body.classList.add('is-editing');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
@@ -442,7 +429,7 @@
         function aggiungiRigaLink() {
             linkCorrenti.push({piattaforma: "", url: ""});
             disegnaLinkEdit();
-            apriModaleLink(linkCorrenti.length - 1); // Apre subito il modale per il nuovo link
+            apriModaleLink(linkCorrenti.length - 1); 
         }
 
         function rimuoviLink(index) {
@@ -470,7 +457,7 @@
             linkCorrenti[index].url = url;
             
             chiudiModaleLink();
-            disegnaLinkEdit(); // Aggiorna la vista
+            disegnaLinkEdit();
         }
 
         /* --- LOGICA CROPPER --- */
@@ -540,7 +527,6 @@
 
         /* --- SALVATAGGIO FINALE --- */
         async function salvaModificheDatabase() {
-            // Filtra via i link lasciati in bianco
             let nuoviLinks = linkCorrenti.filter(l => l.piattaforma.trim() !== "" && l.url.trim() !== "");
 
             let formData = new FormData();
@@ -554,8 +540,9 @@
             if (blobFotoProfilo) formData.append("foto_profilo", blobFotoProfilo, "profilo_ritagliato.jpg");
             if (blobSfondo) formData.append("sfondo", blobSfondo, "sfondo_ritagliato.jpg");
 
-            let btn = document.getElementById("btnSalva");
-            btn.innerText = dizionario[langCorrente].saving_btn;
+            let btn = document.getElementById("btnSalvaTop");
+            let originalIcon = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; // Animazione caricamento
             btn.disabled = true;
 
             try {
@@ -567,15 +554,16 @@
                     window.location.href = esito.nuovo_url; 
                 } else {
                     alert("Errore: " + esito.detail);
-                    btn.innerText = dizionario[langCorrente].editor_save; btn.disabled = false;
+                    btn.innerHTML = originalIcon;
+                    btn.disabled = false;
                 }
             } catch (error) {
                 alert(dizionario[langCorrente].alert_server_err);
-                btn.innerText = dizionario[langCorrente].editor_save; btn.disabled = false;
+                btn.innerHTML = originalIcon;
+                btn.disabled = false;
             }
         }
 
-        // Chiude i menu se si clicca fuori
         window.onclick = function(event) {
             if (!event.target.closest('.menu-container')) { 
                 document.getElementById('mainMenu').classList.remove('show'); 
