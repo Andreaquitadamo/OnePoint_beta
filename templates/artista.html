@@ -44,7 +44,8 @@
         .link-btn i { position: absolute; left: 20px; font-size: 1.3em; }
         .link-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.4); }
 
-        .btn-add-link { gap: 10px; border: 1px dashed rgba(255,255,255,0.4) !important; background: rgba(0,0,0,0.2) !important; }
+        /* MODIFICHE TASTO AGGIUNGI LINK (Tornato Glass Solid) */
+        .btn-add-link { gap: 10px; border: 1px solid rgba(255,255,255,0.3) !important; background: rgba(0,0,0,0.3) !important; text-align: center; }
         .btn-add-link i { position: static; margin: 0; }
 
         /* MENU A TENDINA (TRE PUNTINI) */
@@ -77,7 +78,7 @@
         
         body.is-editing .watermark { display: none; }
 
-        /* INPUT INLINE PER IL NOME (Completamente trasparente) */
+        /* INPUT INLINE PER IL NOME */
         .name-edit-wrapper { position: relative; margin-top: 12px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;}
         input.inline-edit-name { background: transparent; border: none; color: white; font-size: 22px; text-align: center; font-weight: bold; width: auto; max-width: 80%; padding: 5px; font-family: inherit; text-shadow: 0 2px 5px rgba(0,0,0,0.8); transition: border 0.3s; border-bottom: 2px dashed transparent; }
         input.inline-edit-name:focus { outline: none; border-bottom: 2px dashed rgba(255,255,255,0.5); }
@@ -95,10 +96,12 @@
         .pic-btn:hover { transform: scale(1.1); }
         .pic-btn.trash { background: #ff4d4d; color: #fff; }
 
-        /* LISTA LINK IN MODALITA' EDIT (Stile Pillola) */
+        /* LISTA LINK IN MODALITA' EDIT (Stile Pillola Solid) */
         #editLinksWrapper { flex-direction: column; width: 100%; }
         .link-edit-row { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); padding: 10px 15px; border-radius: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); box-sizing: border-box; }
-        .link-edit-text { color: #fff; font-weight: bold; font-size: 16px; flex-grow: 1; text-align: left; display: flex; align-items: center; gap: 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .link-edit-text { color: #fff; font-weight: bold; font-size: 16px; flex-grow: 1; text-align: center; display: flex; align-items: center; justify-content: center; gap: 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-right: 50px; } /* padding per fare spazio alle icone a dx */
+        .link-edit-text i { position: static; font-size: 1.1em; opacity: 0.8; } /* Icna vicina al testo, come nel modale */
+        .link-edit-text span { flex-grow: 1; text-align: center; } /* Testo centrato all'interno del suo blocco */
         .link-actions { display: flex; gap: 8px; }
         .action-icon-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-size: 14px;}
         .action-icon-btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px);}
@@ -166,7 +169,7 @@
     <div id="editSingleLinkModal" class="modal-overlay" style="z-index: 4000;">
         <div class="modal-content">
             <span class="close-modal" onclick="chiudiModaleLink()">&times;</span>
-            <h2 data-i18n="edit_link_title" style="margin-top: 0; margin-bottom: 20px;">Modifica Link</h2>
+            <h2 data-i18n="edit_link_title" style="margin-top: 0; margin-bottom: 20px;">Dettagli Link</h2>
             
             <input type="hidden" id="editingLinkIndex">
             
@@ -403,8 +406,9 @@
                 row.className = "link-edit-row";
                 let nomeVisibile = l.piattaforma ? l.piattaforma : "Nuovo Link (Vuoto)";
                 
+                // Ricentrati: padding a destra rimosso, layout flex centrato
                 row.innerHTML = `
-                    <div class="link-edit-text">
+                    <div class="link-edit-text" style="padding-right: 0;"> 
                         <i class="${getIcona(l.piattaforma)}"></i>
                         <span>${nomeVisibile}</span>
                     </div>
