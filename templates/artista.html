@@ -41,8 +41,12 @@
         
         /* BOTTONI LINK (VIEW MODE) */
         .link-btn { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; padding: 15px; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.2); cursor: pointer; }
-        .link-btn i.fa-brands, .link-btn i.fa-solid, .link-btn i.fa-plus { position: absolute; left: 20px; font-size: 1.3em; }
+        .link-btn i { position: absolute; left: 20px; font-size: 1.3em; }
         .link-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.4); }
+
+        /* MODIFICHE TASTO AGGIUNGI LINK */
+        .btn-add-link { gap: 10px; border: 1px solid rgba(255,255,255,0.3) !important; background: rgba(0,0,0,0.3) !important; }
+        .btn-add-link i { position: static; margin: 0; } /* Rimuove l'absolute per far stare l'icona vicina al testo */
 
         /* MENU A TENDINA (TRE PUNTINI) */
         .menu-container { position: fixed; top: 20px; right: 20px; z-index: 1001; }
@@ -74,7 +78,7 @@
         
         body.is-editing .watermark { display: none; }
 
-        /* INPUT INLINE PER IL NOME (Senza tratteggi, bordo solido sottile) */
+        /* INPUT INLINE PER IL NOME */
         input.inline-edit-name { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 22px; text-align: center; font-weight: bold; width: 100%; margin: 12px 0 0 0; padding: 5px 10px; border-radius: 10px; font-family: inherit; transition: border 0.3s; }
         input.inline-edit-name:focus { outline: none; border-color: rgba(255,255,255,0.6); background: rgba(0,0,0,0.6); }
 
@@ -91,7 +95,7 @@
         .pic-btn:hover { transform: scale(1.1); }
         .pic-btn.trash { background: #ff4d4d; color: #fff; }
 
-        /* LISTA LINK IN MODALITA' EDIT (Senza tratteggi, bordo solido) */
+        /* LISTA LINK IN MODALITA' EDIT */
         #editLinksWrapper { flex-direction: column; width: 100%; }
         .link-edit-row { display: flex; align-items: center; gap: 8px; width: 100%; margin-bottom: 15px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.15); box-sizing: border-box; }
         .link-edit-inputs { display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
@@ -100,7 +104,7 @@
         .remove-link-btn { background: rgba(255, 77, 77, 0.2); border: 1px solid rgba(255, 77, 77, 0.3); color: #ff4d4d; border-radius: 8px; width: 45px; height: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s; }
         .remove-link-btn:hover { background: #ff4d4d; color: #fff; }
 
-        /* BARRA DI SALVATAGGIO INFERIORE (VISIBILE SOLO IN EDIT MODE) */
+        /* BARRA DI SALVATAGGIO INFERIORE */
         .save-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(18, 18, 18, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 15px 20px; box-sizing: border-box; display: flex; gap: 15px; z-index: 2000; border-top: 1px solid rgba(255,255,255,0.1); transform: translateY(100%); transition: transform 0.3s ease; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
         body.is-editing .save-bar { transform: translateY(0); display: flex !important; }
         .btn-save-bar { flex: 1; padding: 14px; border-radius: 15px; font-weight: bold; font-size: 16px; border: none; cursor: pointer; transition: 0.2s; }
@@ -202,8 +206,8 @@
 
         <div id="editLinksWrapper" class="edit-mode-only">
             <div id="linksContainer" style="width: 100%;"></div>
-            <button class="link-btn" style="border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.3);" onclick="aggiungiRigaLink('', '')" id="btnAddLink">
-                <i class="fas fa-plus" style="position: static; margin-right: 10px;"></i> Aggiungi Link
+            <button class="link-btn btn-add-link" onclick="aggiungiRigaLink('', '')" id="btnAddLink">
+                <i class="fas fa-plus"></i> <span data-i18n="editor_add_link">Aggiungi Link</span>
             </button>
         </div>
     </div>
@@ -243,6 +247,7 @@
                 glass_3: "Vetro: Opaco",
                 placeholder_plat: "Es. Spotify, Instagram...",
                 placeholder_url: "https://...",
+                editor_add_link: "Aggiungi Link",
                 editor_save: "Salva Modifiche",
                 btn_cancel: "Annulla",
                 crop_title: "Posiziona e Ritaglia",
@@ -264,6 +269,7 @@
                 glass_3: "Glass: Opaque",
                 placeholder_plat: "e.g., Spotify, Instagram...",
                 placeholder_url: "https://...",
+                editor_add_link: "Add Link",
                 editor_save: "Save Changes",
                 btn_cancel: "Cancel",
                 crop_title: "Position and Crop",
