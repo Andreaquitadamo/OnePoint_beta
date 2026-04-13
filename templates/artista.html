@@ -41,18 +41,23 @@
         
         /* BOTTONI LINK (VIEW MODE) */
         .link-btn { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; padding: 15px; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.2); cursor: pointer; }
-        .link-btn i.fa-brands, .link-btn i.fa-solid { position: absolute; left: 20px; font-size: 1.3em; }
+        .link-btn i.fa-brands, .link-btn i.fa-solid, .link-btn i.fa-plus { position: absolute; left: 20px; font-size: 1.3em; }
         .link-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.4); }
-        
-        /* TASTI AZIONE TOP BAR */
-        .top-controls { position: fixed; top: 20px; left: 20px; right: 20px; z-index: 1001; display: flex; justify-content: space-between; align-items: flex-start; }
-        .action-btn { background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; padding: 10px 18px; border-radius: 20px; font-size: 15px; font-family: inherit; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .action-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.4); box-shadow: 0 6px 15px rgba(0,0,0,0.4); }
+
+        /* MENU A TENDINA (TRE PUNTINI) */
+        .menu-container { position: fixed; top: 20px; right: 20px; z-index: 1001; }
+        .menu-btn { width: 45px; height: 45px; border-radius: 50%; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .menu-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border-color: rgba(255, 255, 255, 0.4); }
+        .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background-color: rgba(20, 20, 20, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.15); border-radius: 15px; padding: 8px; min-width: 170px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+        .dropdown-menu.show { display: block; animation: fadeIn 0.2s ease; }
+        .dropdown-item { color: #fff; display: flex; align-items: center; padding: 12px 15px; border-radius: 10px; transition: background 0.2s; cursor: pointer; border: none; background: none; width: 100%; text-align: left; font-size: 15px; font-family: inherit; font-weight: bold; }
+        .dropdown-item i { margin-right: 12px; font-size: 1.1em; opacity: 0.8; }
+        .dropdown-item:hover { background-color: rgba(255,255,255,0.15); }
 
         /* SOTTO-MENU LINGUE */
-        .lang-submenu { display: none; flex-direction: column; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; margin-top: 5px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .lang-submenu { display: none; flex-direction: column; background-color: rgba(0,0,0,0.5); border-radius: 10px; margin-top: 5px; overflow: hidden; }
         .lang-submenu.show { display: flex; animation: fadeIn 0.2s ease; }
-        .lang-item { padding: 12px 15px; cursor: pointer; color: white; border: none; background: none; text-align: left; font-size: 14px; font-weight: bold; transition: 0.2s; }
+        .lang-item { padding: 10px 15px; cursor: pointer; color: white; border: none; background: none; text-align: left; font-size: 14px; font-weight: bold; transition: 0.2s; }
         .lang-item:hover { background-color: rgba(255,255,255,0.2); }
 
         /* FILIGRANA */
@@ -67,32 +72,32 @@
         body.is-editing .edit-mode-only { display: flex !important; }
         body.is-editing .view-mode-only { display: none !important; }
         
-        /* NASCONDI LA WATERMARK DURANTE L'EDIT PER FAR SPAZIO ALLA BARRA SALVA */
         body.is-editing .watermark { display: none; }
 
-        /* INPUT INLINE PER IL NOME */
-        input.inline-edit-name { background: rgba(0,0,0,0.4); border: 1px dashed rgba(255,255,255,0.5); color: white; font-size: 22px; text-align: center; font-weight: bold; width: 100%; margin: 12px 0 0 0; padding: 5px 10px; border-radius: 10px; font-family: inherit; }
-        input.inline-edit-name:focus { outline: none; border-color: white; background: rgba(0,0,0,0.6); }
+        /* INPUT INLINE PER IL NOME (Senza tratteggi, bordo solido sottile) */
+        input.inline-edit-name { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 22px; text-align: center; font-weight: bold; width: 100%; margin: 12px 0 0 0; padding: 5px 10px; border-radius: 10px; font-family: inherit; transition: border 0.3s; }
+        input.inline-edit-name:focus { outline: none; border-color: rgba(255,255,255,0.6); background: rgba(0,0,0,0.6); }
 
         /* CONTROLLI INLINE STILE VETRO E SFONDO */
         .inline-controls-bar { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center; width: 100%; }
-        .mini-action-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 12px; border-radius: 15px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .mini-action-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 15px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: background 0.2s; }
         .mini-action-btn:hover { background: rgba(255,255,255,0.2); }
         select.mini-action-btn { appearance: none; -webkit-appearance: none; outline: none; }
         select.mini-action-btn option { background-color: #1e1e1e; color: #fff; }
 
         /* BOTTONCINI SULLA FOTO PROFILO */
         .edit-pic-overlay { position: absolute; bottom: 0; right: -10px; display: flex; flex-direction: column; gap: 5px; }
-        .pic-btn { width: 35px; height: 35px; border-radius: 50%; background: #fff; color: #000; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); border: none; font-size: 14px; }
+        .pic-btn { width: 35px; height: 35px; border-radius: 50%; background: #fff; color: #000; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); border: none; font-size: 14px; transition: transform 0.2s; }
+        .pic-btn:hover { transform: scale(1.1); }
         .pic-btn.trash { background: #ff4d4d; color: #fff; }
 
-        /* LISTA LINK IN MODALITA' EDIT */
+        /* LISTA LINK IN MODALITA' EDIT (Senza tratteggi, bordo solido) */
         #editLinksWrapper { flex-direction: column; width: 100%; }
-        .link-edit-row { display: flex; align-items: center; gap: 8px; width: 100%; margin-bottom: 15px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 15px; border: 1px dashed rgba(255,255,255,0.3); }
+        .link-edit-row { display: flex; align-items: center; gap: 8px; width: 100%; margin-bottom: 15px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.15); box-sizing: border-box; }
         .link-edit-inputs { display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
-        .editor-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2); background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 14px; box-sizing: border-box; outline: none; }
-        .editor-input:focus { border-color: #fff; background-color: rgba(0, 0, 0, 0.6); }
-        .remove-link-btn { background: rgba(255, 77, 77, 0.2); border: 1px solid rgba(255, 77, 77, 0.5); color: #ff4d4d; border-radius: 8px; width: 45px; height: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s; }
+        .editor-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2); background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 14px; box-sizing: border-box; outline: none; transition: border 0.3s; }
+        .editor-input:focus { border-color: rgba(255,255,255,0.6); background-color: rgba(0, 0, 0, 0.6); }
+        .remove-link-btn { background: rgba(255, 77, 77, 0.2); border: 1px solid rgba(255, 77, 77, 0.3); color: #ff4d4d; border-radius: 8px; width: 45px; height: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s; }
         .remove-link-btn:hover { background: #ff4d4d; color: #fff; }
 
         /* BARRA DI SALVATAGGIO INFERIORE (VISIBILE SOLO IN EDIT MODE) */
@@ -110,7 +115,7 @@
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #fff; cursor: pointer; transition: transform 0.2s; z-index: 10;}
         .close-modal:hover { transform: scale(1.2); }
         .pwd-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(0, 0, 0, 0.3); color: #fff; text-align: center; font-family: monospace; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
-        .pwd-input:focus { border-color: #fff; }
+        .pwd-input:focus { border-color: rgba(255,255,255,0.6); }
         .modal-btn-submit { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; background-color: #fff; color: #121212; font-size: 16px; cursor: pointer; transition: 0.2s; }
         .modal-btn-submit:hover { background-color: #e0e0e0; }
 
@@ -123,19 +128,24 @@
 </head>
 <body data-glass="{% if artista.livello_vetro %}{{ artista.livello_vetro }}{% else %}3{% endif %}">
 
-    <div class="top-controls view-mode-only">
-        <div style="position: relative;">
-            <button class="action-btn" onclick="document.getElementById('langSubmenu').classList.toggle('show')">
-                <span id="currentFlag" style="margin-right: 5px;">🇮🇹</span> <i class="fas fa-chevron-down" style="font-size: 0.8em;"></i>
+    <div class="menu-container view-mode-only">
+        <button class="menu-btn" onclick="document.getElementById('mainMenu').classList.toggle('show')">
+            <i class="fas fa-ellipsis-v"></i>
+        </button>
+        
+        <div id="mainMenu" class="dropdown-menu">
+            <button class="dropdown-item" onclick="document.getElementById('langSubmenu').classList.toggle('show')">
+                <span id="currentFlag" style="margin-right: 12px;">🇮🇹</span> <span data-i18n="btn_lang">Lingua</span> <i class="fas fa-chevron-down" style="margin-left: auto; margin-right: 0;"></i>
             </button>
-            <div id="langSubmenu" class="lang-submenu" style="position: absolute; top: 110%; left: 0; min-width: 130px;">
+            <div id="langSubmenu" class="lang-submenu">
                 <button class="lang-item" onclick="cambiaLingua('it')">🇮🇹 Italiano</button>
                 <button class="lang-item" onclick="cambiaLingua('en')">🇬🇧 English</button>
             </div>
+            
+            <button class="dropdown-item" onclick="document.getElementById('passwordModal').style.display='flex'; document.getElementById('mainMenu').classList.remove('show');">
+                <i class="fas fa-pen"></i> <span data-i18n="btn_editor">Modifica</span>
+            </button>
         </div>
-        <button class="action-btn" onclick="document.getElementById('passwordModal').style.display='flex'">
-            <i class="fas fa-pen"></i> <span data-i18n="btn_editor">Modifica</span>
-        </button>
     </div>
 
     <div id="passwordModal" class="modal-overlay">
@@ -173,7 +183,7 @@
                     <i class="fas fa-image"></i> <span data-i18n="editor_change_bg">Sfondo</span>
                     <input type="file" id="uploadBg" accept="image/*" onchange="apriCropper(event, 'bg')" style="display:none;">
                 </label>
-                <button class="mini-action-btn" style="color: #ff4d4d; border-color: rgba(255,77,77,0.5);" onclick="impostaRimozioneSfondo()">
+                <button class="mini-action-btn" style="color: #ff4d4d; border-color: rgba(255,77,77,0.3);" onclick="impostaRimozioneSfondo()">
                     <i class="fas fa-trash"></i>
                 </button>
                 <select id="edit-glass" class="mini-action-btn" onchange="cambiaVetroPreview(this.value)">
@@ -192,7 +202,7 @@
 
         <div id="editLinksWrapper" class="edit-mode-only">
             <div id="linksContainer" style="width: 100%;"></div>
-            <button class="link-btn" style="border: 2px dashed rgba(255,255,255,0.4); background: rgba(0,0,0,0.2);" onclick="aggiungiRigaLink('', '')" id="btnAddLink">
+            <button class="link-btn" style="border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.3);" onclick="aggiungiRigaLink('', '')" id="btnAddLink">
                 <i class="fas fa-plus" style="position: static; margin-right: 10px;"></i> Aggiungi Link
             </button>
         </div>
@@ -224,6 +234,7 @@
         const dizionario = {
             it: {
                 btn_editor: "Modifica",
+                btn_lang: "Lingua",
                 pwd_title: "Accesso Editor",
                 pwd_btn: "Accedi",
                 editor_change_bg: "Sfondo",
@@ -244,6 +255,7 @@
             },
             en: {
                 btn_editor: "Edit",
+                btn_lang: "Language",
                 pwd_title: "Editor Login",
                 pwd_btn: "Login",
                 editor_change_bg: "Background",
@@ -336,7 +348,6 @@
         }
 
         function esciEditor() {
-            // Se si annulla, ricarichiamo brutalmente la pagina per resettare tutto allo stato originale (più sicuro e pulito)
             window.location.reload(); 
         }
 
@@ -354,7 +365,7 @@
             container.appendChild(row);
         }
 
-        /* --- LOGICA CROPPER (Resta invariata, usa il modale per ritagliare) --- */
+        /* --- LOGICA CROPPER --- */
         function apriCropper(event, tipo) {
             const file = event.target.files[0];
             if (!file) return;
@@ -461,8 +472,12 @@
             }
         }
 
+        // Chiude i menu se si clicca fuori
         window.onclick = function(event) {
-            if (!event.target.closest('.top-controls')) { document.getElementById('langSubmenu').classList.remove('show'); }
+            if (!event.target.closest('.menu-container')) { 
+                document.getElementById('mainMenu').classList.remove('show'); 
+                document.getElementById('langSubmenu').classList.remove('show'); 
+            }
         }
     </script>
 </body>
