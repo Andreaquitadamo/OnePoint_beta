@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 import cloudinary
 import cloudinary.uploader
 
+# Assicurati che nel tuo file database.py ci siano i campi livello_vetro e colore_sfondo!
 from database import SessionLocal, Artista, Link
 
 app = FastAPI()
@@ -15,12 +16,14 @@ os.makedirs("static", exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
+# Configurazione Cloudinary
 cloudinary.config( 
   cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME'), 
   api_key = os.getenv('CLOUDINARY_API_KEY'), 
   api_secret = os.getenv('CLOUDINARY_API_SECRET') 
 )
 
+# Dipendenza per il Database
 def get_db():
     db = SessionLocal()
     try:
@@ -28,6 +31,7 @@ def get_db():
     finally:
         db.close()
 
+# Helper per le icone dei social
 def ottieni_classe_icona(piattaforma):
     p = str(piattaforma).strip().lower()
     mappa_icone = {
@@ -39,7 +43,7 @@ def ottieni_classe_icona(piattaforma):
     }
     return mappa_icone.get(p, 'fas fa-link')
 
-# Rotta principale aggiornata per usare l'ID intero
+# 1. Rotta principale per visualizzare la pagina dell'artista
 @app.get("/{artista_id:int}")
 async def mostra_pagina(request: Request, artista_id: int, db: Session = Depends(get_db)):
     # Cerchiamo l'artista tramite l'ID univoco
@@ -60,7 +64,7 @@ async def mostra_pagina(request: Request, artista_id: int, db: Session = Depends
         }
     )
 
-# Verifica password ancorata all'ID
+# 2. Rotta per la verifica della password dell'editor
 @app.post("/{artista_id:int}/verifica-password")
 async def verifica_password(artista_id: int, password: str = Form(...), db: Session = Depends(get_db)):
     artista = db.query(Artista).filter(Artista.id == artista_id).first()
@@ -68,7 +72,7 @@ async def verifica_password(artista_id: int, password: str = Form(...), db: Sess
         raise HTTPException(status_code=403, detail="Accesso Negato")
     return {"status": "ok"}
 
-# Salvataggio ancorato all'ID
+# 3. Rotta per il salvataggio di tutte le modifiche
 @app.post("/{artista_id:int}/salva")
 async def salva_modifiche(
     artista_id: int, 
@@ -79,41 +83,60 @@ async def salva_modifiche(
     sfondo: UploadFile = File(None),
     rimuovi_profilo: str = Form("false"),
     rimuovi_sfondo: str = Form("false"),
-    livello_vetro: str = Form("3"),  # <--- AGGIUNTO QUI
+    livello_vetro: str = Form("3"),          # Riceve il livello del vetro
+    colore_sfondo: str = Form("#121212"),    # Riceve il colore in esadecimale (es. #ff0000)
     db: Session = Depends(get_db)
 ):
+    # Verifica sicurezza
     artista = db.query(Artista).filter(Artista.id == artista_id).first()
     if not artista or artista.password_editor != password:
         raise HTTPException(status_code=403, detail="Accesso Negato")
         
+    # Controllo omonimia (se ha cambiato nome)
     if nuovo_nome and nuovo_nome.strip() and nuovo_nome.lower() != artista.nome.lower():
         esistente = db.query(Artista).filter(Artista.nome.ilike(nuovo_nome.strip())).first()
         if esistente:
             raise HTTPException(status_code=400, detail="Questo nome d'arte è già preso!")
         artista.nome = nuovo_nome.strip()
         
+    # Gestione rimozione vecchie immagini
     if rimuovi_profilo == "true":
         artista.url_profilo = None
     if rimuovi_sfondo == "true":
         artista.url_sfondo = None
 
-    # --- AGGIORNA IL LIVELLO VETRO NEL DB ---
+    # Aggiornamento Stili (Vetro e Colore)
     artista.livello_vetro = livello_vetro
+    artista.colore_sfondo = colore_sfondo
 
+    # Ricostruzione Links
     dati_links = json.loads(links)
     db.query(Link).filter(Link.artista_id == artista.id).delete()
     for l in dati_links:
         db.add(Link(piattaforma=l['piattaforma'], url=l['url'], artista_id=artista.id))
         
+    # Upload nuova Foto Profilo su Cloudinary
     if foto_profilo and foto_profilo.filename:
-        risultato = cloudinary.uploader.upload(foto_profilo.file, folder="hub_artisti", public_id=f"artista_{artista.id}_profilo", overwrite=True)
+        risultato = cloudinary.uploader.upload(
+            foto_profilo.file, 
+            folder="hub_artisti", 
+            public_id=f"artista_{artista.id}_profilo", 
+            overwrite=True
+        )
         artista.url_profilo = risultato.get("secure_url")
             
+    # Upload nuovo Sfondo su Cloudinary
     if sfondo and sfondo.filename:
-        risultato = cloudinary.uploader.upload(sfondo.file, folder="hub_artisti", public_id=f"artista_{artista.id}_sfondo", overwrite=True)
+        risultato = cloudinary.uploader.upload(
+            sfondo.file, 
+            folder="hub_artisti", 
+            public_id=f"artista_{artista.id}_sfondo", 
+            overwrite=True
+        )
         artista.url_sfondo = risultato.get("secure_url")
             
+    # Salva tutto in modo permanente nel database
     db.commit()
     
-    # Ricarica la pagina basandosi sull'ID
+    # Ritorna l'URL per forzare il refresh della pagina sul client
     return {"status": "successo", "nuovo_url": f"/{artista.id}"}
