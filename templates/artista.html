@@ -29,8 +29,38 @@
         
         .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 60px; } 
         
+        /* ---------------------------------------------------
+           MASCHERA CAMALEONTICA PER FAR SPARIRE I LINK
+           --------------------------------------------------- */
+        .header-mask {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            height: 0px; /* Aggiornato dinamicamente dal JS */
+            z-index: 10;
+            clip-path: inset(0);
+            pointer-events: none;
+        }
+        .header-mask::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: var(--bg-image);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            z-index: -2;
+            transition: background-image 0.3s;
+        }
+        .header-mask::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
         /* HEADER PROFILO */
-        .profile-header { position: sticky; top: 15px; z-index: 900; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; margin-bottom: 10px; min-height: 180px; background-color: transparent; }
+        .profile-header { position: sticky; top: 15px; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; margin-bottom: 10px; min-height: 180px; background-color: transparent; }
 
         .profile-pic-wrapper { position: relative; display: inline-block; }
         .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #333; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #fff; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); margin: 0; }
@@ -64,15 +94,15 @@
         .lang-item { padding: 10px 15px; cursor: pointer; color: white; border: none; background: none; text-align: left; font-size: 14px; font-weight: bold; transition: 0.2s; }
         .lang-item:hover { background-color: rgba(255,255,255,0.2); }
 
-        /* TASTI SALVA/ANNULLA IN ALTO A DESTRA (Solo in Modalità Edit) */
+        /* TASTI V E X IN ALTO A DESTRA (Solo in Modalità Edit) */
         .top-edit-actions { position: fixed; top: 20px; right: 20px; z-index: 1001; display: flex; gap: 10px; }
-        .action-icon-top { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; font-size: 20px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .action-icon-top { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; font-size: 20px; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
         
-        .action-icon-top.cancel { background: rgba(255, 77, 77, 0.15); border: 1px solid rgba(255, 77, 77, 0.4); color: #ff4d4d; }
-        .action-icon-top.cancel:hover { background: rgba(255, 77, 77, 0.8); color: white; transform: scale(1.1); }
+        .action-icon-top.cancel { background-color: rgba(255, 77, 77, 0.15); border: 1px solid rgba(255, 77, 77, 0.4); color: #ff4d4d; }
+        .action-icon-top.cancel:hover { background-color: rgba(255, 77, 77, 0.8); color: white; transform: scale(1.1); }
         
-        .action-icon-top.save { background: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.4); color: #2ecc71; }
-        .action-icon-top.save:hover { background: rgba(46, 204, 113, 0.8); color: white; transform: scale(1.1); }
+        .action-icon-top.save { background-color: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.4); color: #2ecc71; }
+        .action-icon-top.save:hover { background-color: rgba(46, 204, 113, 0.8); color: white; transform: scale(1.1); }
 
         /* FILIGRANA */
         .watermark { position: fixed; bottom: 15px; right: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.65); font-family: sans-serif; letter-spacing: 1px; z-index: 1000; display: flex; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: all 0.3s ease; }
@@ -88,10 +118,12 @@
         
         body.is-editing .watermark { display: none; }
 
-        /* INPUT INLINE PER IL NOME (Fisso in grandezza per non dare fastidio) */
-        .name-edit-wrapper { position: relative; margin-top: 12px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        /* INPUT INLINE PER IL NOME */
+        .name-edit-wrapper { position: relative; margin-top: 12px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; transition: margin-top 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .name-edit-wrapper.scrolled { margin-top: 8px; }
         
-        input.inline-edit-name { background: transparent; border: none; color: white; font-size: 22px; text-align: center; font-weight: bold; width: auto; max-width: 80%; padding: 5px; font-family: inherit; text-shadow: 0 2px 5px rgba(0,0,0,0.8); transition: border 0.3s; border-bottom: 2px dashed transparent; }
+        input.inline-edit-name { background: transparent; border: none; color: white; font-size: 22px; text-align: center; font-weight: bold; width: auto; max-width: 80%; padding: 5px; font-family: inherit; text-shadow: 0 2px 5px rgba(0,0,0,0.8); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-bottom: 2px dashed transparent; }
+        input.inline-edit-name.scrolled { font-size: 16px; }
         input.inline-edit-name:focus { outline: none; border-bottom: 2px dashed rgba(255,255,255,0.5); }
 
         /* CONTROLLI INLINE STILE VETRO E SFONDO */
@@ -101,20 +133,20 @@
         select.mini-action-btn { appearance: none; -webkit-appearance: none; outline: none; }
         select.mini-action-btn option { background-color: #1e1e1e; color: #fff; }
 
-        /* BOTTONCINI SULLA FOTO PROFILO */
+        /* BOTTONCINI SULLA FOTO PROFILO IN STILE GLASS */
         .edit-pic-overlay { position: absolute; bottom: 0; right: -10px; display: flex; flex-direction: column; gap: 5px; }
-        .pic-btn { width: 35px; height: 35px; border-radius: 50%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); font-size: 14px; transition: all 0.2s; }
-        .pic-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
-        .pic-btn.trash { background: rgba(255, 77, 77, 0.2); border-color: rgba(255, 77, 77, 0.4); color: #ff4d4d; }
-        .pic-btn.trash:hover { background: #ff4d4d; color: #fff; }
+        .pic-btn { width: 35px; height: 35px; border-radius: 50%; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); font-size: 14px; transition: all 0.2s; }
+        .pic-btn:hover { background-color: var(--glass-bg-hover); transform: scale(1.1); }
+        .pic-btn.trash { color: #ff4d4d; }
+        .pic-btn.trash:hover { background-color: rgba(255, 77, 77, 0.2); border-color: rgba(255, 77, 77, 0.4); color: #fff; }
 
         /* LISTA LINK IN MODALITA' EDIT */
         #editLinksWrapper { flex-direction: column; width: 100%; }
         .link-edit-row { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); padding: 10px 15px; border-radius: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); box-sizing: border-box; }
-        .link-edit-text { color: #fff; font-weight: bold; font-size: 16px; flex-grow: 1; text-align: center; display: flex; align-items: center; justify-content: center; gap: 12px; overflow: hidden; padding-right: 0; }
         
+        .link-edit-text { color: #fff; font-weight: bold; font-size: 16px; flex-grow: 1; display: flex; align-items: center; justify-content: center; gap: 8px; overflow: hidden; }
         .link-edit-text i { position: static; font-size: 1.3em; opacity: 0.9; flex-shrink: 0; }
-        .link-edit-text span { flex-grow: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .link-edit-text span { flex-grow: 0; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
         .link-actions { display: flex; gap: 8px; flex-shrink: 0; }
         .action-icon-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-size: 14px;}
@@ -198,6 +230,9 @@
     </div>
 
     <div class="container">
+        
+        <div id="headerMask" class="header-mask"></div>
+
         <div class="profile-header" id="stickyHeader">
             <div class="profile-pic-wrapper">
                 {% if url_profilo %}
@@ -357,18 +392,41 @@
             {% endfor %}
         ];
 
+        /* --- LOGICA AGGIORNAMENTO MASCHERA --- */
+        function updateMaskHeight() {
+            let header = document.getElementById('stickyHeader');
+            let mask = document.getElementById('headerMask');
+            if(header && mask) {
+                let rect = header.getBoundingClientRect();
+                // Copre perfettamente fino al bordo inferiore dell'header
+                mask.style.height = (rect.bottom + 5) + 'px'; 
+            }
+        }
+        
+        // Inizializza la maschera al caricamento e resize
+        window.addEventListener('resize', updateMaskHeight);
+        document.addEventListener('DOMContentLoaded', updateMaskHeight);
+
         window.addEventListener('scroll', () => {
-            // Rimpicciolisce H1 e Foto. Disattivato per l'input per evitare click accidentali mentre scorri.
             let pic = document.getElementById('mainProfilePic');
             let name = document.getElementById('artistNameDisplay');
+            let inputName = document.getElementById('edit-nome');
+            let nameWrapper = document.querySelector('.name-edit-wrapper');
             
             if (window.scrollY > 30) { 
                 pic.classList.add('scrolled'); 
                 name.classList.add('scrolled'); 
+                if(inputName) inputName.classList.add('scrolled');
+                if(nameWrapper) nameWrapper.classList.add('scrolled');
             } else { 
                 pic.classList.remove('scrolled'); 
                 name.classList.remove('scrolled'); 
+                if(inputName) inputName.classList.remove('scrolled');
+                if(nameWrapper) nameWrapper.classList.remove('scrolled');
             }
+            
+            // Aggiorna dinamicamente la maschera durante lo scroll
+            updateMaskHeight();
         });
 
         /* --- LOGICA INGRESSO/USCITA EDITOR INLINE --- */
@@ -390,6 +448,9 @@
                     
                     document.body.classList.add('is-editing');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                    
+                    // Forza l'aggiornamento della maschera per via dei nuovi controlli che appaiono
+                    setTimeout(updateMaskHeight, 100);
                 } else {
                     alert(dizionario[langCorrente].alert_wrong_pwd);
                     document.getElementById("artistPassword").value = "";
@@ -424,6 +485,7 @@
                 `;
                 container.appendChild(row);
             });
+            setTimeout(updateMaskHeight, 50); // Aggiorna layout post disegno
         }
 
         function aggiungiRigaLink() {
@@ -542,7 +604,7 @@
 
             let btn = document.getElementById("btnSalvaTop");
             let originalIcon = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; // Animazione caricamento
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; 
             btn.disabled = true;
 
             try {
@@ -564,6 +626,7 @@
             }
         }
 
+        // Chiude i menu se si clicca fuori
         window.onclick = function(event) {
             if (!event.target.closest('.menu-container')) { 
                 document.getElementById('mainMenu').classList.remove('show'); 
