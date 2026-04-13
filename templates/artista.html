@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ artista.nome }} - Link Ufficiali</title>
+    <title>{{ artista.nome }} | OnePoint</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     <style>
@@ -32,8 +32,8 @@
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background-color: var(--bg-color); background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; transition: background-color 0.3s, background-image 0.3s; }
         body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background-color: rgba(0, 0, 0, 0.4); z-index: -1; }
         
-        /* CUSCINETTO ANTI-LOOP RIPRISTINATO A 200px */
-        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 200px; } 
+        /* RIPRISTINATO IL MARGINE NORMALE (NESSUN TRUCCO SPORCO) */
+        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 60px; } 
         
         /* ---------------------------------------------------
            MASCHERA CAMALEONTICA PER FAR SPARIRE I LINK
@@ -111,7 +111,7 @@
         .action-icon-top.save { background-color: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.4); color: #2ecc71; }
         .action-icon-top.save:hover { background-color: rgba(46, 204, 113, 0.8); color: white; transform: scale(1.1); }
 
-        /* FILIGRANA */
+        /* FILIGRANA ONEPOINT */
         .watermark { position: fixed; bottom: 15px; right: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.65); font-family: sans-serif; letter-spacing: 1px; z-index: 1000; display: flex; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: all 0.3s ease; }
         .watermark a { color: rgba(255, 255, 255, 0.8); text-decoration: none; font-weight: bold; transition: color 0.2s; }
         .watermark a:hover { color: #ffffff; text-decoration: underline; }
@@ -303,7 +303,7 @@
     </div>
 
     <div class="watermark view-mode-only">
-        <span>By <a href="https://www.instagram.com/andreaquitadamo__/" target="_blank">Andrea Quitadamo</a> & <a href="https://www.instagram.com/padox_04/" target="_blank">Federico Padovano</a></span>
+        <span>Powered by <a href="/" style="font-weight: 800; letter-spacing: 0.5px;">OnePoint</a></span>
     </div>
 
     <div id="cropperModal" class="modal-overlay" style="z-index: 5000;">
@@ -435,18 +435,28 @@
             if (pic) pic.addEventListener('transitionend', updateMaskHeight);
         });
 
+        // -------------------------------------------------------------
+        // LOGICA SCROLL MODIFICATA: ISTERESI PURA (Nessun CSS sporco)
+        // -------------------------------------------------------------
+        let hasShrunk = false;
+
         window.addEventListener('scroll', () => {
             let pic = document.getElementById('mainProfilePic');
             let name = document.getElementById('artistNameDisplay');
             let inputName = document.getElementById('edit-nome');
             let nameWrapper = document.querySelector('.name-edit-wrapper');
             
-            if (window.scrollY > 30) { 
+            // Rimpicciolisce solo scendendo molto (oltre gli 80px)
+            if (!hasShrunk && window.scrollY > 80) { 
+                hasShrunk = true;
                 pic.classList.add('scrolled'); 
                 name.classList.add('scrolled'); 
                 if(inputName) inputName.classList.add('scrolled');
                 if(nameWrapper) nameWrapper.classList.add('scrolled');
-            } else { 
+            } 
+            // Ingrandisce solo tornando quasi all'inizio (sotto i 10px)
+            else if (hasShrunk && window.scrollY < 10) { 
+                hasShrunk = false;
                 pic.classList.remove('scrolled'); 
                 name.classList.remove('scrolled'); 
                 if(inputName) inputName.classList.remove('scrolled');
