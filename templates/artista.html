@@ -32,7 +32,8 @@
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background-color: var(--bg-color); background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; transition: background-color 0.3s, background-image 0.3s; }
         body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background-color: rgba(0, 0, 0, 0.4); z-index: -1; }
         
-        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 60px; } 
+        /* CUSCINETTO ANTI-LOOP RIPRISTINATO A 200px */
+        .container { width: 100%; max-width: 400px; text-align: center; position: relative; z-index: 1; margin-bottom: 200px; } 
         
         /* ---------------------------------------------------
            MASCHERA CAMALEONTICA PER FAR SPARIRE I LINK
@@ -408,7 +409,6 @@
             {% endfor %}
         ];
 
-        /* --- LOGICA AGGIORNAMENTO MASCHERA --- */
         function updateMaskHeight() {
             let mask = document.getElementById('headerMask');
             if (!mask) return;
@@ -456,7 +456,6 @@
             requestAnimationFrame(updateMaskHeight);
         });
 
-        /* --- LOGICA INGRESSO/USCITA EDITOR INLINE --- */
         async function accediEditor() {
             let inputPwd = document.getElementById("artistPassword").value.trim();
             if (!inputPwd) { alert(dizionario[langCorrente].alert_no_pwd); return; }
@@ -490,7 +489,6 @@
             window.location.reload(); 
         }
 
-        /* --- LOGICA GESTIONE LINK A PILLOLA E MODALE --- */
         function disegnaLinkEdit() {
             let container = document.getElementById("linksContainer");
             container.innerHTML = ""; 
@@ -548,7 +546,6 @@
             disegnaLinkEdit();
         }
 
-        /* --- LOGICA CROPPER E SFONDI --- */
         function apriCropper(event, tipo) {
             const file = event.target.files[0];
             if (!file) return;
@@ -610,10 +607,8 @@
             }
         }
 
-        // Funzione per impostare o ripristinare il colore solido
         function cambiaColoreSfondo(colore) {
             document.body.style.setProperty('--bg-color', colore);
-            // Se scelgo un colore, è probabile che voglia vedere quello, quindi nascondo l'immagine temporaneamente
             impostaRimozioneSfondo();
         }
 
@@ -623,7 +618,6 @@
             document.body.style.setProperty('--bg-image', 'none'); 
         }
 
-        /* --- SALVATAGGIO FINALE --- */
         async function salvaModificheDatabase() {
             let nuoviLinks = linkCorrenti.filter(l => l.piattaforma.trim() !== "" && l.url.trim() !== "");
 
@@ -663,7 +657,6 @@
             }
         }
 
-        // Chiude i menu se si clicca fuori
         window.onclick = function(event) {
             if (!event.target.closest('.menu-container')) { 
                 document.getElementById('mainMenu').classList.remove('show'); 
