@@ -32,16 +32,27 @@ def get_db():
         db.close()
 
 # Helper per le icone dei social
+# Helper per le icone dei social
 def ottieni_classe_icona(piattaforma):
+    if not piattaforma:
+        return 'fas fa-link'
+        
     p = str(piattaforma).strip().lower()
-    mappa_icone = {
-        'instagram': 'fab fa-instagram', 'spotify': 'fab fa-spotify', 'youtube': 'fab fa-youtube',
-        'tiktok': 'fab fa-tiktok', 'facebook': 'fab fa-facebook', 'twitter': 'fab fa-twitter',
-        'x': 'fab fa-x-twitter', 'apple music': 'fab fa-itunes-note', 'amazon music': 'fab fa-amazon',
-        'soundcloud': 'fab fa-soundcloud', 'twitch': 'fab fa-twitch', 'sito web': 'fas fa-globe',
-        'website': 'fas fa-globe', 'linkedin': 'fab fa-linkedin'
-    }
-    return mappa_icone.get(p, 'fas fa-link')
+    
+    if 'instagram' in p: return 'fab fa-instagram'
+    if 'spotify' in p: return 'fab fa-spotify'
+    if 'youtube' in p: return 'fab fa-youtube'
+    if 'tiktok' in p: return 'fab fa-tiktok'
+    if 'facebook' in p: return 'fab fa-facebook'
+    if 'twitter' in p or 'x' == p: return 'fab fa-x-twitter' # 'x' esatta per evitare falsi positivi
+    if 'apple' in p: return 'fab fa-apple'
+    if 'amazon' in p: return 'fab fa-amazon'
+    if 'soundcloud' in p: return 'fab fa-soundcloud'
+    if 'twitch' in p: return 'fab fa-twitch'
+    if 'linkedin' in p: return 'fab fa-linkedin'
+    if 'sito' in p or 'web' in p: return 'fas fa-globe'
+    
+    return 'fas fa-link'
 
 # 1. Rotta principale per visualizzare la pagina dell'artista
 @app.get("/{artista_id:int}")
