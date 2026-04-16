@@ -413,35 +413,30 @@
             {% endfor %}
         ];
 
-       // -------------------------------------------------------------
-        // INIZIALIZZAZIONE MASCHERA (OTTIMIZZATA PER SMARTPHONE)
         // -------------------------------------------------------------
-        const header = document.getElementById('stickyHeader');
-        const mask = document.getElementById('headerMask');
-
-        // Funzione centralizzata e isolata per calcolare l'altezza esatta
-        function aggiornaAltezzaMaschera() {
-            if (header && mask) {
-                mask.style.height = (header.getBoundingClientRect().bottom + 15) + 'px';
-            }
-        }
-
+        // INIZIALIZZAZIONE E RESIZEOBSERVER
+        // -------------------------------------------------------------
         document.addEventListener('DOMContentLoaded', () => {
+            const header = document.getElementById('stickyHeader');
+            const mask = document.getElementById('headerMask');
+
             if (header && mask) {
-                // 1. Osserva i cambi di layout lenti (es. caricamento iniziale o cambi di testo)
-                new ResizeObserver(aggiornaAltezzaMaschera).observe(header);
+                // Il ResizeObserver osserva costantemente le dimensioni dell'header
+                const resizeObserver = new ResizeObserver(() => {
+                    let rect = header.getBoundingClientRect();
+                    mask.style.height = (rect.bottom + 15) + 'px';
+                });
                 
-                // 2. Sicurezza: quando l'animazione CSS di ingrandimento/riduzione finisce, allinea perfettamente
-                header.addEventListener('transitionend', aggiornaAltezzaMaschera);
+                // Attiviamo il sensore sul contenitore principale
+                resizeObserver.observe(header);
             }
         });
 
         // -------------------------------------------------------------
-        // LOGICA SCROLL: ISTERESI PURA + SINCRONIZZAZIONE FRAME
+        // LOGICA SCROLL: ISTERESI PURA PER PREVENIRE IL TREMOLIO
         // -------------------------------------------------------------
         let hasShrunk = false;
 
-        // Aggiungiamo { passive: true } per dire al browser che non bloccheremo lo scroll, migliorando la fluidità
         window.addEventListener('scroll', () => {
             let pic = document.getElementById('mainProfilePic');
             let name = document.getElementById('artistNameDisplay');
@@ -464,12 +459,7 @@
                 if(inputName) inputName.classList.remove('scrolled');
                 if(nameWrapper) nameWrapper.classList.remove('scrolled');
             }
-
-            // 3. Forziamo l'aggiornamento della maschera agganciandoci al refresh rate del monitor (60/120hz)
-            // Questo bypassa il throttling di Safari durante i movimenti violenti del dito
-            requestAnimationFrame(aggiornaAltezzaMaschera);
-            
-        }, { passive: true });
+        });
 
         async function accediEditor() {
             let inputPwd = document.getElementById("artistPassword").value.trim();
