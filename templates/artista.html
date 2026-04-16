@@ -409,30 +409,23 @@
             {% endfor %}
         ];
 
-        function updateMaskHeight() {
-            let mask = document.getElementById('headerMask');
-            if (!mask) return;
-            
-            if (document.body.classList.contains('is-editing')) {
-                let controls = document.querySelector('.inline-controls-bar');
-                if (controls) {
-                    let rect = controls.getBoundingClientRect();
-                    mask.style.height = (rect.bottom + 15) + 'px';
-                }
-            } else {
-                let name = document.getElementById('artistNameDisplay');
-                if (name) {
-                    let rect = name.getBoundingClientRect();
-                    mask.style.height = (rect.bottom + 15) + 'px'; 
-                }
-            }
-        }
-        
-        window.addEventListener('resize', updateMaskHeight);
+        // -------------------------------------------------------------
+        // INIZIALIZZAZIONE E RESIZEOBSERVER
+        // -------------------------------------------------------------
         document.addEventListener('DOMContentLoaded', () => {
-            updateMaskHeight();
-            let pic = document.getElementById('mainProfilePic');
-            if (pic) pic.addEventListener('transitionend', updateMaskHeight);
+            const header = document.getElementById('stickyHeader');
+            const mask = document.getElementById('headerMask');
+
+            if (header && mask) {
+                // Il ResizeObserver osserva costantemente le dimensioni dell'header
+                const resizeObserver = new ResizeObserver(() => {
+                    let rect = header.getBoundingClientRect();
+                    mask.style.height = (rect.bottom + 15) + 'px';
+                });
+                
+                // Attiviamo il sensore sul contenitore principale
+                resizeObserver.observe(header);
+            }
         });
 
         // -------------------------------------------------------------
@@ -449,21 +442,19 @@
             // Rimpicciolisce solo scendendo molto (oltre gli 80px)
             if (!hasShrunk && window.scrollY > 80) { 
                 hasShrunk = true;
-                pic.classList.add('scrolled'); 
-                name.classList.add('scrolled'); 
+                if(pic) pic.classList.add('scrolled'); 
+                if(name) name.classList.add('scrolled'); 
                 if(inputName) inputName.classList.add('scrolled');
                 if(nameWrapper) nameWrapper.classList.add('scrolled');
             } 
             // Ingrandisce solo tornando quasi all'inizio (sotto i 10px)
             else if (hasShrunk && window.scrollY < 10) { 
                 hasShrunk = false;
-                pic.classList.remove('scrolled'); 
-                name.classList.remove('scrolled'); 
+                if(pic) pic.classList.remove('scrolled'); 
+                if(name) name.classList.remove('scrolled'); 
                 if(inputName) inputName.classList.remove('scrolled');
                 if(nameWrapper) nameWrapper.classList.remove('scrolled');
             }
-            
-            //requestAnimationFrame(updateMaskHeight);
         });
 
         async function accediEditor() {
@@ -484,8 +475,6 @@
                     
                     document.body.classList.add('is-editing');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                    
-                    setTimeout(updateMaskHeight, 50); 
                 } else {
                     alert(dizionario[langCorrente].alert_wrong_pwd);
                     document.getElementById("artistPassword").value = "";
@@ -519,7 +508,6 @@
                 `;
                 container.appendChild(row);
             });
-            setTimeout(updateMaskHeight, 50); 
         }
 
         function aggiungiRigaLink() {
@@ -594,8 +582,6 @@
                         newImg.id = 'mainProfilePic'; newImg.className = imgElement.className; newImg.src = url;
                         imgElement.parentNode.replaceChild(newImg, imgElement);
                     } else { imgElement.src = url; }
-                    
-                    setTimeout(updateMaskHeight, 50); 
                 } else if (tipoRitaglio === 'bg') {
                     flagRimuoviSfondo = false; blobSfondo = blob; 
                     document.body.style.setProperty('--bg-image', `url(${url})`);
@@ -613,7 +599,6 @@
                 newDiv.id = 'mainProfilePic'; newDiv.className = imgElement.className; 
                 newDiv.innerHTML = "{{ artista.nome[0].upper() }}";
                 imgElement.parentNode.replaceChild(newDiv, imgElement);
-                setTimeout(updateMaskHeight, 50);
             }
         }
 
