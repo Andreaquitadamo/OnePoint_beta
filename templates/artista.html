@@ -16,17 +16,19 @@
             background-color: var(--bg-color);
             {% if url_sfondo %} --bg-image: url('{{ url_sfondo }}'); {% endif %}
             
-            /* Variabili di default per l'effetto vetro (Livello 3) */
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-bg-hover: rgba(255, 255, 255, 0.25);
-            --glass-blur: blur(12px);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            /* Variabili di default per l'effetto Liquid Glass (Livello 3) */
+            --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 100%);
+            --glass-bg-hover: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+            --glass-blur: blur(16px);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.4), inset 0 -2px 6px rgba(255, 255, 255, 0.1);
+            --glass-shadow-hover: 0 10px 40px 0 rgba(0, 0, 0, 0.4), inset 0 3px 6px rgba(255, 255, 255, 0.5), inset 0 -2px 8px rgba(255, 255, 255, 0.15);
         }
 
-        /* LIVELLI EFFETTO VETRO */
-        body[data-glass="1"] { --glass-bg: rgba(255, 255, 255, 0.02); --glass-bg-hover: rgba(255, 255, 255, 0.08); --glass-blur: blur(2px); --glass-border: rgba(255, 255, 255, 0.05); }
-        body[data-glass="2"] { --glass-bg: rgba(255, 255, 255, 0.06); --glass-bg-hover: rgba(255, 255, 255, 0.15); --glass-blur: blur(6px); --glass-border: rgba(255, 255, 255, 0.1); }
-        body[data-glass="3"] { --glass-bg: rgba(255, 255, 255, 0.1); --glass-bg-hover: rgba(255, 255, 255, 0.25); --glass-blur: blur(12px); --glass-border: rgba(255, 255, 255, 0.2); }
+        /* LIVELLI EFFETTO LIQUID GLASS */
+        body[data-glass="1"] { --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%); --glass-bg-hover: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%); --glass-blur: blur(4px); --glass-border: rgba(255, 255, 255, 0.1); --glass-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.2); --glass-shadow-hover: 0 6px 20px 0 rgba(0, 0, 0, 0.15), inset 0 2px 3px rgba(255, 255, 255, 0.3); }
+        body[data-glass="2"] { --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%); --glass-bg-hover: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%); --glass-blur: blur(8px); --glass-border: rgba(255, 255, 255, 0.2); --glass-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.2), inset 0 1px 3px rgba(255, 255, 255, 0.3), inset 0 -1px 3px rgba(255, 255, 255, 0.05); --glass-shadow-hover: 0 8px 30px 0 rgba(0, 0, 0, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.4), inset 0 -1px 4px rgba(255, 255, 255, 0.1); }
+        body[data-glass="3"] { --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 100%); --glass-bg-hover: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%); --glass-blur: blur(16px); --glass-border: rgba(255, 255, 255, 0.3); --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.4), inset 0 -2px 6px rgba(255, 255, 255, 0.1); --glass-shadow-hover: 0 10px 40px 0 rgba(0, 0, 0, 0.4), inset 0 3px 6px rgba(255, 255, 255, 0.5), inset 0 -2px 8px rgba(255, 255, 255, 0.15); }
 
         /* SFONDO DEL BODY */
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background-color: var(--bg-color); background-image: var(--bg-image); background-repeat: no-repeat; background-position: center center; background-size: cover; z-index: -2; transition: background-color 0.3s, background-image 0.3s; }
@@ -77,18 +79,20 @@
         h1.scrolled { font-size: 16px; margin-top: 8px; }
         
         /* BOTTONI LINK (VIEW MODE) */
-        .link-btn { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; padding: 15px; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.2); cursor: pointer; }
+        .link-btn { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; padding: 15px; margin-bottom: 15px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4); border-left: 1px solid rgba(255,255,255,0.2); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; box-shadow: var(--glass-shadow); cursor: pointer; overflow: hidden; }
+        .link-btn::before { content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%); transform: skewX(-25deg); transition: 0.5s; z-index: -1; }
+        .link-btn:hover::before { left: 150%; }
         .link-btn i { position: absolute; left: 20px; font-size: 1.3em; }
-        .link-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.4); }
+        .link-btn:hover { background: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: var(--glass-shadow-hover); border-top: 1px solid rgba(255, 255, 255, 0.5); }
 
         /* MODIFICHE TASTO AGGIUNGI LINK */
-        .btn-add-link { gap: 10px; border: 1px solid rgba(255,255,255,0.3) !important; background: rgba(0,0,0,0.3) !important; text-align: center; }
+        .btn-add-link { gap: 10px; border: 1px solid rgba(255,255,255,0.3) !important; background: rgba(0,0,0,0.3) !important; text-align: center; box-shadow: var(--glass-shadow); }
         .btn-add-link i { position: static; margin: 0; }
 
         /* MENU A TENDINA E TASTI AZIONE IN ALTO A DESTRA */
         .menu-container { position: fixed; top: 20px; right: 20px; z-index: 1001; }
-        .menu-btn { width: 45px; height: 45px; border-radius: 50%; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #ffffff; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-        .menu-btn:hover { background-color: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); border-color: rgba(255, 255, 255, 0.4); }
+        .menu-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4); color: #ffffff; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; box-shadow: var(--glass-shadow); }
+        .menu-btn:hover { background: var(--glass-bg-hover); transform: translateY(-2px); box-shadow: var(--glass-shadow-hover); border-color: rgba(255, 255, 255, 0.5); }
         
         .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background-color: rgba(20, 20, 20, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.15); border-radius: 15px; padding: 8px; min-width: 170px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
         .dropdown-menu.show { display: block; animation: fadeIn 0.2s ease; }
@@ -103,13 +107,13 @@
 
         /* TASTI V E X IN ALTO A DESTRA (Solo in Modalità Edit) */
         .top-edit-actions { position: fixed; top: 20px; right: 20px; z-index: 1001; display: flex; gap: 10px; }
-        .action-icon-top { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; font-size: 20px; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .action-icon-top { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; font-size: 20px; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); box-shadow: var(--glass-shadow); }
         
-        .action-icon-top.cancel { background-color: rgba(255, 77, 77, 0.15); border: 1px solid rgba(255, 77, 77, 0.4); color: #ff4d4d; }
-        .action-icon-top.cancel:hover { background-color: rgba(255, 77, 77, 0.8); color: white; transform: scale(1.1); }
+        .action-icon-top.cancel { background: rgba(255, 77, 77, 0.15); border: 1px solid rgba(255, 77, 77, 0.4); color: #ff4d4d; }
+        .action-icon-top.cancel:hover { background: rgba(255, 77, 77, 0.8); color: white; transform: scale(1.1); }
         
-        .action-icon-top.save { background-color: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.4); color: #2ecc71; }
-        .action-icon-top.save:hover { background-color: rgba(46, 204, 113, 0.8); color: white; transform: scale(1.1); }
+        .action-icon-top.save { background: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.4); color: #2ecc71; }
+        .action-icon-top.save:hover { background: rgba(46, 204, 113, 0.8); color: white; transform: scale(1.1); }
 
         /* FILIGRANA RIPRISTINATA (CON I VOSTRI LINK) */
         .watermark { position: fixed; bottom: 15px; right: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.65); font-family: sans-serif; letter-spacing: 1px; z-index: 1000; display: flex; align-items: center; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: all 0.3s ease; }
@@ -142,14 +146,14 @@
 
         /* BOTTONCINI SULLA FOTO PROFILO IN STILE GLASS */
         .edit-pic-overlay { position: absolute; bottom: 0; right: -10px; display: flex; flex-direction: column; gap: 5px; }
-        .pic-btn { width: 35px; height: 35px; border-radius: 50%; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); font-size: 14px; transition: all 0.2s; }
-        .pic-btn:hover { background-color: var(--glass-bg-hover); transform: scale(1.1); }
+        .pic-btn { width: 35px; height: 35px; border-radius: 50%; background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--glass-shadow); font-size: 14px; transition: all 0.2s; }
+        .pic-btn:hover { background: var(--glass-bg-hover); transform: scale(1.1); box-shadow: var(--glass-shadow-hover); }
         .pic-btn.trash { color: #ff4d4d; }
-        .pic-btn.trash:hover { background-color: rgba(255, 77, 77, 0.2); border-color: rgba(255, 77, 77, 0.4); color: #fff; }
+        .pic-btn.trash:hover { background: rgba(255, 77, 77, 0.2); border-color: rgba(255, 77, 77, 0.4); color: #fff; }
 
         /* LISTA LINK IN MODALITA' EDIT */
         #editLinksWrapper { flex-direction: column; width: 100%; }
-        .link-edit-row { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 15px; background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); padding: 10px 15px; border-radius: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); box-sizing: border-box; }
+        .link-edit-row { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 15px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4); padding: 10px 15px; border-radius: 30px; box-shadow: var(--glass-shadow); box-sizing: border-box; }
         
         .link-edit-text { color: #fff; font-weight: bold; font-size: 16px; flex-grow: 1; display: flex; align-items: center; justify-content: center; gap: 8px; overflow: hidden; }
         .link-edit-text i { position: static; font-size: 1.3em; opacity: 0.9; flex-shrink: 0; }
@@ -163,7 +167,7 @@
 
         /* MODALI (Password, Cropper, Edit Link) */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
-        .modal-content { background-color: rgba(30, 30, 30, 0.6); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; }
+        .modal-content { background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: var(--glass-shadow); position: relative; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #fff; cursor: pointer; transition: transform 0.2s; z-index: 10;}
         .close-modal:hover { transform: scale(1.2); }
         .pwd-input, .editor-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.3); background-color: rgba(0, 0, 0, 0.3); color: #fff; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; outline: none; transition: border 0.3s; }
