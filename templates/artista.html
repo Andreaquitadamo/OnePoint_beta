@@ -385,19 +385,31 @@
         function cambiaVetroPreview(livello) { document.body.setAttribute('data-glass', livello); }
 
         function getIcona(nome) {
-            if (!nome) return 'fas fa-link';
-            let n = nome.toLowerCase();
-            if(n.includes('spotify')) return 'fab fa-spotify';
-            if(n.includes('instagram')) return 'fab fa-instagram';
-            if(n.includes('apple')) return 'fab fa-apple';
-            if(n.includes('youtube')) return 'fab fa-youtube';
-            if(n.includes('tiktok')) return 'fab fa-tiktok';
-            if(n.includes('facebook')) return 'fab fa-facebook';
-            if(n.includes('twitter') || n.includes('x')) return 'fab fa-x-twitter';
-            if(n.includes('soundcloud')) return 'fab fa-soundcloud';
-            if(n.includes('twitch')) return 'fab fa-twitch';
-            return 'fas fa-link';
-        }
+           if (!nome) return 'fas fa-link';
+
+let n = nome.toLowerCase();
+
+if (n.includes('spotify')) return 'fab fa-spotify';
+if (n.includes('instagram')) return 'fab fa-instagram';
+
+if (n.includes('apple')) {
+    if (n.includes('music')) {
+        return 'fab fa-itunes-note'; // Oppure 'fab fa-apple' se preferisci il logo classico
+    } else {
+        return 'fab fa-apple';
+    }
+}
+
+if (n.includes('youtube')) return 'fab fa-youtube';
+if (n.includes('tiktok')) return 'fab fa-tiktok';
+if (n.includes('facebook')) return 'fab fa-facebook';
+if (n.includes('twitter') || n.includes('x')) return 'fab fa-x-twitter';
+if (n.includes('soundcloud')) return 'fab fa-soundcloud';
+if (n.includes('twitch')) return 'fab fa-twitch';
+if (n.includes('linkedin')) return 'fab fa-linkedin';
+if (n.includes('web')) return 'fas fa-globe';
+
+return 'fas fa-link';
 
         let passwordInserita = "";
         let flagRimuoviProfilo = false;
