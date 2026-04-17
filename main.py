@@ -45,7 +45,11 @@ def ottieni_classe_icona(piattaforma):
     if 'tiktok' in p: return 'fab fa-tiktok'
     if 'facebook' in p: return 'fab fa-facebook'
     if 'twitter' in p or 'x' == p: return 'fab fa-x-twitter' # 'x' esatta per evitare falsi positivi
-    if 'apple' in p: return 'fab fa-apple'
+    if 'apple' in p:
+      if 'music' in pi:
+        return 'fab fa-itunes-note'
+      else:
+        return 'fab fa-apple'
     if 'amazon' in p: return 'fab fa-amazon'
     if 'soundcloud' in p: return 'fab fa-soundcloud'
     if 'twitch' in p: return 'fab fa-twitch'
