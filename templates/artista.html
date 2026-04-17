@@ -392,13 +392,7 @@ let n = nome.toLowerCase();
 if (n.includes('spotify')) return 'fab fa-spotify';
 if (n.includes('instagram')) return 'fab fa-instagram';
 
-if (n.includes('apple')) {
-    if (n.includes('music')) {
-        return 'fab fa-itunes-note'; // Oppure 'fab fa-apple' se preferisci il logo classico
-    } else {
-        return 'fab fa-apple';
-    }
-}
+if (n.includes('apple')) return 'fab fa-itunes-note';  
 
 if (n.includes('youtube')) return 'fab fa-youtube';
 if (n.includes('tiktok')) return 'fab fa-tiktok';
